@@ -9,7 +9,7 @@ Ce dépôt regroupe les ressources pour l'UE [intergiciels et services](http://o
 ## Sujets de TP
 
 - [TP 1 : Mise en route Java](tp1/README.md) (séances des 11/09/2019 et 12/09/2019)
-- TP 2 : Design patterns & frameworks (du 18/09/2019 au 17/10/2019)
+- [TP 2 : Design patterns & frameworks](tp2/README.md) (du 18/09/2019 au 17/10/2019)
 - TP 3 : Spring (du 06/11/2019 au 13/11/2019)
 - TP 4 : OSGi et chargement dynamique (séance du 14/11/2019)
 - TP 5 : Services Web SOAP (séances des 04/12/2019 et 05/12/2019)
