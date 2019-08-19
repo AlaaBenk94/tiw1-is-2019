@@ -8,7 +8,7 @@ Ce dépôt regroupe les ressources pour l'UE [intergiciels et services](http://o
     
 ## Sujets de TP
 
-- TP 1 : Mise en route Java (séances des 11/09/2019 et 12/09/2019)
+- [TP 1 : Mise en route Java](tp1/README.md) (séances des 11/09/2019 et 12/09/2019)
 - TP 2 : Design patterns & frameworks (du 18/09/2019 au 17/10/2019)
 - TP 3 : Spring (du 06/11/2019 au 13/11/2019)
 - TP 4 : OSGi et chargement dynamique (séance du 14/11/2019)
@@ -17,3 +17,7 @@ Ce dépôt regroupe les ressources pour l'UE [intergiciels et services](http://o
 - TP 7 : Microservices avec Docker (séance du 08/01/2020)
 - TP 8 : Orchestration avec Kubernetes (séances des 15/01/2020 et 16/01/2020)
 - TP 9 : Benchmarking et cache (séances des 05/02/2020 et 06/02/2020)
+
+## Consignes pour le rendu des TPs
+
+    À venir
