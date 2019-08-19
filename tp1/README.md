@@ -1,4 +1,6 @@
-# TIW1-IS TP 1 : Mise en route Java
+Université Claude Bernard Lyon 1 – M2 TIW – Intergiciels et Services
+
+# TP 1 : Mise en route Java
 
 N'oubliez pas de faire une branche git `tp1` dans laquelle vous ferez toutes les modifications de ce TP.
 Si vous travaillez à deux, créez bien ce projet dans un groupe gitlab et faites chacun un fork.
@@ -7,6 +9,9 @@ Si vous travaillez à deux, créez bien ce projet dans un groupe gitlab et faite
 
 ## Application fournie
 
+(Maintenance, trottinette, pièces de rechange (sans gestion, juste reporting), rechargement batterie)
+(Interface REST)
+
 ### Architecture
 
 ### Modèle
@@ -14,6 +19,8 @@ Si vous travaillez à deux, créez bien ce projet dans un groupe gitlab et faite
 ### Tests unitaires
 
 ### Lancement de l'application
+
+(leur faire utiliser un plugin maven jetty ou tomcat)
 
 ## Ajout d'un modèle pour les gérer les batteries
 
@@ -25,5 +32,6 @@ Si vous travaillez à deux, créez bien ce projet dans un groupe gitlab et faite
 
 ### Tests unitaires
 
-### Interface Web
+### Interface REST
 
+(client Postman ou JMeter)

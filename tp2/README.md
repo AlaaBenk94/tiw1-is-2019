@@ -1,4 +1,6 @@
-# TIW1-IS TP 2 : Design patterns & frameworks
+Université Claude Bernard Lyon 1 – M2 TIW – Intergiciels et Services
+
+# TP 2 : Design patterns & frameworks
 
 N'oubliez pas de faire une branche git `tp2` dans laquelle vous ferez toutes les modifications de ce TP.
 Si vous travaillez à deux, créez bien ce projet dans un groupe gitlab et faites chacun un fork.
@@ -7,7 +9,7 @@ Si vous travaillez à deux, créez bien ce projet dans un groupe gitlab et faite
 
 ## Code fourni
 
-(Code manipulant des utilisateurs et des emprunts. Le client est simulé par des tests.)
+(Code manipulant des utilisateurs et des emprunts et des trottinettes. Le client est simulé par des tests.)
 
 
 ## Premières manipulations
@@ -42,17 +44,12 @@ Si vous travaillez à deux, créez bien ce projet dans un groupe gitlab et faite
 
 ## 4. Création d'un Annuaire
 
-### Aspects dynamiques de l'annuaire (bonus)
+### Aspects dynamiques de l'annuaire
 
 ## 5. Mise en place d'un serveur d'applications
 
 ### 5.1 Configuration de l'application
 
-### 5.2 Spécialisation des composants (bonus)
+### 5.2 Spécialisation des composants ? (bonus)
 
-## 6. Hiérarchie de conteneurs
-
-### 6.1. Création d'une hiérarchie de conteneurs
-
-### 6.2. Instanciation des composants
 
