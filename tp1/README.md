@@ -7,6 +7,11 @@ Si vous travaillez à deux, créez bien ce projet dans un groupe gitlab et faite
 
 ## Objectifs
 
+- Se réapprorier Java
+- Se souvenir de la structure d'une application Web Java avec une API REST
+- Écrire des tests unitaires
+- Revoir l'intégration continue avec gitlab
+
 ## Application fournie
 
 (Maintenance, trottinette, pièces de rechange (sans gestion, juste reporting), rechargement batterie)

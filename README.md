@@ -23,3 +23,5 @@ Ce dépôt regroupe les ressources pour l'UE [intergiciels et services](http://o
 ## Consignes pour le rendu des TPs
 
     À venir
+    
+    Partie de la note sur les tests faits par les étudiants
