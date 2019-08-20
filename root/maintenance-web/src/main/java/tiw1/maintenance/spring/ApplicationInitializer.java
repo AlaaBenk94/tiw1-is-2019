@@ -1,14 +1,10 @@
 package tiw1.maintenance.spring;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.support.AbstractDispatcherServletInitializer;
 
 public class ApplicationInitializer extends AbstractDispatcherServletInitializer {
-    private static final Logger LOG = LoggerFactory.getLogger(ApplicationInitializer.class);
-
 
     @Override
     protected WebApplicationContext createServletApplicationContext() {

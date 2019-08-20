@@ -1,6 +1,12 @@
 package tiw1.maintenance.models;
 
+import javax.persistence.*;
+
+@Entity
+@NamedQueries({@NamedQuery(name = "allTrottinettes", query = "SELECT t FROM Trottinette t")})
 public class Trottinette {
+    @Id
+    @GeneratedValue
     private long id;
 
     public Trottinette() {
