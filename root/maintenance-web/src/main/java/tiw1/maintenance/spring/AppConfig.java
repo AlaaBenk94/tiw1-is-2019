@@ -43,15 +43,13 @@ public class AppConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean emfb = new LocalContainerEntityManagerFactoryBean();
-        LOG.info("Created EMF");
-        // emfb.setPersistenceUnitName("banque-pu");
-        // LOG.info("set PU name");
+        LOG.debug("Created EMF");
         emfb.setDataSource(dataSource());
-        LOG.info("set datasource");
+        LOG.debug("set datasource");
         emfb.setPersistenceProviderClass(HibernatePersistenceProvider.class);
-        LOG.info("set persistence provider");
+        LOG.debug("set persistence provider");
         emfb.setLoadTimeWeaver(weaver());
-        LOG.info("set weaver");
+        LOG.debug("set weaver");
         emfb.getJpaPropertyMap().put("hibernate.hbm2ddl.auto", "update");
         emfb.setPackagesToScan("tiw1.maintenance.models");
         return emfb;

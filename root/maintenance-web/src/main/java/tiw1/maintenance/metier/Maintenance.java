@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tiw1.maintenance.models.Trottinette;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -18,10 +19,14 @@ public class Maintenance {
     }
 
     public Trottinette getTrottinette(long id) {
-        return em
-                .createNamedQuery("trottinetteById", Trottinette.class)
-                .setParameter("id", id)
-                .getSingleResult();
+        try {
+            return em
+                    .createNamedQuery("trottinetteById", Trottinette.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Transactional
