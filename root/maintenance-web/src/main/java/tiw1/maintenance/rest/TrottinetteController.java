@@ -22,13 +22,25 @@ public class TrottinetteController {
     }
 
     @GetMapping("/{id}")
-    public Trottinette getTrottinette(@PathVariable long id) {
-        return m.getTrottinette(id);
+    public ResponseEntity<Trottinette> getTrottinette(@PathVariable long id) {
+        final Trottinette trottinette = m.getTrottinette(id);
+        if (trottinette == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(trottinette, HttpStatus.OK);
+        }
     }
 
     @PostMapping()
     public ResponseEntity<Trottinette> addTrottinette() {
         return new ResponseEntity<Trottinette>(m.creerTrottinette(), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Trottinette> updateTrottinette(@PathVariable long id, @RequestBody Trottinette t) {
+        t.setId(id);
+        Trottinette resp = m.updateTrottinette(t);
+        return new ResponseEntity<>(t, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

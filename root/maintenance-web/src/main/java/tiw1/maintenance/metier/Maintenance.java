@@ -46,4 +46,9 @@ public class Maintenance {
         Trottinette t = getTrottinette(id);
         supprimerTrottinette(t);
     }
+
+    @Transactional
+    public Trottinette updateTrottinette(Trottinette t) {
+        return em.merge(t);
+    }
 }

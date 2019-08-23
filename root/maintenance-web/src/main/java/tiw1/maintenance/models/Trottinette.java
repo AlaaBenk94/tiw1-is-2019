@@ -12,6 +12,8 @@ public class Trottinette {
     @GeneratedValue
     private long id;
 
+    private boolean disponible = true;
+
     public Trottinette() {
     }
 
@@ -25,5 +27,13 @@ public class Trottinette {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public boolean isDisponible() {
+        return disponible;
+    }
+
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
     }
 }
