@@ -2,6 +2,7 @@ package tiw1.maintenance.metier;
 
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import tiw1.maintenance.models.Intervention;
 import tiw1.maintenance.models.Trottinette;
 
 import javax.persistence.EntityManager;
@@ -50,5 +51,16 @@ public class Maintenance {
     @Transactional
     public Trottinette updateTrottinette(Trottinette t) {
         return em.merge(t);
+    }
+
+    @Transactional
+    public Trottinette ajouterIntervention(long idTrottinette, Intervention intervention) {
+        // TODO: tests: cas standard, trottinette inexistante
+        Trottinette t = em.find(Trottinette.class, idTrottinette);
+        if (t != null) {
+            em.persist(intervention);
+            t.ajouterIntervention(intervention);
+        }
+        return t;
     }
 }
