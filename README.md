@@ -6,7 +6,15 @@ Ce dépôt regroupe les ressources pour l'UE [intergiciels et services](http://o
 
 ## Supports de cours
 
-    À venir
+> À venir
+    
+## Matériel et logiciel
+
+Merci de prévenir au plus tôt les enseignants si vous n'utilisez pas votre propre ordinateur en TP.
+
+Pour votre propre ordinateur, prévoyez d'installer le [JDK en version 11](https://adoptopenjdk.net/?variant=openjdk11&jvmVariant=hotspot), un IDE comme [IntelliJ IDEA](https://www.jetbrains.com/idea/) (licence étudiant disponible avec votre mail Lyon 1) ou [Eclipse](https://www.eclipse.org/).
+Sous Windows, prévoir la possibilité d'exécuter des scripts ``bash`` et de pouvoir facilement vous connecter en SSH sur une machine.
+Début janvier, il sera intéressant de disposer de [Docker](https://www.docker.com/). 
     
 ## Sujets de TP
 
@@ -22,6 +30,24 @@ Ce dépôt regroupe les ressources pour l'UE [intergiciels et services](http://o
 
 ## Consignes pour le rendu des TPs
 
-    À venir
+Tous les TPs de sont pas à rendre. En cas de doute, n'hésitez pas à envoyer un mail pour savoir ce qu'il en est.
+Les TP à rendre préciseront une date de rendu.
+
+Pour chaque TP à rendre, il faudra indiquer dans tomuss l'URL **HTTPS** de clone du dépôt dans lequel vous avez travaillé.
+Dans ce dépôt, vous aurez pris soin de créer une branche ``tpx`` où ``x`` est le numéro du TP concerné.
+C'est cette branche qui sera utilisée pour évaluer le TP.
+Vous êtes responsable de la création de cette branche. 
+Si le dépôt indiqué sur tomuss ne contient pas cette branche, le TP pourra être considéré comme non rendu (et donc une note de 0 au TP).
+
+Si vous travaillez en binôme, veillez à créer le dépôt dans un groupe de la forge. 
+Astreignez vous à travailler en ayant chacun votre _fork_ du projet et en utilisant le système de _merge request_ de Gitlab.
+Attention à ne pas oublier de gérer les _merge request_ avant le rendu.
     
-    Partie de la note sur les tests faits par les étudiants
+
+## Fil rouge
+
+L'ensemble des TP de cette UE sera illustré en se plaçant dans le cadre d'une entreprise de location de trottinettes électriques.
+Selon le TP, on abordera différentes facettes du système d'information (simplifié) d'une telle entreprise.
+Par exemple, le [premier TP](tp1/README.md) concernera une application pour gérer la maintenance des trottinettes.
+Les derniers TP feront l'objet d'un assemblage des réalisation des différents morceaux de ce système.
+
