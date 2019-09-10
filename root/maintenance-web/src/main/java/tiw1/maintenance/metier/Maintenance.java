@@ -15,16 +15,26 @@ public class Maintenance {
     @PersistenceContext
     private EntityManager em;
 
+    @Transactional
     public List<Trottinette> getTrottinettes() {
-        return em.createNamedQuery("allTrottinettes", Trottinette.class).getResultList();
+        List<Trottinette> trottinettes = em.createNamedQuery("allTrottinettes", Trottinette.class).getResultList();
+        // ensure trottinettes are fully fetched, including associated Intervention entities
+        for (Trottinette t : trottinettes) {
+            t.getInterventions().size();
+        }
+        return trottinettes;
     }
 
-    public Trottinette getTrottinette(long id) {
+    @Transactional
+    public Trottinette getTrottinetteAndInterventions(long id) {
         try {
-            return em
+            Trottinette t = em
                     .createNamedQuery("trottinetteById", Trottinette.class)
                     .setParameter("id", id)
                     .getSingleResult();
+            // ensure trottinettes is fully fetched, including associated Intervention entities
+            t.getInterventions().size();
+            return t;
         } catch (NoResultException e) {
             return null;
         }
@@ -44,13 +54,16 @@ public class Maintenance {
 
     @Transactional
     public void supprimerTrottinette(long id) {
-        Trottinette t = getTrottinette(id);
+        Trottinette t = getTrottinetteAndInterventions(id);
         supprimerTrottinette(t);
     }
 
     @Transactional
     public Trottinette updateTrottinette(Trottinette t) {
-        return em.merge(t);
+        Trottinette t2 = em.merge(t);
+        // ensure trottinettes is fully fetched, including associated Intervention entities
+        t2.getInterventions().size();
+        return t2;
     }
 
     @Transactional

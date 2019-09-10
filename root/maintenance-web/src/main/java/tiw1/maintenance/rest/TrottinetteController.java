@@ -19,12 +19,13 @@ public class TrottinetteController {
 
     @GetMapping
     public List<Trottinette> getTrottinettes() {
-        return m.getTrottinettes();
+        List<Trottinette> trottinettes = m.getTrottinettes();
+        return trottinettes;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Trottinette> getTrottinette(@PathVariable long id) {
-        final Trottinette trottinette = m.getTrottinette(id);
+        final Trottinette trottinette = m.getTrottinetteAndInterventions(id);
         if (trottinette == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {

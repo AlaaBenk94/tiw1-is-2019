@@ -28,10 +28,10 @@ public class MaintenanceTest {
     public void testCreerSupprimerTrottinette() {
         Trottinette t = m.creerTrottinette();
         long id = t.getId();
-        Trottinette t2 = m.getTrottinette(id);
+        Trottinette t2 = m.getTrottinetteAndInterventions(id);
         assertEquals(id, t2.getId());
         m.supprimerTrottinette(id);
-        assertNull(m.getTrottinette(id));
+        assertNull(m.getTrottinetteAndInterventions(id));
     }
 
     @Test
