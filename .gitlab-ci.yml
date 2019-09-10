@@ -1,4 +1,4 @@
-image: forge.univ-lyon1.fr:4567/forge_public/ci-images/maven-ucbl:3-jdk-11
+image: maven:3-jdk-11
 
 # Maven configuration from https://gitlab.com/gitlab-org/gitlab-ce/blob/master/lib/gitlab/ci/templates/Maven.gitlab-ci.yml
 variables:
