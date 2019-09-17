@@ -16,15 +16,16 @@ Dans ce TP, vous allez transformer cette application comme si elle s'exécutait 
 
 Voici la façon dont elle fonctionnera :
 
-- Le contenu qui vous a été donné dans le répertoire `emprunt_base` ainsi que les DAOs que vous avez développés au TP1 pour accéderà la table contenant les trottinettes se trouveront côté serveur.
-- Dans ce TP, le client sera simulé par les tests que vous écrirez. Ces tests adresseront directement le serveur et non les classes métier.
+- Le contenu qui vous a été donné dans le projet `emprunt` ainsi que les DAOs que vous avez développés au TP1 pour accéderà la table contenant les trottinettes se trouveront côté serveur.
+
+  **Vous devez avoir démarré le serveur Jetty et Spring du projet Maintenance avant de lancer celui de ce TP.**
+
+- Dans ce TP, le client sera simulé par les tests. Une bonne partie sont déjà écrits, mais vous les ferez évoluer avec l'application. Ces tests adresseront directement le serveur et non les classes métier.
 
 Dans ce TP, vous aurez 3 types de données à manipuler avec chacune une durée de vie différente :
 1) Les trottinettes, qui sont supposées exister et ne pas varier tout au long de ce TP (on ne s'intéresse pas aux pannes ni aux rechargements)
-2) Les abonnés, qui s'inscrivent pour une durée définie (une semaine)
+2) Les abonnés, qui s'inscrivent pour une durée définie
 3) Les emprunts de trottinettes, qui peuvent être créés par les abonnés à tout moment, mais ne peuvent jamais être supprimés.
-
-Dans ce workflow, une méthode `validerPaiement()` qui prend l'emprunt en paramètre et renvoie true est incluse pour une utilisation ultérieure. Merci de la conserver telle quelle dans ce TP.
 
 ## Premières manipulations
 
@@ -37,12 +38,12 @@ Faites en sorte de permettre les opérations suivantes :
 
 ### Gestion des trottinettes
 
-- Chargement de la liste des trottinettes depuis la BD du TP1 (table `trottinette`, attribut `disponible`)
+- Chargement de la liste des trottinettes depuis le TP1
 - Interrogation de la disponibilité d'une trotinette
 
 ### Gestion des abonnés
 
-Vous utiliserez un fichier (XML ou JSON) pour y stocker les abonnés. Le nom de ce fichier sera passé en paramètre su DAO permettant d'y accéder.
+Les abonnés sont persistés dans un fichier (XML ou JSON). Le nom de ce fichier sera passé en paramètre du DAO permettant d'y accéder.
 
 Mettez en place les use case suivants :
 
@@ -54,7 +55,7 @@ Mettez en place les use case suivants :
 Rajoutez une table à la base pour y stocker les emprunts. Mettez en place les use case suivants :
 
 - création
-- stockage
+- interrogation par date
 
 ### Autres manipulations
 
