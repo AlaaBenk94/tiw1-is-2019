@@ -273,3 +273,7 @@ Pour mettre en oeuvre cette spécialisation, vous pouvez soit faire hériter cha
 De la même manière, pour prendre en compte cette spécialisation au niveau du serveur, vous pouvez soit modifier ce serveur (et son mode de configuration) pour que le fichier de configuration mentionne la nature des composants, et que le serveur la "comprenne", soit rajouter un composant intermédiaire qui intercepte toutes les requêtes et s'appuie sur son propre mode de configuration pour instancier et rediriger les requêtes sur ces composants.
 
 > À ce stade, vous avez réalisé un serveur d'applications, composé d'un serveur et d'un framework capable de mettre en place et de faire tourner différents types d'applications. Si vous avez réalisé la partie 5.2 en modifiant le serveur, vous avez créé un serveur qui fonctionne d'une manière proche des serveurs Java EE. Si vous l'avez réalisée par ajout d'une couche supplémentaire entre le serveur de la question 4 et l'application, votre serveur se rapproche plus d'un conteneur Spring inclus dans un conteneur de servlets.
+
+## Instructions de rendu
+
+**Ce TP est à rendre pour le dimanche 6 octobre 2019** (date du dernier push / merge sur la forge sur / depuis la branche tp2).
