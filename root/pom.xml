@@ -130,5 +130,6 @@
 
     <modules>
         <module>maintenance-web</module>
+        <module>emprunt</module>
     </modules>
 </project>
