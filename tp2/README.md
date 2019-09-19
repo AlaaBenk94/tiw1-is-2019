@@ -23,7 +23,7 @@ Voici la façon dont elle fonctionnera :
 - Dans ce TP, le client sera simulé par les tests. Une bonne partie sont déjà écrits, mais vous les ferez évoluer avec l'application. Ces tests adresseront directement le serveur et non les classes métier.
 
 Dans ce TP, vous aurez 3 types de données à manipuler avec chacune une durée de vie différente :
-1) Les trottinettes, qui sont supposées exister et ne pas varier tout au long de ce TP (on ne s'intéresse pas aux pannes ni aux rechargements)
+1) Les trottinettes, qui sont supposées exister et ne pas varier tout au long de ce TP (on ne s'intéresse pas aux pannes ni aux rechargements) ; le chargement de la liste des trottinettes est réalisé en interrogeant le serveur Web du TP1
 2) Les abonnés, qui s'inscrivent pour une durée définie
 3) Les emprunts de trottinettes, qui peuvent être créés par les abonnés à tout moment, mais ne peuvent jamais être supprimés.
 
@@ -38,7 +38,6 @@ Faites en sorte de permettre les opérations suivantes :
 
 ### Gestion des trottinettes
 
-- Chargement de la liste des trottinettes depuis le TP1
 - Interrogation de la disponibilité d'une trotinette
 
 ### Gestion des abonnés
