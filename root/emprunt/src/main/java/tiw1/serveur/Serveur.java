@@ -1,16 +1,26 @@
 package tiw1.serveur;
 
 import tiw1.emprunt.model.Abonne;
+import tiw1.emprunt.persistence.AbonneDAO;
+import tiw1.emprunt.persistence.DAO;
+
+import java.io.IOException;
 
 public class Serveur {
 
-    // Gestionnaire des abonnés
-    public boolean abonnement(Abonne abonne) {
-        return false;
+    private DAO<Abonne> abonneDAO;
+
+    Serveur(AbonneDAO abonneDAO) throws IOException {
+        this.abonneDAO = abonneDAO;
     }
 
-    public boolean desabonnement(Abonne abonne) {
-        return false;
+    // Gestionnaire des abonnees
+    public void abonnement(Abonne abonne) throws Exception {
+        abonneDAO.save(abonne);
+     }
+
+    public void desabonnement(Abonne abonne) throws Exception {
+        abonneDAO.delete(abonne);
     }
 
 }
