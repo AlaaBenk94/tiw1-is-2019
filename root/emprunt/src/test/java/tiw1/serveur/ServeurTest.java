@@ -1,6 +1,8 @@
 package tiw1.serveur;
 
+import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.persistence.AbonneDAO;
@@ -14,12 +16,16 @@ public class ServeurTest {
 
     private Serveur serveur = null;
     private AbonneDAO abonneDAO = null;
-    private Random rand = null;
+
     @Before
     public void setUp() throws Exception {
         this.abonneDAO = new AbonneDAO();
         this.serveur = new Serveur(this.abonneDAO);
-        this.rand = new Random();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        this.abonneDAO.delete(new Abonne(5l, "abonee", new Date(), null));
     }
 
     @Test
@@ -36,31 +42,29 @@ public class ServeurTest {
 
     @Test
     public void testAbonnement() {
-        System.out.println("testAbonnement - Right");
-        long ID = rand.nextLong();
-        Abonne ab = new Abonne(ID, "abonee", new Date(), null);
-
+        System.out.println("testAbonnement");
+        Abonne ab = new Abonne(5l, "abonee", new Date(), null);
+        int initSize;
         try {
-            assertEquals(true, abonneDAO.get(ID).isEmpty());
+            initSize = abonneDAO.getAll().size();
             this.serveur.abonnement(ab);
-            assertEquals("testAbonnement - Right [SUCCEED]",true, abonneDAO.get(ID).isPresent());
+            assertEquals("testAbonnement [SUCCEED]",initSize+1, abonneDAO.getAll().size());
         } catch (Exception e) {
-            fail("testAbonnement - Right [FAILED] : " + e.getMessage());
+            fail("testAbonnement [FAILED] : " + e.getMessage());
         }
     }
 
     @Test
     public void desabonnement() {
-        System.out.println("testDesabonnement - Right");
-        long ID = rand.nextLong();
-        Abonne ab = new Abonne(ID, "abonee", new Date(), null);
+        System.out.println("testDesabonnement");
+        Abonne ab = (Abonne) abonneDAO.getAll().get(0);
+        int initSize;
         try {
-            abonneDAO.save(ab);
-            assertEquals(true, abonneDAO.get(ID).isPresent());
+             initSize = abonneDAO.getAll().size();
             serveur.desabonnement(ab);
-            assertEquals("testDesabonnement - Right [SUCCEED]", true, abonneDAO.get(ID).isEmpty());
+            assertEquals("testDesabonnement [SUCCEED]", initSize-1, abonneDAO.getAll().size());
         } catch (Exception e) {
-            fail("testDesabonnement - Right [FAILED] : " + e.getMessage());
+            fail("testDesabonnement [FAILED] : " + e.getMessage());
         }
 
     }
