@@ -43,8 +43,8 @@ public class Serveur {
     }
 
     //Gestion des Emprunt
-    public void addEmprunt(Long id, Date date, Long idAbonne, Long idTrottinette) throws Exception{
-        empruntDAO.save(new Emprunt(id,date,idAbonne,idTrottinette));
+    public void addEmprunt(Emprunt emp) throws Exception{
+        empruntDAO.save(emp);
     }
     
 }
