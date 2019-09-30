@@ -1,11 +1,13 @@
 package tiw1.serveur;
 
 import tiw1.emprunt.model.Abonne;
+import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.DAO;
 import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class Serveur {
 
@@ -29,4 +31,10 @@ public class Serveur {
         TrottinetteLoader.load();
     }
 
+    public boolean verifyAvailiblity(long id){
+        //loadTrotinettes();
+        Map<Long, Trottinette> trottinettes =TrottinetteLoader.getTrottinettes();
+        return trottinettes.get(id)==null?false:true;
+    }
+    
 }
