@@ -3,6 +3,7 @@ package tiw1.serveur;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.DAO;
+import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.io.IOException;
 
@@ -21,6 +22,11 @@ public class Serveur {
 
     public void desabonnement(Abonne abonne) throws Exception {
         abonneDAO.delete(abonne);
+    }
+
+    // Gestionnaire des trotinettes
+    public void loadTrotinettes() throws Exception{
+        TrottinetteLoader.load();
     }
 
 }
