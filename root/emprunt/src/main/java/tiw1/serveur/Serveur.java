@@ -1,20 +1,25 @@
 package tiw1.serveur;
 
 import tiw1.emprunt.model.Abonne;
+import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.DAO;
+import tiw1.emprunt.persistence.EmpruntDAO;
 import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 public class Serveur {
 
     private DAO<Abonne> abonneDAO;
+    private DAO<Emprunt> empruntDAO;
 
-    Serveur(AbonneDAO abonneDAO) throws IOException {
+    Serveur(AbonneDAO abonneDAO,EmpruntDAO empruntDAO) throws IOException {
         this.abonneDAO = abonneDAO;
+        this.empruntDAO = empruntDAO;
     }
 
     // Gestionnaire des abonnees
@@ -35,6 +40,11 @@ public class Serveur {
         //loadTrotinettes();
         Map<Long, Trottinette> trottinettes =TrottinetteLoader.getTrottinettes();
         return trottinettes.get(id)==null?false:true;
+    }
+
+    //Gestion des Emprunt
+    public void addEmprunt(Long id, Date date, Long idAbonne, Long idTrottinette) throws Exception{
+        empruntDAO.save(new Emprunt(id,date,idAbonne,idTrottinette));
     }
     
 }
