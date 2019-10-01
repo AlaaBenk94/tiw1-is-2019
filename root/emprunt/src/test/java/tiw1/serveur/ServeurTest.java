@@ -2,13 +2,13 @@ package tiw1.serveur;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import tiw1.emprunt.model.Abonne;
+import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.persistence.AbonneDAO;
+import tiw1.emprunt.persistence.EmpruntDAO;
 
 import java.util.Date;
-import java.util.Random;
 
 import static org.junit.Assert.*;
 
@@ -16,11 +16,13 @@ public class ServeurTest {
 
     private Serveur serveur = null;
     private AbonneDAO abonneDAO = null;
+    private EmpruntDAO empruntDAO = null;
 
     @Before
     public void setUp() throws Exception {
         this.abonneDAO = new AbonneDAO();
-        this.serveur = new Serveur(this.abonneDAO);
+        this.empruntDAO = new EmpruntDAO();
+        this.serveur = new Serveur(abonneDAO, empruntDAO);
     }
 
     @After
