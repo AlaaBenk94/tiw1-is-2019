@@ -9,6 +9,7 @@ Ce dépôt regroupe les ressources pour l'UE [intergiciels et services](http://o
 - [Introduction](http://emmanuel.coquery.pages.univ-lyon1.fr/slides/tiw1-01-introduction/#/)
 - [Conteneurs et IoC](https://perso.liris.cnrs.fr/lionel.medini/enseignement/IS/CM/CM_IS_conteneurs.pdf)
 - [Contexte et annuaire](https://perso.liris.cnrs.fr/lionel.medini/enseignement/IS/CM/CM_IS_contexte.pdf)
+- [Métaprogrammation](https://perso.liris.cnrs.fr/lionel.medini/enseignement/IS/CM/CM_IS_metaprogrammation.pdf)
 
 > À venir
     
