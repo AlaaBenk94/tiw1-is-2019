@@ -61,13 +61,14 @@ public class Serveur {
         TrottinetteLoader.load();
     }
 
-    public boolean verifyAvailiblity(long id){
+    public boolean verifyAvailiblity(long id) throws NullPointerException{
         //loadTrotinettes();
         Map<Long, Trottinette> trottinettes =TrottinetteLoader.getTrottinettes();
-        return trottinettes.get(id)==null?false:true;
+        //Null pointer Exception
+        return trottinettes.get(id).isDisponible();
     }
 
-    /* Gestion des Emprunt */
+    //Gestion des Emprunt
     public void addEmprunt(Emprunt emp) throws Exception{
         empruntDAO.save(emp);
     }
