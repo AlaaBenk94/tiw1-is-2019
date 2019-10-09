@@ -2,6 +2,7 @@ package tiw1.serveur;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.picocontainer.*;
 import tiw1.emprunt.model.Abonne;
@@ -19,8 +20,9 @@ public class ServeurTest {
     private Serveur serveur = null;
     private AbonneDAO abonneDAO = null;
     private EmpruntDAO empruntDAO = null;
+    private EmpruntDAO empruntDAO = null;
 
-    @Before
+    @BeforeClass
     public void setUp() throws Exception {
         // TODO : rewrite this part
         this.abonneDAO = new AbonneDAO();
@@ -37,6 +39,12 @@ public class ServeurTest {
     public void testAbonneDaoNotNull() {
         System.out.println("testAbonneDao - Not Null");
         assertNotNull(abonneDAO);
+    }
+    
+    @Test
+    public void testEmpruntDAO(){
+        System.out.println("testEmpruntDao - Not Null");
+        assertNotNull(empruntDAO);
     }
 
     @Test
@@ -74,6 +82,16 @@ public class ServeurTest {
             fail("testDesabonnement [FAILED] : " + e.getMessage());
         }
 
+    }
+    
+    @Test
+    public void testLoadTrotinettes(){
+        try{
+
+        }
+        catch(Exception e){
+            //fail
+        }
     }
 
     // TODO : Add Emprunt tests
