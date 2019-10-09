@@ -273,6 +273,28 @@ De la même manière, pour prendre en compte cette spécialisation au niveau du 
 
 > À ce stade, vous avez réalisé un serveur d'applications, composé d'un serveur et d'un framework capable de mettre en place et de faire tourner différents types d'applications. Si vous avez réalisé la partie 5.2 en modifiant le serveur, vous avez créé un serveur qui fonctionne d'une manière proche des serveurs Java EE. Si vous l'avez réalisée par ajout d'une couche supplémentaire entre le serveur de la question 4 et l'application, votre serveur se rapproche plus d'un conteneur Spring inclus dans un conteneur de servlets.
 
+## 6. Métaprogrammation
+
+Dans cette partie, vous allez ajouter des annotations pour :
+
+- configurer vos applications
+- générer du "boilerplate code"
+
+### 6.1. Utilisation d'une annotation "custom"
+
+- Ouvrez le projet `annotations` avec votre ID. Lisez le code et générez un jar.
+- Utilisez l'annotation `@Todo` dans le code de votre projet Emprunt.
+- &Agrave; l'aide des slides du cours, configurez le pom.xml du projet Emprunt pour faire en sorte d'utiliser l'API Pluggable Annotation Processing.
+- Recompilez le projet Emprunt et vérifiez la présence du fichier Todos.html à la racine du projet
+
+### 6.2. Réalisation d'annotations
+
+Utilisez la même méthode pour :
+
+- éliminer les méthodes "parasites" `start()` et `stop()` à l'aide d'une annotation `@Startable`
+- réaliser l'injection de dépendances (`@Inject`)
+- déclarer des composants du framework et les spécialiser (`@Component`, `@Controller`...)
+
 ## Instructions de rendu
 
 **Ce TP est à rendre pour le dimanche 6 octobre 2019** (date du dernier push / merge sur la forge sur / depuis la branche tp2).
