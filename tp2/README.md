@@ -295,6 +295,8 @@ Utilisez la même méthode pour :
 - réaliser l'injection de dépendances (`@Inject`)
 - déclarer des composants du framework et les spécialiser (`@Component`, `@Controller`...)
 
+> Remarque : vous pourrez avoir besoin d'utiliser différents niveaux de `Retention` et de l'introspection / l'API Reflection
+
 ## Instructions de rendu
 
 **Ce TP est à rendre pour le dimanche 6 octobre 2019** (date du dernier push / merge sur la forge sur / depuis la branche tp2).
