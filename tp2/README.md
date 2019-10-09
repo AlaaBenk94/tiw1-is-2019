@@ -297,6 +297,17 @@ Utilisez la même méthode pour :
 
 > Remarque : vous pourrez avoir besoin d'utiliser différents niveaux de `Retention` et de l'introspection / l'API Reflection
 
+## 7. Pooling 
+
+Dans cette partie vous allez constituer un _pool_ de `Trottinette` qui va remplacer la liste des trottinettes.
+
+- Créer une classe `TrottinettePool` contenant la liste des trottinettes.
+- Y ajouter des méthodes pour récupérer et rendre une trottinette.
+- Verrouiller les trottinettes utilisées en rendant impossible sa récupération tant qu'elle n'a pas été rendue.
+- Modifier les composants utilisant la liste de trottinettes pour utiliser le pool à la place
+- Bien penser à faire du pool un composant.
+- Tester le verrouillage des trottinettes dans un test unitaire.  
+
 ## Instructions de rendu
 
 **Ce TP est à rendre pour le dimanche 6 octobre 2019** (date du dernier push / merge sur la forge sur / depuis la branche tp2).
