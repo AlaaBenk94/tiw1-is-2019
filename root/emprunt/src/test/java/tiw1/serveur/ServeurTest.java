@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertNotNull;
 
-public class ServeurImplTest {
+public class ServeurTest {
 
     public static Serveur serveur = null;
 
