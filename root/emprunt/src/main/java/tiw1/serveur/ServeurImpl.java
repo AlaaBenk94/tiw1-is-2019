@@ -11,6 +11,7 @@ import tiw1.emprunt.persistence.EmpruntDAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ServeurImpl implements Serveur{
@@ -21,7 +22,7 @@ public class ServeurImpl implements Serveur{
         // Container setup
         MutablePicoContainer myContainer = new DefaultPicoContainer()
                 .addComponent(String.class)
-                .addComponent(ArrayList.class)
+                .addComponent(Map.class, HashMap.class)
                 .addComponent(DAO.class, AbonneDAO.class, new ConstantParameter("abonnes.json"))
                 .addComponent(Controleur.class)
                 .addComponent(Emprunt.class)
