@@ -60,7 +60,7 @@ Rajoutez une table à la base pour y stocker les emprunts. Mettez en place les u
 
 - Utilisez le pattern DTO pour simplifier l'interface de Emprunt et permettre d'en créer facilement.
 - Vous pouvez aussi rajouter les getters nécessaires pour permettre à Emprunt de renvoyer les informations sur ses attributs.
-- Rajoutez une méthode dans Serveur qui retourne l'instance de `Emprunt` créée.
+- Rajoutez une méthode dans Serveur qui retourne l'instance de `EmpruntDTO` créée.
 
 Testez.
 
@@ -163,7 +163,7 @@ Vous allez modifier les composants du conteneur ayant une dépendance sur un obj
 
 Remarque : tant qu'à faire, servez-vous de la documentation de PicoContainer pour utiliser un autre type d'injection de dépendances que par constructeur.
 
-- Modifiez les constructeurs de vos classes d'implémentation de Cinema (abstraites ou non), de façon à ce qu'ils prennent en paramètre un `AbonneContext` et non plus un `AbonneDAO`.
+- Modifiez les constructeurs de vos classes d'implémentation de `Emprunt` (abstraites ou non), de façon à ce qu'ils prennent en paramètre un `AbonneContext` et non plus un `AbonneDAO`.
 - Dans les composants, récupérez le DAO par des appels à la méthode correspondante (`getDAO()` ?) du contexte avant leur démarrage (méthode `start()`)
 - L'instance du DAO sera récupérée par le serveur dans le conteneur à l'aide d'un `getComponent()`, et ajoutée au contexte à l'aide d'une méthode spécifique (`setDAO` ?).
 
@@ -173,7 +173,7 @@ Enfin, mettez en place les méthodes correspondantes du contexte de façon à ce
 
 Testez votre application. Vous pouvez ensuite par exemple vous servir du contexte pour filtrer les appels au DAO et ne renvoyer la bonne référence que si la méthode est appelée par une instance de type `XxxRessource` (voir [ici](http://www.javalobby.org/java/forums/t67019.html) ou [là](http://stackoverflow.com/questions/421280/in-java-how-do-i-find-the-caller-of-a-method-using-stacktrace-or-reflection) pour des exemples de code sur comment trouver la classe appelant une méthode).
 
-Remarque : dans ce cas, supprimez l'appel à la méthode `toString()` de l'instance du DAO dans l'affichage de la méthode `start()` des cinémas.
+Remarque : dans ce cas, supprimez l'appel à la méthode `toString()` de l'instance du DAO dans l'affichage de la méthode `start()` des composants.
 
 ### 3.4 Généralisation du contexte
 
