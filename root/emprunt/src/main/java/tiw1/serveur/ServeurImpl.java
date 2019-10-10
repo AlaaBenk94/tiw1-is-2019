@@ -2,31 +2,32 @@ package tiw1.serveur;
 
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.injectors.SetterInjection;
 import org.picocontainer.parameters.ConstantParameter;
-import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.persistence.AbonneDAO;
-import tiw1.emprunt.persistence.DAO;
 import tiw1.emprunt.persistence.EmpruntDAO;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ServeurImpl implements Serveur{
 
     public static Controleur controleur = null;
+    EntityManagerFactory emf = Persistence.createEntityManagerFactory("test-pu");
+
 
     public ServeurImpl() {
         // Container setup
         MutablePicoContainer myContainer = new DefaultPicoContainer()
                 .addComponent(String.class)
                 .addComponent(Map.class, HashMap.class)
-                .addComponent(DAO.class, AbonneDAO.class, new ConstantParameter("abonnes.json"))
+                .addComponent(AbonneDAO.class, AbonneDAO.class, new ConstantParameter("abonnes.json"))
                 .addComponent(Controleur.class)
-                .addComponent(Emprunt.class)
-                .addComponent(EmpruntDAO.class);
+                .addComponent(EmpruntDAO.class, EmpruntDAO.class, new ConstantParameter(emf.createEntityManager()));
 
         // Getting instance & starting 'Controleur'
         ServeurImpl.controleur = myContainer.getComponent(Controleur.class);

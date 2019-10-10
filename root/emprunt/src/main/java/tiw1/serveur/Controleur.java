@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.model.Trottinette;
+import tiw1.emprunt.model.dto.EmpruntDTO;
 import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.EmpruntDAO;
@@ -43,7 +44,7 @@ public class Controleur implements Startable {
     @Override
     public void start() {
         LOG.info("Composant " + this.getClass().getTypeName() + " demarre. Objet d'acces aux donnees : "
-            + abonneDAO.toString());
+            + abonneDAO.toString() + empruntDAO.toString());
 
         try {
             TrottinetteLoader.load();
@@ -75,8 +76,9 @@ public class Controleur implements Startable {
 
         // add emprunt
         if (params.containsKey(EMPRUNT)) {
-            this.empruntDAO.save((Emprunt) params.get(EMPRUNT));
-            return Response.create(Response.OK, "Emprunt added successfuly");
+            Emprunt emprunt = new Emprunt((EmpruntDTO) params.get(EMPRUNT));
+            this.empruntDAO.save(emprunt);
+            return Response.create(Response.OK, "Emprunt created Successfully", emprunt);
         }
 
         return Response.create(Response.ERROR, "Emprunt NOT added");
@@ -90,7 +92,7 @@ public class Controleur implements Startable {
                 return Response.create(Response.OK, trottinetteList.get(params.get(ID)).isDisponible() + "");
 
             if (params.containsKey(DATE))
-                return Response.create(Response.OK, empruntDAO.getByDate((Date) params.get(DATE)).get());
+                return Response.create(Response.OK, "", empruntDAO.getByDate((Date) params.get(DATE)).get());
         } catch (ClassCastException e) {
             return Response.create(Response.ERROR, "Invalid argument value");
         }

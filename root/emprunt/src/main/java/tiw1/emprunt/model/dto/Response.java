@@ -13,10 +13,12 @@ public class Response {
     public static final int UNKNOWN_PARAM = 40004;
 
     private int status;
+    private String mssg;
     private Object content;
 
-    public Response(int status, Object content) {
+    public Response(int status, String mssg, Object content) {
         this.status = status;
+        this.mssg = mssg;
         this.content = content;
     }
 
@@ -56,8 +58,12 @@ public class Response {
         this.content = content;
     }
 
-    public static Response create(int status, Object content) {
-        return new Response(status, content);
+    public static Response create(int status, String mssg) {
+        return new Response(status, mssg, null);
+    }
+
+    public static Response create(int status, String mssg, Object content) {
+        return new Response(status, mssg, content);
     }
 
 }
