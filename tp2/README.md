@@ -125,6 +125,8 @@ Bien entendu, vous ne pouvez pas laisser le client accéder directement à l'ins
 
 ### 2.2. Uniformisation
 
+Dans cette partie, vous allez modifier le référentiel de dépendances pour vous rapprocher d'un fonctionnement en MVC.
+
 Plutôt que d'avoir un objet `Controleur` qui répond à différentes requêtes, vous allez créer plusieurs objets sur le même modèle, mais traitant chacun un type de requête spécifique (i.e. des contrôleurs délégués / de cas d'utilisation / de ressources). Pour cela :
 - Commencez par définir une interface et une classe abstraite reprenant les principales caractéristiques du système de gestion des emprunts : dépendances, implémentation de `Startable` et méthode de service `process()`
 - Créez les classes implémentant ce modèle et correspondant aux méthodes de service  `getTrottinette()`, `addAbonne()`, `removeAbonne()`, `getAbonne()`, `createEmprunt()`, etc. Vous regrouperez les fonctionnalités dans des classes représentant des ressources (et non des opérations) liées aux objets métier, par exemple une classe `TrottinetteResource` pour la consultation de la disponibilité des trottinettes, une classe `AbonneResource` pour la création / suppression / consultation des abonnés et une classe `EmpruntResource` pour la création des emprunts. Pour cela, il faut que vous ajoutiez un paramètre supplémentaire (la notion de "méthode"), qui indique l'opération à réaliser sur la ressource.
