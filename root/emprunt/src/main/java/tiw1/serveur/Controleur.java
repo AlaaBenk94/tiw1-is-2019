@@ -14,7 +14,6 @@ import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 public class Controleur implements Startable {
@@ -30,9 +29,9 @@ public class Controleur implements Startable {
     private final Logger LOG = LoggerFactory.getLogger(Controleur.class);
 
     private String name = "";
-    private Map<Long, Trottinette> trottinetteList = null;
-    private AbonneDAO abonneDAO = null;
-    private EmpruntDAO empruntDAO=null;
+    private Map<Long, Trottinette> trottinetteList;
+    private AbonneDAO abonneDAO;
+    private EmpruntDAO empruntDAO;
 
     public Controleur( String name, Map<Long, Trottinette> trottinetteList, AbonneDAO abonneDAO, EmpruntDAO empruntDAO ) {
         this.name = name;
@@ -62,8 +61,6 @@ public class Controleur implements Startable {
     }
 
     private Response add(Map<String, Object> params) {
-        LOG.info("Add method called (" + (params != null?params.toString():"void") + ")");
-
         // add abonnee
         if(params.containsKey(ABONNE))
             try {
@@ -85,12 +82,12 @@ public class Controleur implements Startable {
     }
 
     private Response get(Map<String, Object> params) {
-        LOG.info("Add method called (" + (params != null?params.toString():"void") + ")");
-
         try {
+            // Check if Trottinette is Available
             if (params.containsKey(ID))
                 return Response.create(Response.OK, trottinetteList.get(params.get(ID)).isDisponible() + "");
 
+            // Check emprunt by date
             if (params.containsKey(DATE))
                 return Response.create(Response.OK, "", empruntDAO.getByDate((Date) params.get(DATE)).get());
         } catch (ClassCastException e) {
@@ -101,7 +98,6 @@ public class Controleur implements Startable {
     }
 
     private Response remove(Map<String, Object> params) throws IOException {
-        LOG.info("Remove method called (" + (params != null?params.toString():"void") + ")");
 
         if(params.containsKey(ABONNE))
             try {

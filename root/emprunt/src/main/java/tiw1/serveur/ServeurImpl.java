@@ -2,7 +2,6 @@ package tiw1.serveur;
 
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.injectors.SetterInjection;
 import org.picocontainer.parameters.ConstantParameter;
 import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.persistence.AbonneDAO;
@@ -23,10 +22,10 @@ public class ServeurImpl implements Serveur{
     public ServeurImpl() {
         // Container setup
         MutablePicoContainer myContainer = new DefaultPicoContainer()
+                .addComponent(Controleur.class)
                 .addComponent(String.class)
                 .addComponent(Map.class, HashMap.class)
                 .addComponent(AbonneDAO.class, AbonneDAO.class, new ConstantParameter("abonnes.json"))
-                .addComponent(Controleur.class)
                 .addComponent(EmpruntDAO.class, EmpruntDAO.class, new ConstantParameter(emf.createEntityManager()));
 
         // Getting instance & starting 'Controleur'

@@ -10,7 +10,7 @@ import java.util.Objects;
 @NamedQueries({
         @NamedQuery(name="empruntById", query = "select e from Emprunt e where e.id = :id"),
         @NamedQuery(name="allEmprunts", query = "select e from Emprunt e"),
-        @NamedQuery(name="empruntByDate", query="select e from Emprunt e where e.date=:date")
+        @NamedQuery(name="empruntByDate", query="select e from Emprunt e where e.date = :date")
 
 })
 public class Emprunt {
