@@ -6,8 +6,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Date;
 
 public class EmpruntDAO implements DAO<Emprunt> {
     @PersistenceContext
@@ -24,6 +26,18 @@ public class EmpruntDAO implements DAO<Emprunt> {
                     .createNamedQuery("empruntById", Emprunt.class)
                     .setParameter("id", id)
                     .getSingleResult();
+            return Optional.ofNullable(t);
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    public Optional<List<Emprunt>> getByDate(Date date) {
+        try {
+            List<Emprunt> t = em
+                    .createNamedQuery("empruntByDate", Emprunt.class)
+                    .setParameter("date", date)
+                    .getResultList();
             return Optional.ofNullable(t);
         } catch (NoResultException e) {
             return null;
