@@ -4,7 +4,7 @@ package tiw1.emprunt.model.dto;
  * La classe de reponse DTO retournee au client
  * similaire a Response de protocole HTTP mais plus simple
  */
-public class Response {
+public class Response<T> {
     // Response status
     public static final int OK = 200;
     public static final int ERROR = 401;
@@ -14,9 +14,9 @@ public class Response {
 
     private int status;
     private String mssg;
-    private Object content;
+    private T content;
 
-    public Response(int status, String mssg, Object content) {
+    public Response(int status, String mssg, T content) {
         this.status = status;
         this.mssg = mssg;
         this.content = content;
@@ -50,11 +50,11 @@ public class Response {
         this.status = status;
     }
 
-    public Object getContent() {
+    public T getContent() {
         return content;
     }
 
-    public void setContent(Object content) {
+    public void setContent(T content) {
         this.content = content;
     }
 

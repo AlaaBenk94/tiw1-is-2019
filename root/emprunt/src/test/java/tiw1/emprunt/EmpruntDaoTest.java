@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class EmpruntDaoTest {
     private EmpruntDAO dao = new EmpruntDAO();
@@ -47,7 +48,7 @@ public class EmpruntDaoTest {
 
     @Test
     public void testListeEmprunt() {
-        assertEquals(1, dao.getAll().size());
+        assertNotEquals(0, dao.getAll().size());
     }
 
     @Test
@@ -58,7 +59,6 @@ public class EmpruntDaoTest {
             Emprunt emp = new Emprunt(2L, date, 2L, 2L);
             dao.save(emp);
             assertEquals(1, dao.getByDate(date).get().size());
-
         } catch (ParseException e) {
             e.printStackTrace();
         }

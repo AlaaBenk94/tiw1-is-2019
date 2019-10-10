@@ -4,12 +4,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import tiw1.emprunt.model.Abonne;
-import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.model.dto.EmpruntDTO;
-import tiw1.emprunt.model.dto.Response;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -18,6 +17,7 @@ public class ServeurTest {
 
     public static Serveur serveur = null;
     private Map<String, Object> params;
+    Abonne ab = new Abonne(19L, "Toto", new Date(), new Date());
 
     @BeforeClass
     public static void setUp() throws Exception {
@@ -36,14 +36,6 @@ public class ServeurTest {
     }
 
     @Test
-    public void processRequest_OK_Test(){
-        Abonne ab = new Abonne(19L, "Toto", new Date(), new Date());
-        params.put("ABONNE", ab);
-        assertTrue(serveur.processRequest("ADD", params).isOK());
-        assertTrue(serveur.processRequest("REMOVE", params).isOK());
-    }
-
-    @Test
     public void processRequest_ERROR_Test(){
         params.put("ABONNE", new Abonne(19L, "Toto", new Date(), new Date()));
         assertTrue(serveur.processRequest("ADD", params).isOK());
@@ -51,12 +43,14 @@ public class ServeurTest {
 
     @Test
     public void abonnementTest() {
-
+        params.put("ABONNE", ab);
+        assertTrue(serveur.processRequest("ADD", params).isOK());
     }
 
     @Test
     public void desabonnementTest() {
-        // TODO : write test
+        params.put("ABONNE", ab);
+        assertTrue(serveur.processRequest("REMOVE", params).isOK());
     }
 
     @Test
@@ -72,17 +66,21 @@ public class ServeurTest {
 
     @Test
     public void getEmpruntTest() {
-        // TODO : write test
+        EmpruntDTO emprunt = new EmpruntDTO();
+        emprunt.setDate(new Date());
+        emprunt.setIdAbonne(19L);
+        emprunt.setIdTrottinette(15L);
+
+        params.put("EMPRUNT", emprunt);
+        assertTrue(serveur.processRequest("ADD", params).isOK());
+
+        params.put("DATE", new Date());
+        assertEquals(1, ((List) serveur.processRequest("GET", params).getContent()).size());
     }
 
     @Test
     public void getDispoTrottinetteTest() {
-        // TODO : write test
-    }
-
-    @Test
-    public void Test() {
-        // TODO : write test
+        // TODO : Later
     }
 }
 
