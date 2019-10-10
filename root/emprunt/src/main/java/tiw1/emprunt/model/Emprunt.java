@@ -1,5 +1,7 @@
 package tiw1.emprunt.model;
 
+import tiw1.emprunt.model.dto.EmpruntDTO;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -22,6 +24,12 @@ public class Emprunt {
     private Long idAbonne, idTrottinette;
 
     public Emprunt() {
+    }
+
+    public Emprunt(EmpruntDTO dto){
+        this.date = dto.getDate();
+        this.idAbonne = dto.getIdAbonne();
+        this.idTrottinette = dto.getIdTrottinette();
     }
 
     public Emprunt(Long id, Date date, Long idAbonne, Long idTrottinette) {
