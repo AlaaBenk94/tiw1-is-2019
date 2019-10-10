@@ -58,7 +58,7 @@ Rajoutez une table à la base pour y stocker les emprunts. Mettez en place les u
 
 ### Autres manipulations
 
-- Utilisez le pattern DTO pour simplifier l'interface de Emprunt et permettre d'en créer facilement.
+- Utilisez le pattern DTO pour simplifier l'interface du serveur et permettre d'en créer facilement.
 - Vous pouvez aussi rajouter les getters nécessaires pour permettre à Emprunt de renvoyer les informations sur ses attributs.
 - Rajoutez une méthode dans Serveur qui retourne l'instance de `EmpruntDTO` créée.
 
@@ -88,7 +88,7 @@ Alternativement :
   Controleur -> String contenant le nom de la compagnie de location
   Controleur -> List<Trottinette>
   Controleur -> AbonneDao
-  Emprunt -> EmpruntDao
+  Controleur -> EmpruntDao
   ```
 
 Remplacez l'instance de `AbonneDao` créée "à la main" par le serveur par la classe elle-même. On suppose ici que son constructeur prend une string en paramètre (le nom du fichier). [Désambiguïsez](http://picocontainer.com/disambiguation.html) les noms dans les paramètres des constructeurs pour que PicoContainer soit capable de résoudre le référentiel de dépendances.
