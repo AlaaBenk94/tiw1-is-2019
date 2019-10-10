@@ -4,6 +4,7 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
 import org.picocontainer.PicoBuilder;
+import org.picocontainer.parameters.ConstantParameter;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.model.Trottinette;
@@ -31,9 +32,8 @@ public class Serveur {
         MutablePicoContainer myContainer = new DefaultPicoContainer()
                 .addComponent(String.class)
                 .addComponent(ArrayList.class)
-                .addComponent(AbonneDAO.class)
+                .addComponent(DAO.class,AbonneDAO.class,new ConstantParameter("abonnes.json"))
                 .addComponent(Controleur.class)
-                .addComponent(Emprunt.class)
                 .addComponent(EmpruntDAO.class);
 
         // Getting instance & starting 'Controleur'

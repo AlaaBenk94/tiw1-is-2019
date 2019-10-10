@@ -20,12 +20,18 @@ public class AbonneDAO implements DAO<Abonne> {
 
     private ObjectMapper mapper = new ObjectMapper();
     private final String ABONNES_JSON = "abonnes.json";
-    private Path path = Paths.get(ABONNES_JSON);
+    private Path path;
 
 
     private List<Abonne> abonnes = new ArrayList<>();
 
     public AbonneDAO() throws IOException {
+        path = Paths.get(ABONNES_JSON);
+        read();
+    }
+
+    public AbonneDAO(String file) throws IOException {
+        path = Paths.get(file);
         read();
     }
 

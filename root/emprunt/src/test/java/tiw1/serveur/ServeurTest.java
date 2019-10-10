@@ -20,9 +20,8 @@ public class ServeurTest {
     private Serveur serveur = null;
     private AbonneDAO abonneDAO = null;
     private EmpruntDAO empruntDAO = null;
-    private EmpruntDAO empruntDAO = null;
 
-    @BeforeClass
+    @Before
     public void setUp() throws Exception {
         // TODO : rewrite this part
         this.abonneDAO = new AbonneDAO();
