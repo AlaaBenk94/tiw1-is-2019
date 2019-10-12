@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.model.Trottinette;
+import tiw1.emprunt.model.dto.EmpruntDTO;
 import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.EmpruntDAO;
@@ -28,9 +29,9 @@ public class Controleur implements Startable {
     private final Logger LOG = LoggerFactory.getLogger(Controleur.class);
 
     private String name = "";
-    private Map<Long, Trottinette> trottinetteList = null;
-    private AbonneDAO abonneDAO = null;
-    private EmpruntDAO empruntDAO=null;
+    private Map<Long, Trottinette> trottinetteList;
+    private AbonneDAO abonneDAO;
+    private EmpruntDAO empruntDAO;
 
     public Controleur( String name, Map<Long, Trottinette> trottinetteList, AbonneDAO abonneDAO, EmpruntDAO empruntDAO ) {
         this.name = name;
@@ -42,7 +43,7 @@ public class Controleur implements Startable {
     @Override
     public void start() {
         LOG.info("Composant " + this.getClass().getTypeName() + " demarre. Objet d'acces aux donnees : "
-            + abonneDAO.toString());
+            + abonneDAO.toString() + empruntDAO.toString());
 
         try {
             TrottinetteLoader.load();
@@ -60,8 +61,6 @@ public class Controleur implements Startable {
     }
 
     private Response add(Map<String, Object> params) {
-        LOG.info("Add method called (" + (params != null?params.toString():"void") + ")");
-
         // add abonnee
         if(params.containsKey(ABONNE))
             try {
@@ -74,22 +73,23 @@ public class Controleur implements Startable {
 
         // add emprunt
         if (params.containsKey(EMPRUNT)) {
-            this.empruntDAO.save((Emprunt) params.get(EMPRUNT));
-            return Response.create(Response.OK, "Emprunt added successfuly");
+            Emprunt emprunt = new Emprunt((EmpruntDTO) params.get(EMPRUNT));
+            this.empruntDAO.save(emprunt);
+            return Response.create(Response.OK, "Emprunt created Successfully", emprunt);
         }
 
         return Response.create(Response.ERROR, "Emprunt NOT added");
     }
 
     private Response get(Map<String, Object> params) {
-        LOG.info("Add method called (" + (params != null?params.toString():"void") + ")");
-
         try {
+            // Check if Trottinette is Available
             if (params.containsKey(ID))
                 return Response.create(Response.OK, trottinetteList.get(params.get(ID)).isDisponible() + "");
 
+            // Check emprunt by date
             if (params.containsKey(DATE))
-                return Response.create(Response.OK, empruntDAO.getByDate((Date) params.get(DATE)).get());
+                return Response.create(Response.OK, "", empruntDAO.getByDate((Date) params.get(DATE)).get());
         } catch (ClassCastException e) {
             return Response.create(Response.ERROR, "Invalid argument value");
         }
@@ -98,7 +98,6 @@ public class Controleur implements Startable {
     }
 
     private Response remove(Map<String, Object> params) throws IOException {
-        LOG.info("Remove method called (" + (params != null?params.toString():"void") + ")");
 
         if(params.containsKey(ABONNE))
             try {

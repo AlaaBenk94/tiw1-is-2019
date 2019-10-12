@@ -10,9 +10,12 @@ import tiw1.emprunt.persistence.EmpruntDAO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class EmpruntDaoTest {
     private EmpruntDAO dao = new EmpruntDAO();
@@ -45,6 +48,19 @@ public class EmpruntDaoTest {
 
     @Test
     public void testListeEmprunt() {
-        assertEquals(1, dao.getAll().size());
+        assertNotEquals(0, dao.getAll().size());
+    }
+
+    @Test
+    public void getByDate() {
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd/MM/yyyy").parse("27/12/1994");
+            Emprunt emp = new Emprunt(2L, date, 2L, 2L);
+            dao.save(emp);
+            assertEquals(1, dao.getByDate(date).get().size());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
