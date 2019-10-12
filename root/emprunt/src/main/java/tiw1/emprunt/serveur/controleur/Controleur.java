@@ -1,4 +1,4 @@
-package tiw1.serveur;
+package tiw1.emprunt.serveur.controleur;
 
 import org.picocontainer.Startable;
 import org.slf4j.Logger;
@@ -13,7 +13,6 @@ import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 public class Controleur implements Startable {

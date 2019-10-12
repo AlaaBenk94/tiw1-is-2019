@@ -1,4 +1,4 @@
-package tiw1.serveur;
+package tiw1.emprunt.serveur;
 
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package tiw1.serveur;
+package tiw1.emprunt.serveur;
 
 import tiw1.emprunt.model.dto.Response;
 
