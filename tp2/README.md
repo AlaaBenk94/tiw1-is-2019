@@ -58,7 +58,7 @@ Rajoutez une table à la base pour y stocker les emprunts. Mettez en place les u
 
 ### Autres manipulations
 
-- Utilisez le pattern DTO pour simplifier l'interface du serveur et permettre d'en créer facilement.
+- Utilisez le pattern DTO pour simplifier l'interface du serveur et permettre de créer facilement des emprunts.
 - Vous pouvez aussi rajouter les getters nécessaires pour permettre à Emprunt de renvoyer les informations sur ses attributs.
 - Rajoutez une méthode dans Serveur qui retourne l'instance de `EmpruntDTO` créée.
 
@@ -309,6 +309,20 @@ Dans cette partie vous allez constituer un _pool_ de `Trottinette` qui va rempla
 - Modifier les composants utilisant la liste de trottinettes pour utiliser le pool à la place
 - Bien penser à faire du pool un composant.
 - Tester le verrouillage des trottinettes dans un test unitaire.  
+
+## 8. Intercepteurs
+
+Dans cette partie vous allez constituer un système d'intercepteurs devant vos ressources:
+
+- Créer une interface `Intercepteur` avec deux methodes:
+  - une méthode `input` prenant les mêmes arguments que `process`, mais renvoyant une `Map<String, Object>` de paramètres éventuellements modifiés ou enrichis.
+  - une méthode `output` prenant les mêmes arguments que `process` ainsi qu'un `Object` représentant un résultat. Cette méthode renverra également un `Object`.
+- Créer une interface et une implémentation pour une chaîne d'intercepteurs qui appelera une liste d'intercepteur en séquence comme vu en cours.
+- Créer une classe intercepteur pour logger les requêtes, et l'utiliser avec une chaîne d'intercepteurs. 
+  Modifier le contrôleur principal pour qu'il appelle la chaîne d'intercepteurs avant d'appeler la méthode `process` des contrôleurs délégués avec les nouveaux paramètres ainsi obtenus.
+- Bonus: créer un intercepteur qui traduit automatiquement en objet Java le paramètre `body` en supposant qu'il s'agit à l'origine d'une String contenant des données JSON. Typiquement, on aimerait ici extraire automatiquement un EmprunDTO.
+  La méthode `output` de cet intercepteur traduira les objets réponse en JSON.
+  
 
 ## Instructions de rendu
 
