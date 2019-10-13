@@ -16,7 +16,7 @@ public class Response<T> {
     private String mssg;
     private T content;
 
-    public Response(int status, String mssg, T content) {
+    private Response(int status, String mssg, T content) {
         this.status = status;
         this.mssg = mssg;
         this.content = content;
