@@ -1,7 +1,10 @@
 package tiw1.emprunt.controleur;
 
 import org.picocontainer.Startable;
+import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.model.dto.Response;
+import tiw1.emprunt.persistence.AbonneDAO;
+import tiw1.emprunt.persistence.EmpruntDAO;
 
 import java.io.IOException;
 import java.util.Map;
@@ -16,6 +19,16 @@ public abstract class ResourceController implements Startable, Processable {
     protected static final String DATE = "DATE";
     protected static final String EMPRUNT = "EMPRUNT";
 
+    protected AbonneDAO abonneDAO;
+    protected EmpruntDAO empruntDAO;
+    protected Map<Long, Trottinette> trottinetteList;
+
+    public ResourceController(AbonneDAO abonneDAO, EmpruntDAO empruntDAO,
+                                    Map<Long, Trottinette> trottinetteList) {
+        this.abonneDAO = abonneDAO;
+        this.empruntDAO = empruntDAO;
+        this.trottinetteList = trottinetteList;
+    }
 
     @Override
     public Response process(String method, Map<String, Object> params) throws IOException {

@@ -82,6 +82,7 @@ public class ServeurTest {
     public void getDispoTrottinetteTest() {
         // TODO : Later
     }
+
 }
 
 

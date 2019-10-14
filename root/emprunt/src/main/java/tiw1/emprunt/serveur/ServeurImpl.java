@@ -2,6 +2,7 @@ package tiw1.emprunt.serveur;
 
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.behaviors.Caching;
 import org.picocontainer.parameters.ConstantParameter;
 import tiw1.emprunt.controleur.AbonneResource;
 import tiw1.emprunt.controleur.EmpruntResource;
@@ -32,7 +33,7 @@ public class ServeurImpl implements Serveur{
 
     public ServeurImpl() {
         // Container setup
-        MutablePicoContainer myContainer = new DefaultPicoContainer()
+        MutablePicoContainer myContainer = new DefaultPicoContainer(new Caching())
                 .addComponent(AbonneResource.class)
                 .addComponent(EmpruntResource.class)
                 .addComponent(TrottinetteResource.class)
@@ -49,6 +50,7 @@ public class ServeurImpl implements Serveur{
 
         // Starting instances
         myContainer.start();
+
     }
 
 
