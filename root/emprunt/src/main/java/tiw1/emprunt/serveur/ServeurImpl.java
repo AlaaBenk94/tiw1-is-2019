@@ -4,6 +4,8 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.behaviors.Caching;
 import org.picocontainer.parameters.ConstantParameter;
+import tiw1.emprunt.contexte.AbonneContext;
+import tiw1.emprunt.contexte.AbonneContextImpl;
 import tiw1.emprunt.controleur.AbonneResource;
 import tiw1.emprunt.controleur.EmpruntResource;
 import tiw1.emprunt.controleur.TrottinetteResource;
@@ -24,9 +26,11 @@ public class ServeurImpl implements Serveur{
     private static final String TROTINETTE = "TROTINETTE";
     private static final String EMPRUNT = "EMPRUNT";
 
-    public static AbonneResource abonneResource=null;
-    public static EmpruntResource empruntResource=null;
-    public static TrottinetteResource trottinetteResource=null;
+    public static AbonneResource abonneResource;
+    public static EmpruntResource empruntResource;
+    public static TrottinetteResource trottinetteResource;
+
+    public static AbonneContext abonneContext;
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("test-pu");
 
@@ -38,15 +42,17 @@ public class ServeurImpl implements Serveur{
                 .addComponent(EmpruntResource.class)
                 .addComponent(TrottinetteResource.class)
                 .addComponent(ControleurImpl.class)
+                .addComponent(AbonneContext.class, AbonneContextImpl.class)
                 .addComponent(String.class)
                 .addComponent(Map.class, HashMap.class)
                 .addComponent(AbonneDAO.class, AbonneDAO.class, new ConstantParameter("abonnes.json"))
                 .addComponent(EmpruntDAO.class, EmpruntDAO.class, new ConstantParameter(emf.createEntityManager()));
 
         // Getting instance
-        ServeurImpl.abonneResource=myContainer.getComponent(AbonneResource.class);
-        ServeurImpl.empruntResource=myContainer.getComponent(EmpruntResource.class);
-        ServeurImpl.trottinetteResource=myContainer.getComponent(TrottinetteResource.class);
+        abonneResource=myContainer.getComponent(AbonneResource.class);
+        empruntResource=myContainer.getComponent(EmpruntResource.class);
+        trottinetteResource=myContainer.getComponent(TrottinetteResource.class);
+        abonneContext = myContainer.getComponent(AbonneContext.class);
 
         // Starting instances
         myContainer.start();
