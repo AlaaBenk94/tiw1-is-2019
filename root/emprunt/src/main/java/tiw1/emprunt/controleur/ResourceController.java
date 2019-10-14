@@ -1,6 +1,9 @@
 package tiw1.emprunt.controleur;
 
 import org.picocontainer.Startable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tiw1.emprunt.contexte.AbonneContext;
 import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.persistence.AbonneDAO;
@@ -10,6 +13,8 @@ import java.io.IOException;
 import java.util.Map;
 
 public abstract class ResourceController implements Startable, Processable {
+    protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
+
     private static final String ADD = "ADD";
     private static final String REMOVE = "REMOVE";
     private static final String GET = "GET";
@@ -19,13 +24,13 @@ public abstract class ResourceController implements Startable, Processable {
     protected static final String DATE = "DATE";
     protected static final String EMPRUNT = "EMPRUNT";
 
-    protected AbonneDAO abonneDAO;
+    protected AbonneContext abonneContext;
     protected EmpruntDAO empruntDAO;
     protected Map<Long, Trottinette> trottinetteList;
 
-    public ResourceController(AbonneDAO abonneDAO, EmpruntDAO empruntDAO,
-                                    Map<Long, Trottinette> trottinetteList) {
-        this.abonneDAO = abonneDAO;
+    public ResourceController(AbonneContext abonneContext, EmpruntDAO empruntDAO,
+                              Map<Long, Trottinette> trottinetteList) {
+        this.abonneContext = abonneContext;
         this.empruntDAO = empruntDAO;
         this.trottinetteList = trottinetteList;
     }
@@ -48,5 +53,21 @@ public abstract class ResourceController implements Startable, Processable {
     public abstract Response remove(Map<String, Object> params);
     public abstract Response add(Map<String, Object> params);
     public abstract Response update(Map<String, Object> params);
+
+    @Override
+    public void start() {
+        LOG.info("Composant " + this.getClass().getTypeName() + " demarre. Objet d'acces aux donnees : "
+                + this.abonneContext.toString()
+                + " | "
+                + this.empruntDAO.toString()
+                + " | "
+                + this.trottinetteList.toString());
+    }
+
+    @Override
+    public void stop() {
+        LOG.info("Composant " + this.getClass().getTypeName() + " Stop. Objet d'acces aux donnees : "
+                + this.abonneContext.toString());
+    }
 
 }

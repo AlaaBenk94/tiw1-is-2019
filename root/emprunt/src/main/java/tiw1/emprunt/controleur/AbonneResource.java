@@ -2,6 +2,7 @@ package tiw1.emprunt.controleur;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tiw1.emprunt.contexte.AbonneContext;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.model.dto.Response;
@@ -12,31 +13,20 @@ import java.io.IOException;
 import java.util.Map;
 
 public class AbonneResource extends ResourceController {
-
-    private final Logger LOG = LoggerFactory.getLogger(AbonneResource.class);
-
     private final static String ABONNE ="ABONNE";
     private final static String ID="ID";
 
-    public AbonneResource(AbonneDAO abonneDAO, EmpruntDAO empruntDAO,
+    private AbonneDAO abonneDAO;
+
+    public AbonneResource(AbonneContext abonneContext, EmpruntDAO empruntDAO,
                                 Map<Long, Trottinette> trottinetteList) {
-        super(abonneDAO, empruntDAO, trottinetteList);
+        super(abonneContext, empruntDAO, trottinetteList);
     }
 
     @Override
     public void start() {
-        LOG.info("Composant " + this.getClass().getTypeName() + " demarre. Objet d'acces aux donnees : "
-                + this.abonneDAO.toString()
-                + " | "
-                + this.empruntDAO.toString()
-                + " | "
-                + this.trottinetteList.toString());
-    }
-
-    @Override
-    public void stop() {
-        LOG.info("Composant " + this.getClass().getTypeName() + " Stop. Objet d'acces aux donnees : "
-                + this.abonneDAO.toString());
+        super.start();
+        abonneDAO = abonneContext.getAbonneDAO();
     }
 
     @Override
