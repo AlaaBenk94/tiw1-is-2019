@@ -9,7 +9,7 @@ import tiw1.emprunt.controleur.TrottinetteResource;
 import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.EmpruntDAO;
-import tiw1.emprunt.controleur.Controleur;
+import tiw1.emprunt.controleur.ControleurImpl;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -23,7 +23,6 @@ public class ServeurImpl implements Serveur{
     private static final String TROTINETTE = "TROTINETTE";
     private static final String EMPRUNT = "EMPRUNT";
 
-    public static Controleur controleur = null;
     public static AbonneResource abonneResource=null;
     public static EmpruntResource empruntResource=null;
     public static TrottinetteResource trottinetteResource=null;
@@ -37,32 +36,38 @@ public class ServeurImpl implements Serveur{
                 .addComponent(AbonneResource.class)
                 .addComponent(EmpruntResource.class)
                 .addComponent(TrottinetteResource.class)
-                .addComponent(Controleur.class)
+                .addComponent(ControleurImpl.class)
                 .addComponent(String.class)
                 .addComponent(Map.class, HashMap.class)
                 .addComponent(AbonneDAO.class, AbonneDAO.class, new ConstantParameter("abonnes.json"))
                 .addComponent(EmpruntDAO.class, EmpruntDAO.class, new ConstantParameter(emf.createEntityManager()));
 
-        // Getting instance & starting 'Controleur'
-        //ServeurImpl.controleur = myContainer.getComponent(Controleur.class);
+        // Getting instance
         ServeurImpl.abonneResource=myContainer.getComponent(AbonneResource.class);
         ServeurImpl.empruntResource=myContainer.getComponent(EmpruntResource.class);
         ServeurImpl.trottinetteResource=myContainer.getComponent(TrottinetteResource.class);
 
-        ServeurImpl.abonneResource.start();
-        ServeurImpl.trottinetteResource.start();
-        ServeurImpl.empruntResource.start();
+        // Starting instances
+        myContainer.start();
     }
 
-    @Override
-    public Response processRequest(String ressource,String commande, Map<String, Object> parametres) {
+
+    /**
+     * Permet de transferer la requete au bon controleur de ressource.
+     * @param commande nom de la ressource
+     * @param method la methode a appeler dans la ressource
+     * @param params les parametres de la methode
+     * @return un objet reponse qui encapsule le contenue
+     */
+    private Response forwardRequest(String commande, String method, Map<String, Object> params) {
         try {
-            if (ressource.toUpperCase() == ServeurImpl.TROTINETTE)
-                trottinetteResource.process(commande, parametres);
-            else if(ressource.toUpperCase() == ServeurImpl.ABONNE)
-                abonneResource.process(commande,parametres);
-            else if(ressource.toUpperCase() == ServeurImpl.EMPRUNT)
-                empruntResource.process(commande,parametres);
+            if (commande.toUpperCase() == ServeurImpl.TROTINETTE)
+                return trottinetteResource.process(method, params);
+            if(commande.toUpperCase() == ServeurImpl.ABONNE)
+                return abonneResource.process(method,params);
+            if(commande.toUpperCase() == ServeurImpl.EMPRUNT)
+                return empruntResource.process(method,params);
+            return Response.create(Response.UNKNOWN_COMMAND, "Unknown resource name");
 
         }catch (IOException e) {
             e.printStackTrace();
@@ -70,4 +75,8 @@ public class ServeurImpl implements Serveur{
         return Response.create(Response.ERROR, "There was an error when precessing the request");
     }
 
+    @Override
+    public Response processRequest(String commande, String method, Map<String, Object> params) {
+        return this.forwardRequest(commande, method, params);
+    }
 }

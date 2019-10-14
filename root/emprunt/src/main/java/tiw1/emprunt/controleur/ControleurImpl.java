@@ -1,10 +1,10 @@
 package tiw1.emprunt.controleur;
 
-public class Controleur{
+public class ControleurImpl {
 
     private String name = "";
 
-    public Controleur( String name) {
+    public ControleurImpl(String name) {
         this.name = name;
     }
 }

@@ -8,7 +8,7 @@ import tiw1.emprunt.persistence.TrottinetteLoader;
 
 import java.util.Map;
 
-public class TrottinetteResource extends ControlersStartable{
+public class TrottinetteResource extends ResourceController {
 
     private Map<Long, Trottinette> trottinetteList = null;
     private final Logger LOG = LoggerFactory.getLogger(TrottinetteResource.class);

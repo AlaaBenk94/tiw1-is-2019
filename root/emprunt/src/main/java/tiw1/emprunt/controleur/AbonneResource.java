@@ -9,7 +9,7 @@ import tiw1.emprunt.persistence.AbonneDAO;
 import java.io.IOException;
 import java.util.Map;
 
-public class AbonneResource extends ControlersStartable{
+public class AbonneResource extends ResourceController {
 
     private final Logger LOG = LoggerFactory.getLogger(AbonneResource.class);
     private AbonneDAO abonneDAO;

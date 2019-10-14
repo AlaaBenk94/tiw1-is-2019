@@ -38,19 +38,19 @@ public class ServeurTest {
     @Test
     public void processRequest_ERROR_Test(){
         params.put("ABONNE", new Abonne(19L, "Toto", new Date(), new Date()));
-        assertTrue(serveur.processRequest("ADD", params).isOK());
+        assertTrue(serveur.processRequest("ABONNE", "ADD", params).isOK());
     }
 
     @Test
     public void abonnementTest() {
         params.put("ABONNE", ab);
-        assertTrue(serveur.processRequest("ADD", params).isOK());
+        assertTrue(serveur.processRequest("ABONNE", "ADD", params).isOK());
     }
 
     @Test
     public void desabonnementTest() {
         params.put("ABONNE", ab);
-        assertTrue(serveur.processRequest("REMOVE", params).isOK());
+        assertTrue(serveur.processRequest("ABONNE","REMOVE", params).isOK());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ServeurTest {
         emprunt.setIdTrottinette(15L);
 
         params.put("EMPRUNT", emprunt);
-        assertTrue(serveur.processRequest("ADD", params).isOK());
+        assertTrue(serveur.processRequest("EMPRUNT","ADD", params).isOK());
     }
 
     @Test
@@ -72,10 +72,10 @@ public class ServeurTest {
         emprunt.setIdTrottinette(15L);
 
         params.put("EMPRUNT", emprunt);
-        assertTrue(serveur.processRequest("ADD", params).isOK());
+        assertTrue(serveur.processRequest("EMPRUNT", "ADD", params).isOK());
 
         params.put("DATE", new Date());
-        assertNotEquals(0, ((List) serveur.processRequest("GET", params).getContent()).size());
+        assertNotEquals(0, ((List) serveur.processRequest("EMPRUNT", "GET", params).getContent()).size());
     }
 
     @Test

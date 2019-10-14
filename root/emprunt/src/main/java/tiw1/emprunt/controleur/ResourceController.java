@@ -6,7 +6,7 @@ import tiw1.emprunt.model.dto.Response;
 import java.io.IOException;
 import java.util.Map;
 
-public abstract class ControlersStartable implements Startable,ProcessResp {
+public abstract class ResourceController implements Startable, Processable {
     private static final String ADD = "ADD";
     private static final String REMOVE = "REMOVE";
     private static final String GET = "GET";
@@ -18,17 +18,17 @@ public abstract class ControlersStartable implements Startable,ProcessResp {
 
 
     @Override
-    public Response process(String cmd, Map<String, Object> params) throws IOException{
-        if(cmd.toUpperCase().equals(ControlersStartable.GET))
+    public Response process(String method, Map<String, Object> params) throws IOException {
+        if(method.toUpperCase().equals(ResourceController.GET))
             return get(params);
-        if(cmd.toUpperCase().equals(ControlersStartable.ADD))
+        if(method.toUpperCase().equals(ResourceController.ADD))
             return add(params);
-        if(cmd.toUpperCase().equals(ControlersStartable.REMOVE))
+        if(method.toUpperCase().equals(ResourceController.REMOVE))
             return remove(params);
-        if(cmd.toUpperCase().equals(ControlersStartable.UPDATE))
+        if(method.toUpperCase().equals(ResourceController.UPDATE))
             return update(params);
 
-        return Response.create(Response.UNKNOWN_CMD, cmd + " command is UNKNOWN");
+        return Response.create(Response.UNKNOWN_METHOD, method + " command is UNKNOWN");
     }
 
     public abstract Response get(Map<String, Object> params);

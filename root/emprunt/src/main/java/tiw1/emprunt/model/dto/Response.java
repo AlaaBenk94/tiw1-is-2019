@@ -7,10 +7,11 @@ package tiw1.emprunt.model.dto;
 public class Response<T> {
     // Response status
     public static final int OK = 200;
-    public static final int ERROR = 401;
-    public static final int NOTFOUND = 404;
-    public static final int UNKNOWN_CMD = 4004;
-    public static final int UNKNOWN_PARAM = 40004;
+    public static final int ERROR = -200;
+
+    public static final int UNKNOWN_COMMAND = 1001;
+    public static final int UNKNOWN_METHOD = 2002;
+    public static final int UNKNOWN_PARAM = 3003;
 
     private int status;
     private String mssg;
@@ -30,16 +31,16 @@ public class Response<T> {
         return (status == ERROR);
     }
 
-    public boolean isNOTFOUND() {
-        return (status == NOTFOUND);
-    }
-
-    public boolean isUNKONWN_CMD() {
-        return (status == UNKNOWN_CMD);
+    public boolean isUNKONWN_METHOD() {
+        return (status == UNKNOWN_METHOD);
     }
 
     public boolean isUNKONWN_PARAM() {
         return (status == UNKNOWN_PARAM);
+    }
+
+    public boolean isUNKONWN_COMMAND() {
+        return (status == UNKNOWN_COMMAND);
     }
 
     public int getStatus() {

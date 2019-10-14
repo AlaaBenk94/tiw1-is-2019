@@ -10,7 +10,7 @@ import tiw1.emprunt.persistence.EmpruntDAO;
 import java.util.Date;
 import java.util.Map;
 
-public class EmpruntResource extends ControlersStartable{
+public class EmpruntResource extends ResourceController {
 
 
     private final Logger LOG = LoggerFactory.getLogger(EmpruntResource.class);
