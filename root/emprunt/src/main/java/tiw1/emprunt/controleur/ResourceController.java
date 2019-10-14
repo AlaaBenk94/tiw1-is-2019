@@ -56,7 +56,7 @@ public abstract class ResourceController implements Startable, Processable {
 
     @Override
     public void start() {
-        LOG.info("Composant " + this.getClass().getTypeName() + " demarre. Objet d'acces aux donnees : "
+        LOG.info("Composant " + this.getClass().getSimpleName() + " demarre. Objet d'acces aux donnees : "
                 + this.abonneContext.toString()
                 + " | "
                 + this.empruntDAO.toString()
@@ -66,7 +66,7 @@ public abstract class ResourceController implements Startable, Processable {
 
     @Override
     public void stop() {
-        LOG.info("Composant " + this.getClass().getTypeName() + " Stop. Objet d'acces aux donnees : "
+        LOG.info("Composant " + this.getClass().getSimpleName() + " Stop. Objet d'acces aux donnees : "
                 + this.abonneContext.toString());
     }
 
