@@ -1,8 +1,6 @@
 package tiw1.emprunt.controleur;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import tiw1.emprunt.contexte.AbonneContext;
+import tiw1.emprunt.contexte.Context;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.model.dto.Response;
@@ -18,15 +16,14 @@ public class AbonneResource extends ResourceController {
 
     private AbonneDAO abonneDAO;
 
-    public AbonneResource(AbonneContext abonneContext, EmpruntDAO empruntDAO,
-                                Map<Long, Trottinette> trottinetteList) {
-        super(abonneContext, empruntDAO, trottinetteList);
+    public AbonneResource(Context context) {
+        super(context);
     }
 
     @Override
     public void start() {
         super.start();
-        abonneDAO = abonneContext.getAbonneDAO();
+        abonneDAO = (AbonneDAO) context.getReference(AbonneDAO.class.getSimpleName());
     }
 
     @Override
@@ -59,6 +56,7 @@ public class AbonneResource extends ResourceController {
     @Override
     public Response add(Map<String, Object> params) {
         try {
+            System.out.println("Context :: " + this.context.getReference(this.getClass().getSimpleName()) + " Abonne DAO :: " + this.abonneDAO);
             this.abonneDAO.save((Abonne) params.get(AbonneResource.ABONNE));
                 return Response.create(Response.OK, "Abonnee added successfuly");
         } catch (IOException e) {

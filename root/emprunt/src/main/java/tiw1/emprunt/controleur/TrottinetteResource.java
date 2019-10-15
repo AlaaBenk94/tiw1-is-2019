@@ -1,21 +1,20 @@
 package tiw1.emprunt.controleur;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import tiw1.emprunt.contexte.AbonneContext;
+import tiw1.emprunt.contexte.Context;
 import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.model.dto.Response;
-import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.EmpruntDAO;
 import tiw1.emprunt.persistence.TrottinetteLoader;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class TrottinetteResource extends ResourceController {
 
-    public TrottinetteResource(AbonneContext abonneContext, EmpruntDAO empruntDAO,
-                                    Map<Long, Trottinette> trottinetteList) {
-        super(abonneContext, empruntDAO, trottinetteList);
+    private Map<Long, Trottinette> trottinetteList;
+
+    public TrottinetteResource(Context context) {
+        super(context);
     }
 
     @Override
@@ -49,12 +48,7 @@ public class TrottinetteResource extends ResourceController {
     @Override
     public void start() {
         super.start();
-        try {
-            TrottinetteLoader.load();
-            this.trottinetteList = TrottinetteLoader.getTrottinettes();
-        } catch (Exception e) {
-            LOG.error("Can't load trottinettes : " + e.getMessage());
-        }
-
+        this.trottinetteList = new HashMap<Long, Trottinette>();
+        this.trottinetteList.putAll((Map<Long,Trottinette>) context.getReference(Trottinette.class.getSimpleName()));
     }
 }

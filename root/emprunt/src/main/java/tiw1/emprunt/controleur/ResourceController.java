@@ -3,10 +3,9 @@ package tiw1.emprunt.controleur;
 import org.picocontainer.Startable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tiw1.emprunt.contexte.AbonneContext;
+import tiw1.emprunt.contexte.Context;
 import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.model.dto.Response;
-import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.EmpruntDAO;
 
 import java.io.IOException;
@@ -24,15 +23,10 @@ public abstract class ResourceController implements Startable, Processable {
     protected static final String DATE = "DATE";
     protected static final String EMPRUNT = "EMPRUNT";
 
-    protected AbonneContext abonneContext;
-    protected EmpruntDAO empruntDAO;
-    protected Map<Long, Trottinette> trottinetteList;
+    protected Context context;
 
-    public ResourceController(AbonneContext abonneContext, EmpruntDAO empruntDAO,
-                              Map<Long, Trottinette> trottinetteList) {
-        this.abonneContext = abonneContext;
-        this.empruntDAO = empruntDAO;
-        this.trottinetteList = trottinetteList;
+    public ResourceController(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -56,18 +50,12 @@ public abstract class ResourceController implements Startable, Processable {
 
     @Override
     public void start() {
-        LOG.info("Composant " + this.getClass().getSimpleName() + " demarre. Objet d'acces aux donnees : "
-                + this.abonneContext.toString()
-                + " | "
-                + this.empruntDAO.toString()
-                + " | "
-                + this.trottinetteList.toString());
+        LOG.info("Composant " + this.getClass().getSimpleName() + " demarre.");
     }
 
     @Override
     public void stop() {
-        LOG.info("Composant " + this.getClass().getSimpleName() + " Stop. Objet d'acces aux donnees : "
-                + this.abonneContext.toString());
+        LOG.info("Composant " + this.getClass().getSimpleName() + " Stop.");
     }
 
 }

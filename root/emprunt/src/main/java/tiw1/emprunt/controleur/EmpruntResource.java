@@ -1,13 +1,10 @@
 package tiw1.emprunt.controleur;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import tiw1.emprunt.contexte.AbonneContext;
+import tiw1.emprunt.contexte.Context;
 import tiw1.emprunt.model.Emprunt;
 import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.model.dto.EmpruntDTO;
 import tiw1.emprunt.model.dto.Response;
-import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.EmpruntDAO;
 
 import java.util.Date;
@@ -15,9 +12,16 @@ import java.util.Map;
 
 public class EmpruntResource extends ResourceController {
 
-    public EmpruntResource(AbonneContext abonneContext, EmpruntDAO empruntDAO,
-                                Map<Long, Trottinette> trottinetteList) {
-        super(abonneContext, empruntDAO, trottinetteList);
+    private EmpruntDAO empruntDAO;
+
+    public EmpruntResource(Context context) {
+        super(context);
+    }
+
+    @Override
+    public void start() {
+        super.start();
+        empruntDAO = (EmpruntDAO) this.context.getReference(EmpruntDAO.class.getSimpleName());
     }
 
     @Override
@@ -28,7 +32,6 @@ public class EmpruntResource extends ResourceController {
             return Response.create(Response.OK, "", empruntDAO.get((long) params.get(ID)).get());
         if (params.size()==0)
             return Response.create(Response.OK, "", empruntDAO.getAll());
-
         return Response.create(Response.ERROR,"Unknown param");
     }
 
@@ -39,14 +42,9 @@ public class EmpruntResource extends ResourceController {
 
     @Override
     public Response add(Map<String, Object> params) {
-       // try{
-            Emprunt emprunt = new Emprunt((EmpruntDTO) params.get(EMPRUNT));
-            this.empruntDAO.save(emprunt);
-            return Response.create(Response.OK, "Emprunt created Successfully", emprunt);
-       /* }
-        catch(ClassCastException e) {
-            return Response.create(Response.ERROR, "Emprunt NOT added : Bad Format");
-        }*/
+        Emprunt emprunt = new Emprunt((EmpruntDTO) params.get(EMPRUNT));
+        this.empruntDAO.save(emprunt);
+        return Response.create(Response.OK, "Emprunt created Successfully", emprunt);
     }
 
     @Override
