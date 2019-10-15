@@ -3,10 +3,8 @@ package tiw1.emprunt.controleur;
 import org.picocontainer.Startable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tiw1.emprunt.contexte.Context;
-import tiw1.emprunt.model.Trottinette;
+import tiw1.emprunt.contexte.Annuaire;
 import tiw1.emprunt.model.dto.Response;
-import tiw1.emprunt.persistence.EmpruntDAO;
 
 import java.io.IOException;
 import java.util.Map;
@@ -23,10 +21,10 @@ public abstract class ResourceController implements Startable, Processable {
     protected static final String DATE = "DATE";
     protected static final String EMPRUNT = "EMPRUNT";
 
-    protected Context context;
+    protected Annuaire annuaire;
 
-    public ResourceController(Context context) {
-        this.context = context;
+    public ResourceController(Annuaire annuaire) {
+        this.annuaire = annuaire;
     }
 
     @Override

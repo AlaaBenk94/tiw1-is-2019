@@ -3,6 +3,8 @@ package tiw1.emprunt.serveur;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import tiw1.emprunt.contexte.Annuaire;
+import tiw1.emprunt.contexte.AnnuaireImpl;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.dto.EmpruntDTO;
 
@@ -12,16 +14,19 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.*;
+import static tiw1.emprunt.serveur.ServeurImpl.ROOT;
 
 public class ServeurTest {
 
-    public static Serveur serveur = null;
+    public static Annuaire context = null;
+    public static final String SERVER = ROOT + Serveur.class.getSimpleName();
+
     private Map<String, Object> params;
     Abonne ab = new Abonne(19L, "Toto", new Date(), new Date());
 
     @BeforeClass
     public static void setUp() throws Exception {
-        serveur = new ServeurImpl();
+        context = (new ServeurImpl()).getAnnuaire();
     }
 
     @Before
@@ -30,27 +35,27 @@ public class ServeurTest {
     }
 
     @Test
-    public void testServeurCreation() {
+    public void testAnnuaireCreation() {
         System.out.println("testServeur - Not Null");
-        assertNotNull(serveur);
+        assertNotNull(context);
     }
 
     @Test
     public void processRequest_ERROR_Test(){
         params.put("ABONNE", new Abonne(19L, "Toto", new Date(), new Date()));
-        assertTrue(serveur.processRequest("ABONNE", "ADD", params).isOK());
+        assertTrue(((Serveur) context.lookup(SERVER)).processRequest("ABONNE", "ADD", params).isOK());
     }
 
     @Test
     public void abonnementTest() {
         params.put("ABONNE", ab);
-        assertTrue(serveur.processRequest("ABONNE", "ADD", params).isOK());
+        assertTrue(((Serveur) context.lookup(SERVER)).processRequest("ABONNE", "ADD", params).isOK());
     }
 
     @Test
     public void desabonnementTest() {
         params.put("ABONNE", ab);
-        assertTrue(serveur.processRequest("ABONNE","REMOVE", params).isOK());
+        assertTrue(((Serveur) context.lookup(SERVER)).processRequest("ABONNE","REMOVE", params).isOK());
     }
 
     @Test
@@ -61,7 +66,7 @@ public class ServeurTest {
         emprunt.setIdTrottinette(15L);
 
         params.put("EMPRUNT", emprunt);
-        assertTrue(serveur.processRequest("EMPRUNT","ADD", params).isOK());
+        assertTrue(((Serveur) context.lookup(SERVER)).processRequest("EMPRUNT","ADD", params).isOK());
     }
 
     @Test
@@ -72,10 +77,10 @@ public class ServeurTest {
         emprunt.setIdTrottinette(15L);
 
         params.put("EMPRUNT", emprunt);
-        assertTrue(serveur.processRequest("EMPRUNT", "ADD", params).isOK());
+        assertTrue(((Serveur) context.lookup(SERVER)).processRequest("EMPRUNT", "ADD", params).isOK());
 
         params.put("DATE", new Date());
-        assertNotEquals(0, ((List) serveur.processRequest("EMPRUNT", "GET", params).getContent()).size());
+        assertNotEquals(0, ((List) ((Serveur) context.lookup(SERVER)).processRequest("EMPRUNT", "GET", params).getContent()).size());
     }
 
     @Test

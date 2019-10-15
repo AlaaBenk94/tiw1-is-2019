@@ -1,14 +1,14 @@
 package tiw1.emprunt.controleur;
 
-import tiw1.emprunt.contexte.Context;
+import tiw1.emprunt.contexte.Annuaire;
 import tiw1.emprunt.model.Abonne;
-import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.persistence.AbonneDAO;
-import tiw1.emprunt.persistence.EmpruntDAO;
 
 import java.io.IOException;
 import java.util.Map;
+
+import static tiw1.emprunt.serveur.ServeurImpl.PERSISTENCE;
 
 public class AbonneResource extends ResourceController {
     private final static String ABONNE ="ABONNE";
@@ -16,14 +16,19 @@ public class AbonneResource extends ResourceController {
 
     private AbonneDAO abonneDAO;
 
-    public AbonneResource(Context context) {
-        super(context);
+    public AbonneResource(Annuaire annuaire) {
+        super(annuaire);
     }
 
     @Override
     public void start() {
         super.start();
-        abonneDAO = (AbonneDAO) context.getReference(AbonneDAO.class.getSimpleName());
+        abonneDAO = (AbonneDAO) annuaire.lookup(PERSISTENCE
+                            + AbonneDAO.class.getSimpleName().toLowerCase());
+
+        System.out.println(PERSISTENCE + AbonneDAO.class.getSimpleName().toLowerCase()
+                            + " == " + this.annuaire + " == " + abonneDAO );
+
     }
 
     @Override
@@ -56,7 +61,6 @@ public class AbonneResource extends ResourceController {
     @Override
     public Response add(Map<String, Object> params) {
         try {
-            System.out.println("Context :: " + this.context.getReference(this.getClass().getSimpleName()) + " Abonne DAO :: " + this.abonneDAO);
             this.abonneDAO.save((Abonne) params.get(AbonneResource.ABONNE));
                 return Response.create(Response.OK, "Abonnee added successfuly");
         } catch (IOException e) {

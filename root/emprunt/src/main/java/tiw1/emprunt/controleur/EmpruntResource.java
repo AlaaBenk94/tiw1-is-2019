@@ -1,8 +1,7 @@
 package tiw1.emprunt.controleur;
 
-import tiw1.emprunt.contexte.Context;
+import tiw1.emprunt.contexte.Annuaire;
 import tiw1.emprunt.model.Emprunt;
-import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.model.dto.EmpruntDTO;
 import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.persistence.EmpruntDAO;
@@ -10,18 +9,21 @@ import tiw1.emprunt.persistence.EmpruntDAO;
 import java.util.Date;
 import java.util.Map;
 
+import static tiw1.emprunt.serveur.ServeurImpl.PERSISTENCE;
+
 public class EmpruntResource extends ResourceController {
 
     private EmpruntDAO empruntDAO;
 
-    public EmpruntResource(Context context) {
-        super(context);
+    public EmpruntResource(Annuaire annuaire) {
+        super(annuaire);
     }
 
     @Override
     public void start() {
         super.start();
-        empruntDAO = (EmpruntDAO) this.context.getReference(EmpruntDAO.class.getSimpleName());
+        empruntDAO = (EmpruntDAO) this.annuaire.lookup(PERSISTENCE
+                                        + EmpruntDAO.class.getSimpleName().toLowerCase());
     }
 
     @Override

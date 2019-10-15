@@ -18,10 +18,6 @@ public class EmpruntDAO implements DAO<Emprunt> {
     public EmpruntDAO() {
     }
 
-    public EmpruntDAO(EntityManager em) {
-        this.em = em;
-    }
-
     public void setEm(EntityManager em) {
         this.em = em;
     }
