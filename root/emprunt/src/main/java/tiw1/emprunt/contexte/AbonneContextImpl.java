@@ -3,6 +3,7 @@ package tiw1.emprunt.contexte;
 import org.picocontainer.Startable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tiw1.emprunt.controleur.AbonneResource;
 import tiw1.emprunt.controleur.EmpruntResource;
 import tiw1.emprunt.persistence.AbonneDAO;
 
@@ -18,7 +19,13 @@ public class AbonneContextImpl implements AbonneContext, Startable {
 
     @Override
     public AbonneDAO getAbonneDAO() {
-        return this.abonneDAO;
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        String caller = stackTraceElements[2].getClassName();
+
+        if(caller.contains(AbonneResource.class.getSimpleName()))
+            return this.abonneDAO;
+
+        return null;
     }
 
     @Override
