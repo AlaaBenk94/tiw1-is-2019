@@ -51,7 +51,7 @@ Une séquence de test est décrite dans le fichier [jmeter-tests.jmx](../root/ma
 
 > Comprendre le cas de test décrit dans le fichier [jmeter-tests.jmx](../root/maintenance-web/src/test/jmeter/jmeter-tests.jmx) en ouvrant ce fichier dans l'interface graphique de jmeter. 
 > Vérifier si le test se déroule correctement ou non.
-> Le ca échéant, faire le nécessaire pour que le cas de test se déroule sans erreur. 
+> Le cas échéant, faire le nécessaire pour que le cas de test se déroule sans erreur. 
 > Lancer ensuite jmeter en mode batch et vérifier le bon déroulement des tests.
 >
 > Retourner dans l'éditeur de JMeter et créer un nouveau cas de test pour l'ajout d'une intervention.
