@@ -23,7 +23,7 @@ Voici la façon dont elle fonctionnera :
 - Dans ce TP, le client sera simulé par les tests. Une bonne partie sont déjà écrits, mais vous les ferez évoluer avec l'application. Ces tests adresseront directement le serveur et non les classes métier.
 
 Dans ce TP, vous aurez 3 types de données à manipuler avec chacune une durée de vie différente :
-1) Les trottinettes, qui sont supposées exister et ne pas varier tout au long de ce TP (on ne s'intéresse pas aux pannes ni aux rechargements)
+1) Les trottinettes, qui sont supposées exister et ne pas varier tout au long de ce TP (on ne s'intéresse pas aux pannes ni aux rechargements) ; le chargement de la liste des trottinettes est réalisé en interrogeant le serveur Web du TP1
 2) Les abonnés, qui s'inscrivent pour une durée définie
 3) Les emprunts de trottinettes, qui peuvent être créés par les abonnés à tout moment, mais ne peuvent jamais être supprimés.
 
@@ -38,7 +38,6 @@ Faites en sorte de permettre les opérations suivantes :
 
 ### Gestion des trottinettes
 
-- Chargement de la liste des trottinettes depuis le TP1
 - Interrogation de la disponibilité d'une trotinette
 
 ### Gestion des abonnés
@@ -59,9 +58,9 @@ Rajoutez une table à la base pour y stocker les emprunts. Mettez en place les u
 
 ### Autres manipulations
 
-- Utilisez le pattern DTO pour simplifier l'interface de Emprunt et permettre d'en créer facilement.
+- Utilisez le pattern DTO pour simplifier l'interface du serveur et permettre de créer facilement des emprunts.
 - Vous pouvez aussi rajouter les getters nécessaires pour permettre à Emprunt de renvoyer les informations sur ses attributs.
-- Rajoutez une méthode dans Serveur qui retourne l'instance de `Emprunt` créée.
+- Rajoutez une méthode dans Serveur qui retourne l'instance de `EmpruntDTO` créée.
 
 Testez.
 
@@ -89,7 +88,7 @@ Alternativement :
   Controleur -> String contenant le nom de la compagnie de location
   Controleur -> List<Trottinette>
   Controleur -> AbonneDao
-  Emprunt -> EmpruntDao
+  Controleur -> EmpruntDao
   ```
 
 Remplacez l'instance de `AbonneDao` créée "à la main" par le serveur par la classe elle-même. On suppose ici que son constructeur prend une string en paramètre (le nom du fichier). [Désambiguïsez](http://picocontainer.com/disambiguation.html) les noms dans les paramètres des constructeurs pour que PicoContainer soit capable de résoudre le référentiel de dépendances.
@@ -126,11 +125,14 @@ Bien entendu, vous ne pouvez pas laisser le client accéder directement à l'ins
 
 ### 2.2. Uniformisation
 
+Dans cette partie, vous allez modifier le référentiel de dépendances pour vous rapprocher d'un fonctionnement en MVC.
+
 Plutôt que d'avoir un objet `Controleur` qui répond à différentes requêtes, vous allez créer plusieurs objets sur le même modèle, mais traitant chacun un type de requête spécifique (i.e. des contrôleurs délégués / de cas d'utilisation / de ressources). Pour cela :
-- Commencez par définir une interface et une classe abstraite reprenant les principales caractéristiques du système de gestion des emprunts : dépendances, implémentation de `Startable` et méthode de service `process()`
-- Créez les classes implémentant ce modèle et correspondant aux méthodes de service  `getTrottinette()`, `addAbonne()`, `removeAbonne()`, `getAbonne()`, `createEmprunt()`, etc. Vous regrouperez les fonctionnalités dans des classes représentant des ressources (et non des opérations) liées aux objets métier, par exemple une classe `TrottinetteResource` pour la consultation de la disponibilité des trottinettes, une classe `AbonneResource` pour la création / suppression / consultation des abonnés et une classe `EmpruntResource` pour la création des emprunts. Pour cela, il faut que vous ajoutiez un paramètre supplémentaire (la notion de "méthode"), qui indique l'opération à réaliser sur la ressource.
+- Commencez par définir une interface et une classe abstraite reprenant les principales caractéristiques des composants : dépendances, implémentation de `Startable`
+- Créez les classes contrôleur qui correspondent au découpage que vous avez choisi et faites en sorte qu'elles implémentent une méthode de service `process()`
+- Créez les classes implémentant le modèle et correspondant aux méthodes de service  `getTrottinette()`, `addAbonne()`, `removeAbonne()`, `getAbonne()`, `createEmprunt()`, etc. Vous regrouperez les fonctionnalités dans des classes représentant des ressources (et non des opérations) liées aux objets métier, par exemple une classe `TrottinetteResource` pour la consultation de la disponibilité des trottinettes, une classe `AbonneResource` pour la création / suppression / consultation des abonnés et une classe `EmpruntResource` pour la création des emprunts. Pour cela, il faut que vous ajoutiez un paramètre supplémentaire (la notion de "méthode"), qui indique l'opération à réaliser sur la ressource.
 - Modifiez le serveur pour que votre conteneur crée les composants correspondants aux instances de vos nouvelles classes
-- Créez une méthode d' "aiguillage" des requêtes vers les instances de chacune de ces classes qui sera appelée par la méthode de service du serveur : la commande correspond au nom de la classe à appeler, comme un nom de ressource sur un serveur Web. Créez ensuite (et factorisez dans la classe abstraite), le mécanisme qui appellera la bonne méthode de la classe, en fonction de la valeur du paramètre "méthode" défini plus haut.
+- Au niveau du serveur, créez une méthode d' "aiguillage" des requêtes vers les instances de chacun des contrôleurs, qui sera appelée par la méthode de service du serveur : la commande correspond au nom de la classe à appeler, comme un nom de ressource sur un serveur Web. Créez ensuite (et factorisez dans la classe abstraite), le mécanisme qui appellera la bonne méthode de la classe, en fonction de la valeur du paramètre "méthode" défini plus haut.
 
 **Normalement, votre application ne doit pas fonctionner :** le container vous renvoie une liste vide à chaque opération et les instances des DAO sont différentes dans les messages d'initialisation des méthodes de gestion du cycle de vie.
 
@@ -164,7 +166,7 @@ Vous allez modifier les composants du conteneur ayant une dépendance sur un obj
 
 Remarque : tant qu'à faire, servez-vous de la documentation de PicoContainer pour utiliser un autre type d'injection de dépendances que par constructeur.
 
-- Modifiez les constructeurs de vos classes d'implémentation de Cinema (abstraites ou non), de façon à ce qu'ils prennent en paramètre un `AbonneContext` et non plus un `AbonneDAO`.
+- Modifiez les constructeurs de vos classes d'implémentation de `Emprunt` (abstraites ou non), de façon à ce qu'ils prennent en paramètre un `AbonneContext` et non plus un `AbonneDAO`.
 - Dans les composants, récupérez le DAO par des appels à la méthode correspondante (`getDAO()` ?) du contexte avant leur démarrage (méthode `start()`)
 - L'instance du DAO sera récupérée par le serveur dans le conteneur à l'aide d'un `getComponent()`, et ajoutée au contexte à l'aide d'une méthode spécifique (`setDAO` ?).
 
@@ -174,7 +176,7 @@ Enfin, mettez en place les méthodes correspondantes du contexte de façon à ce
 
 Testez votre application. Vous pouvez ensuite par exemple vous servir du contexte pour filtrer les appels au DAO et ne renvoyer la bonne référence que si la méthode est appelée par une instance de type `XxxRessource` (voir [ici](http://www.javalobby.org/java/forums/t67019.html) ou [là](http://stackoverflow.com/questions/421280/in-java-how-do-i-find-the-caller-of-a-method-using-stacktrace-or-reflection) pour des exemples de code sur comment trouver la classe appelant une méthode).
 
-Remarque : dans ce cas, supprimez l'appel à la méthode `toString()` de l'instance du DAO dans l'affichage de la méthode `start()` des cinémas.
+Remarque : dans ce cas, supprimez l'appel à la méthode `toString()` de l'instance du DAO dans l'affichage de la méthode `start()` des composants.
 
 ### 3.4 Généralisation du contexte
 
@@ -274,6 +276,76 @@ De la même manière, pour prendre en compte cette spécialisation au niveau du 
 
 > À ce stade, vous avez réalisé un serveur d'applications, composé d'un serveur et d'un framework capable de mettre en place et de faire tourner différents types d'applications. Si vous avez réalisé la partie 5.2 en modifiant le serveur, vous avez créé un serveur qui fonctionne d'une manière proche des serveurs Java EE. Si vous l'avez réalisée par ajout d'une couche supplémentaire entre le serveur de la question 4 et l'application, votre serveur se rapproche plus d'un conteneur Spring inclus dans un conteneur de servlets.
 
+## 6. Métaprogrammation
+
+Dans cette partie, vous allez ajouter des annotations pour :
+
+- configurer vos applications
+- générer du "boilerplate code"
+
+### 6.1. Utilisation d'une annotation "custom"
+
+- Ouvrez le projet `annotations` avec votre ID. Lisez le code et générez un jar.
+- Utilisez l'annotation `@Todo` dans le code de votre projet Emprunt.
+- &Agrave; l'aide des slides du cours, configurez le pom.xml du projet Emprunt pour faire en sorte d'utiliser l'API Pluggable Annotation Processing.
+  En particulier, il faut ajouter une dépendance sur le module annotations comme suit:
+  ```xml
+  <dependency>
+    <groupId>tiw1</groupId> 
+    <artifactId>annotations</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <scope>system</scope>
+    <systemPath>${project.basedir}/../annotations/target/annotations-1.0-SNAPSHOT.jar</systemPath>
+  </dependency>
+  ```
+  et modifier la configuration du plugin de compilation:
+  ```xml
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.6.2</version>
+    <configuration>
+      <annotationProcessors>tiw1.annotation.processors.TodoProcessor</annotationProcessors>
+    </configuration>
+  </plugin>
+  ```
+- Recompilez le projet Emprunt et vérifiez la présence du fichier Todos.html à la racine du projet
+
+### 6.2. Réalisation d'annotations
+
+Utilisez la même méthode pour :
+
+- éliminer les méthodes "parasites" `start()` et `stop()` à l'aide d'une annotation `@Startable`
+- réaliser l'injection de dépendances (`@Inject`)
+- déclarer des composants du framework et les spécialiser (`@Component`, `@Controller`...)
+
+> Remarque : vous pourrez avoir besoin d'utiliser différents niveaux de `Retention` et de l'introspection / l'API Reflection
+
+## 7. Pooling 
+
+Dans cette partie vous allez constituer un _pool_ de `Trottinette` qui va remplacer la liste des trottinettes.
+
+- Créer une classe `TrottinettePool` contenant la liste des trottinettes.
+- Y ajouter des méthodes pour récupérer et rendre une trottinette.
+- Verrouiller les trottinettes utilisées en rendant impossible sa récupération tant qu'elle n'a pas été rendue.
+- Modifier les composants utilisant la liste de trottinettes pour utiliser le pool à la place
+- Bien penser à faire du pool un composant.
+- Tester le verrouillage des trottinettes dans un test unitaire.  
+
+## 8. Intercepteurs
+
+Dans cette partie vous allez constituer un système d'intercepteurs devant vos ressources:
+
+- Créer une interface `Intercepteur` avec deux methodes:
+  - une méthode `input` prenant les mêmes arguments que `process`, mais renvoyant une `Map<String, Object>` de paramètres éventuellements modifiés ou enrichis.
+  - une méthode `output` prenant les mêmes arguments que `process` ainsi qu'un `Object` représentant un résultat. Cette méthode renverra également un `Object`.
+- Créer une interface et une implémentation pour une chaîne d'intercepteurs qui appelera une liste d'intercepteur en séquence comme vu en cours.
+- Créer une classe intercepteur pour logger les requêtes, et l'utiliser avec une chaîne d'intercepteurs. 
+  Modifier le contrôleur principal pour qu'il appelle la chaîne d'intercepteurs avant d'appeler la méthode `process` des contrôleurs délégués avec les nouveaux paramètres ainsi obtenus.
+- Bonus: créer un intercepteur qui traduit automatiquement en objet Java le paramètre `body` en supposant qu'il s'agit à l'origine d'une String contenant des données JSON. Typiquement, on aimerait ici extraire automatiquement un EmprunDTO.
+  La méthode `output` de cet intercepteur traduira les objets réponse en JSON.
+  
+
 ## Instructions de rendu
 
-**Ce TP est à rendre pour le dimanche 6 octobre 2019** (date du dernier push / merge sur la forge sur / depuis la branche tp2).
+**Ce TP est à rendre pour le dimanche 20 octobre 2019** (date du dernier push / merge sur la forge sur / depuis la branche tp2).

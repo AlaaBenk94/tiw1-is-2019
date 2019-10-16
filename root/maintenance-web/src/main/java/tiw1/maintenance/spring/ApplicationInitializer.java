@@ -7,7 +7,7 @@ import org.springframework.web.servlet.support.AbstractDispatcherServletInitiali
 public class ApplicationInitializer extends AbstractDispatcherServletInitializer {
 
     @Override
-    protected WebApplicationContext createServletApplicationContext() {
+    public WebApplicationContext createServletApplicationContext() {
         // Load Spring web application configuration
         AnnotationConfigWebApplicationContext ac = new AnnotationConfigWebApplicationContext();
         ac.register(AppConfig.class);
