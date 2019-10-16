@@ -3,25 +3,38 @@
     "name": "my-trottinettes",
     "business-components": [
       {"class-name": "tiw1.emprunt.controleur.TrottinetteResource"},
-      {"class-name": "tiw1.emprunt.controleur.AbonneResource"},
-      {"class-name": "tiw1.emprunt.controleur.EmpruntResource"}
+      {"class-name": "tiw1.emprunt.controleur.AbonneResource",
+        "params": [{
+        "name" : "sdi",
+        "value": true
+      }]},
+      {"class-name": "tiw1.emprunt.controleur.EmpruntResource"},
+      {"class-name": "tiw1.emprunt.controleur.Controleur"}
     ],
     "service-components": [
       {"class-name": "tiw1.emprunt.contexte.AnnuaireImpl"},
-      {"class-name": "java.util.ArrayList"}
+      {"class-name": "java.lang.String"},
+      {"class-name": "java.util.HashMap",
+        "params": [{
+          "name" : "cache",
+          "value": false
+        }]}
     ],
     "persistence-components": [
       {
         "class-name": "tiw1.emprunt.persistence.AbonneDAO",
         "params": [{
           "name": "file",
-          "value": "emprunt/abonnes.json"
+          "value": "/home/alaabenk/tiw1-is-2019/root/emprunt/abonnes.json"
         }]
       }, {
         "class-name": "tiw1.emprunt.persistence.EmpruntDAO",
         "params": [{
           "name": "base",
           "value": "H2"
+        }, {
+          "name": "sdi",
+          "value": true
         }]
       }
     ]

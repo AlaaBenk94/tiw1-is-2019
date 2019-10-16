@@ -15,6 +15,8 @@ public class EmpruntResource extends ResourceController {
 
     private EmpruntDAO empruntDAO;
 
+    public EmpruntResource() {}
+
     public EmpruntResource(Annuaire annuaire) {
         super(annuaire);
     }

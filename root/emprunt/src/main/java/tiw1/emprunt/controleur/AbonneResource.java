@@ -16,6 +16,8 @@ public class AbonneResource extends ResourceController {
 
     private AbonneDAO abonneDAO;
 
+    public AbonneResource() {}
+
     public AbonneResource(Annuaire annuaire) {
         super(annuaire);
     }

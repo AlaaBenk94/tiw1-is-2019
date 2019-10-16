@@ -1,6 +1,7 @@
 package tiw1.emprunt.serveur;
 
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
@@ -9,7 +10,6 @@ import org.picocontainer.parameters.ConstantParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tiw1.emprunt.contexte.Annuaire;
-import tiw1.emprunt.contexte.AnnuaireImpl;
 import tiw1.emprunt.contexte.Observable;
 import tiw1.emprunt.controleur.AbonneResource;
 import tiw1.emprunt.controleur.Controleur;
@@ -26,11 +26,10 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
-import static org.picocontainer.Characteristics.NO_CACHE;
-import static org.picocontainer.Characteristics.SDI;
+import static org.picocontainer.Characteristics.*;
 
 public class ServeurImpl implements Serveur {
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
@@ -45,7 +44,6 @@ public class ServeurImpl implements Serveur {
     private MutablePicoContainer myContainer;
 
     private JSONObject CONFIG;
-
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("test-pu");
 
 
@@ -54,10 +52,15 @@ public class ServeurImpl implements Serveur {
         loadConfig();
 
         // Container setup
+        LOG.info("======================== InitContainer START ========================");
         myContainer = initContainer();
+        LOG.info("======================== InitContainer DONE ========================");
+
 
         // initialize Annuaire
+        LOG.info("======================== InitAnnuaire START ========================");
         initAnnuaire();
+        LOG.info("======================== InitAnnuaire DONE ========================");
 
         // Getting instance
         contoleurMaster = myContainer.getComponent(Controleur.class);
@@ -83,19 +86,70 @@ public class ServeurImpl implements Serveur {
     }
 
     private MutablePicoContainer initContainer() {
-        return (new DefaultPicoContainer(new Caching())
-                .addComponent(AbonneResource.class)
-                .addComponent(EmpruntResource.class)
-                .addComponent(TrottinetteResource.class)
-                .addComponent(Controleur.class)
-                .addComponent(String.class)
-                .addComponent(EntityManager.class, emf.createEntityManager())
-                .addComponent(AbonneDAO.class, AbonneDAO.class, new ConstantParameter("abonnes.json"))
-                .addComponent(AnnuaireImpl.class)
-                .as(SDI).addComponent(EmpruntDAO.class)
-                .as(NO_CACHE).addComponent(Map.class, HashMap.class));
+
+        JSONArray persistence = CONFIG.getJSONArray("persistence-components");
+
+        myContainer = new DefaultPicoContainer(new Caching())
+                .addComponent(EntityManager.class, emf.createEntityManager());
+
+        addComponents(myContainer, "business-components");
+        addComponents(myContainer, "service-components");
+        addComponents(myContainer, "persistence-components");
+
+        return myContainer;
+
     }
 
+    /**
+     * Permet d'ajouter les composants dans le conteneur en fonction le fichier de configuration
+     * @param container le conteneur
+     * @param components categorie des composants
+     */
+    private void addComponents(MutablePicoContainer container, String components) {
+        JSONArray compList = CONFIG.getJSONArray(components);
+
+        for( Object singleComponent : compList ) {
+
+            Properties  sdiRequired = CDI,
+                    cacheRequired = CACHE;
+            String      fileRequired = null;
+
+            String className = ((JSONObject) singleComponent).getString("class-name");
+
+            // Get Component Paramerter
+            if(((JSONObject) singleComponent).has("params")) {
+                JSONArray params = ((JSONObject) singleComponent).getJSONArray("params");
+                for (Object singleParam : params) {
+                    String name = ((JSONObject) singleParam).getString("name");
+                    switch (name) {
+                        case "file":
+                            fileRequired = ((JSONObject) singleParam).getString("value");
+                            break;
+                        case "sdi":
+                            sdiRequired = ((JSONObject) singleParam).getBoolean("value") ? SDI : CDI;
+                            break;
+                        case "cache":
+                            cacheRequired = ((JSONObject) singleParam).getBoolean("value") ? CACHE : NO_CACHE;
+                            break;
+                    }
+                }
+            }
+
+            try {
+
+                System.out.println(className + " :: " + fileRequired + " :: " + sdiRequired + " :: " + cacheRequired);
+
+                if(fileRequired != null)
+                    container.as(sdiRequired, cacheRequired).addComponent(Class.forName(className),
+                            Class.forName(className), new ConstantParameter(fileRequired));
+                else
+                    container.as(sdiRequired, cacheRequired).addComponent(Class.forName(className));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 
     /**
      * Initialize Annuaire with diffrente Components & resources

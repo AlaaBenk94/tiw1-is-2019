@@ -13,6 +13,8 @@ public class TrottinetteResource extends ResourceController {
 
     private Map<Long, Trottinette> trottinetteList;
 
+    public TrottinetteResource() {}
+
     public TrottinetteResource(Annuaire annuaire) {
         super(annuaire);
     }

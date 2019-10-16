@@ -24,7 +24,13 @@ public abstract class ResourceController implements Startable, Processable, Obse
 
     protected Annuaire annuaire;
 
+    public ResourceController() {}
+
     public ResourceController(Annuaire annuaire) {
+        this.annuaire = annuaire;
+    }
+
+    public void setAnnuaire(Annuaire annuaire) {
         this.annuaire = annuaire;
     }
 

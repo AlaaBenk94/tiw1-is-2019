@@ -15,8 +15,7 @@ public class EmpruntDAO implements DAO<Emprunt> {
     @PersistenceContext
     private EntityManager em;
 
-    public EmpruntDAO() {
-    }
+    public EmpruntDAO() {}
 
     public void setEm(EntityManager em) {
         this.em = em;

@@ -10,7 +10,13 @@ public class AnnuaireImpl extends Observable implements Annuaire {
 
     Map<String, Object> references;
 
+    public AnnuaireImpl() {}
+
     public AnnuaireImpl(Map<String, Object> references) {
+        this.references = references;
+    }
+
+    public void setReferences(Map<String, Object> references) {
         this.references = references;
     }
 
