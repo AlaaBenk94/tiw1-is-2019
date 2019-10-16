@@ -287,6 +287,27 @@ Dans cette partie, vous allez ajouter des annotations pour :
 - Ouvrez le projet `annotations` avec votre ID. Lisez le code et générez un jar.
 - Utilisez l'annotation `@Todo` dans le code de votre projet Emprunt.
 - &Agrave; l'aide des slides du cours, configurez le pom.xml du projet Emprunt pour faire en sorte d'utiliser l'API Pluggable Annotation Processing.
+  En particulier, il faut ajouter une dépendance sur le module annotations comme suit:
+  ```xml
+  <dependency>
+    <groupId>tiw1</groupId> 
+    <artifactId>annotations</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <scope>system</scope>
+    <systemPath>${project.basedir}/../annotations/target/annotations-1.0-SNAPSHOT.jar</systemPath>
+  </dependency>
+  ```
+  et modifier la configuration du plugin de compilation:
+  ```xml
+  <plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <version>3.6.2</version>
+    <configuration>
+      <annotationProcessors>tiw1.annotation.processors.TodoProcessor</annotationProcessors>
+    </configuration>
+  </plugin>
+  ```
 - Recompilez le projet Emprunt et vérifiez la présence du fichier Todos.html à la racine du projet
 
 ### 6.2. Réalisation d'annotations
