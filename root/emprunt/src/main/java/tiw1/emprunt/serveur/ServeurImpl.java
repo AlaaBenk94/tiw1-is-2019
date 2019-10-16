@@ -1,9 +1,13 @@
 package tiw1.emprunt.serveur;
 
+import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.behaviors.Caching;
 import org.picocontainer.parameters.ConstantParameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tiw1.emprunt.contexte.Annuaire;
 import tiw1.emprunt.contexte.AnnuaireImpl;
 import tiw1.emprunt.contexte.Observable;
@@ -20,6 +24,8 @@ import tiw1.emprunt.persistence.TrottinetteLoader;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,6 +33,7 @@ import static org.picocontainer.Characteristics.NO_CACHE;
 import static org.picocontainer.Characteristics.SDI;
 
 public class ServeurImpl implements Serveur {
+    protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     public static final String ROOT = "/";
     public static final String APPLICATION = "/serveur/application/";
@@ -35,14 +42,48 @@ public class ServeurImpl implements Serveur {
 
     private  Controleur contoleurMaster;
     private  Annuaire annuaire;
+    private MutablePicoContainer myContainer;
+
+    private JSONObject CONFIG;
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("test-pu");
 
 
     public ServeurImpl() {
+        // Load Config from file
+        loadConfig();
 
         // Container setup
-        MutablePicoContainer myContainer = new DefaultPicoContainer(new Caching())
+        myContainer = initContainer();
+
+        // initialize Annuaire
+        initAnnuaire();
+
+        // Getting instance
+        contoleurMaster = myContainer.getComponent(Controleur.class);
+
+        // Starting instances
+        myContainer.start();
+
+    }
+
+    private void loadConfig() {
+        try {
+
+            InputStream is = this.getClass().getClassLoader().getResourceAsStream( "web.json");
+            String jsonTxt = IOUtils.toString(is);
+            CONFIG = (new JSONObject(jsonTxt)).getJSONObject("application-config");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            LOG.info("There was an error while loading config file");
+        }
+
+        LOG.info("Config file loaded");
+    }
+
+    private MutablePicoContainer initContainer() {
+        return (new DefaultPicoContainer(new Caching())
                 .addComponent(AbonneResource.class)
                 .addComponent(EmpruntResource.class)
                 .addComponent(TrottinetteResource.class)
@@ -52,14 +93,20 @@ public class ServeurImpl implements Serveur {
                 .addComponent(AbonneDAO.class, AbonneDAO.class, new ConstantParameter("abonnes.json"))
                 .addComponent(AnnuaireImpl.class)
                 .as(SDI).addComponent(EmpruntDAO.class)
-                .as(NO_CACHE).addComponent(Map.class, HashMap.class);
+                .as(NO_CACHE).addComponent(Map.class, HashMap.class));
+    }
 
+
+    /**
+     * Initialize Annuaire with diffrente Components & resources
+     */
+    private void initAnnuaire() {
         // Binding registry
         annuaire = myContainer.getComponent(Annuaire.class);
         annuaire.rebind(ROOT + Serveur.class.getSimpleName(), this);
 
         annuaire.rebind(APPLICATION + AbonneResource.class.getSimpleName(),
-                            myContainer.getComponent(AbonneResource.class));
+                myContainer.getComponent(AbonneResource.class));
         annuaire.rebind(APPLICATION + EmpruntResource.class.getSimpleName(),
                 myContainer.getComponent(EmpruntResource.class));
         annuaire.rebind(APPLICATION + TrottinetteResource.class.getSimpleName(),
@@ -83,14 +130,8 @@ public class ServeurImpl implements Serveur {
         ((Observable) annuaire).addObserver(myContainer.getComponent(AbonneResource.class));
         ((Observable) annuaire).addObserver(myContainer.getComponent(EmpruntResource.class));
         ((Observable) annuaire).addObserver(myContainer.getComponent(TrottinetteResource.class));
-
-        // Getting instance
-        contoleurMaster = myContainer.getComponent(Controleur.class);
-
-        // Starting instances
-        myContainer.start();
-
     }
+
 
     private Map<Long, Trottinette> loadTrottinette() {
         try {

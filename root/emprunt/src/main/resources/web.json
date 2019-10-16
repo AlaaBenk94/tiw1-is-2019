@@ -1,0 +1,29 @@
+{
+  "application-config": {
+    "name": "my-trottinettes",
+    "business-components": [
+      {"class-name": "tiw1.emprunt.controleur.TrottinetteResource"},
+      {"class-name": "tiw1.emprunt.controleur.AbonneResource"},
+      {"class-name": "tiw1.emprunt.controleur.EmpruntResource"}
+    ],
+    "service-components": [
+      {"class-name": "tiw1.emprunt.contexte.AnnuaireImpl"},
+      {"class-name": "java.util.ArrayList"}
+    ],
+    "persistence-components": [
+      {
+        "class-name": "tiw1.emprunt.persistence.AbonneDAO",
+        "params": [{
+          "name": "file",
+          "value": "emprunt/abonnes.json"
+        }]
+      }, {
+        "class-name": "tiw1.emprunt.persistence.EmpruntDAO",
+        "params": [{
+          "name": "base",
+          "value": "H2"
+        }]
+      }
+    ]
+  }
+}
