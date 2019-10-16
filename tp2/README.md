@@ -128,10 +128,11 @@ Bien entendu, vous ne pouvez pas laisser le client accéder directement à l'ins
 Dans cette partie, vous allez modifier le référentiel de dépendances pour vous rapprocher d'un fonctionnement en MVC.
 
 Plutôt que d'avoir un objet `Controleur` qui répond à différentes requêtes, vous allez créer plusieurs objets sur le même modèle, mais traitant chacun un type de requête spécifique (i.e. des contrôleurs délégués / de cas d'utilisation / de ressources). Pour cela :
-- Commencez par définir une interface et une classe abstraite reprenant les principales caractéristiques du système de gestion des emprunts : dépendances, implémentation de `Startable` et méthode de service `process()`
-- Créez les classes implémentant ce modèle et correspondant aux méthodes de service  `getTrottinette()`, `addAbonne()`, `removeAbonne()`, `getAbonne()`, `createEmprunt()`, etc. Vous regrouperez les fonctionnalités dans des classes représentant des ressources (et non des opérations) liées aux objets métier, par exemple une classe `TrottinetteResource` pour la consultation de la disponibilité des trottinettes, une classe `AbonneResource` pour la création / suppression / consultation des abonnés et une classe `EmpruntResource` pour la création des emprunts. Pour cela, il faut que vous ajoutiez un paramètre supplémentaire (la notion de "méthode"), qui indique l'opération à réaliser sur la ressource.
+- Commencez par définir une interface et une classe abstraite reprenant les principales caractéristiques des composants : dépendances, implémentation de `Startable`
+- Créez les classes contrôleur qui correspondent au découpage que vous avez choisi et faites en sorte qu'elles implémentent une méthode de service `process()`
+- Créez les classes implémentant le modèle et correspondant aux méthodes de service  `getTrottinette()`, `addAbonne()`, `removeAbonne()`, `getAbonne()`, `createEmprunt()`, etc. Vous regrouperez les fonctionnalités dans des classes représentant des ressources (et non des opérations) liées aux objets métier, par exemple une classe `TrottinetteResource` pour la consultation de la disponibilité des trottinettes, une classe `AbonneResource` pour la création / suppression / consultation des abonnés et une classe `EmpruntResource` pour la création des emprunts. Pour cela, il faut que vous ajoutiez un paramètre supplémentaire (la notion de "méthode"), qui indique l'opération à réaliser sur la ressource.
 - Modifiez le serveur pour que votre conteneur crée les composants correspondants aux instances de vos nouvelles classes
-- Créez une méthode d' "aiguillage" des requêtes vers les instances de chacune de ces classes qui sera appelée par la méthode de service du serveur : la commande correspond au nom de la classe à appeler, comme un nom de ressource sur un serveur Web. Créez ensuite (et factorisez dans la classe abstraite), le mécanisme qui appellera la bonne méthode de la classe, en fonction de la valeur du paramètre "méthode" défini plus haut.
+- Au niveau du serveur, créez une méthode d' "aiguillage" des requêtes vers les instances de chacun des contrôleurs, qui sera appelée par la méthode de service du serveur : la commande correspond au nom de la classe à appeler, comme un nom de ressource sur un serveur Web. Créez ensuite (et factorisez dans la classe abstraite), le mécanisme qui appellera la bonne méthode de la classe, en fonction de la valeur du paramètre "méthode" défini plus haut.
 
 **Normalement, votre application ne doit pas fonctionner :** le container vous renvoie une liste vide à chaque opération et les instances des DAO sont différentes dans les messages d'initialisation des méthodes de gestion du cycle de vie.
 
@@ -347,4 +348,4 @@ Dans cette partie vous allez constituer un système d'intercepteurs devant vos r
 
 ## Instructions de rendu
 
-**Ce TP est à rendre pour le dimanche 6 octobre 2019** (date du dernier push / merge sur la forge sur / depuis la branche tp2).
+**Ce TP est à rendre pour le dimanche 3 novembre 2019** (date du dernier push / merge sur la forge sur / depuis la branche tp2).
