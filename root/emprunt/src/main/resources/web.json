@@ -13,6 +13,8 @@
     ],
     "service-components": [
       {"class-name": "tiw1.emprunt.contexte.AnnuaireImpl"},
+      {"class-name": "tiw1.emprunt.interceptor.InterceptorChainImpl"},
+      {"class-name": "java.util.ArrayList"},
       {"class-name": "java.lang.String"},
       {"class-name": "java.util.HashMap",
         "params": [{

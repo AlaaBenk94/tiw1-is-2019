@@ -10,7 +10,7 @@ public class LoggerInterceptor implements Interceptor {
 
     @Override
     public Map<String, Object> input(String method, Map<String, Object> params) {
-        LOG.info(" Request : " + method + " :: " + params.toString());
+        LOG.info(" [ REQUEST ] : " + method + " :: " + params.toString());
         return params;
     }
 

@@ -15,8 +15,9 @@ public abstract class InterceptorChain implements Interceptor{
         this.interceptorsList = interceptorsList;
     }
 
-    public void addInterceptor(Interceptor interceptor) {
+    public InterceptorChain addInterceptor(Interceptor interceptor) {
         interceptorsList.add(interceptor);
+        return this;
     }
 
 }
