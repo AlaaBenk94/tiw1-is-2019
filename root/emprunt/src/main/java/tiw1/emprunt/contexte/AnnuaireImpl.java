@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
-public class AnnuaireImpl implements Annuaire {
+public class AnnuaireImpl extends Observable implements Annuaire {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     Map<String, Object> references;
@@ -17,6 +17,7 @@ public class AnnuaireImpl implements Annuaire {
     @Override
     public void rebind(String name, Object resource) {
         this.references.put(name.toLowerCase(), resource);
+        notifyObservers();
     }
 
     @Override
@@ -29,4 +30,7 @@ public class AnnuaireImpl implements Annuaire {
 
         return references.get(name.toLowerCase());
     }
+
+
+
 }

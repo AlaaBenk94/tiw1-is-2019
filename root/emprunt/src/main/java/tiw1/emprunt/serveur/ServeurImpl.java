@@ -1,12 +1,12 @@
 package tiw1.emprunt.serveur;
 
-import org.h2.tools.Server;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.behaviors.Caching;
 import org.picocontainer.parameters.ConstantParameter;
 import tiw1.emprunt.contexte.Annuaire;
 import tiw1.emprunt.contexte.AnnuaireImpl;
+import tiw1.emprunt.contexte.Observable;
 import tiw1.emprunt.controleur.AbonneResource;
 import tiw1.emprunt.controleur.Controleur;
 import tiw1.emprunt.controleur.EmpruntResource;
@@ -23,7 +23,8 @@ import javax.persistence.Persistence;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.picocontainer.Characteristics.*;
+import static org.picocontainer.Characteristics.NO_CACHE;
+import static org.picocontainer.Characteristics.SDI;
 
 public class ServeurImpl implements Serveur {
 
@@ -77,6 +78,11 @@ public class ServeurImpl implements Serveur {
 
         annuaire.rebind(EmpruntDAO.class.getSimpleName(), myContainer.getComponent(EmpruntDAO.class));
         annuaire.rebind(Trottinette.class.getSimpleName(), loadTrottinette());
+
+        // Adding Observers
+        ((Observable) annuaire).addObserver(myContainer.getComponent(AbonneResource.class));
+        ((Observable) annuaire).addObserver(myContainer.getComponent(EmpruntResource.class));
+        ((Observable) annuaire).addObserver(myContainer.getComponent(TrottinetteResource.class));
 
         // Getting instance
         contoleurMaster = myContainer.getComponent(Controleur.class);

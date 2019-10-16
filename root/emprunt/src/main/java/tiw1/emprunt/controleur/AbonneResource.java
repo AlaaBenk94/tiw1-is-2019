@@ -23,12 +23,7 @@ public class AbonneResource extends ResourceController {
     @Override
     public void start() {
         super.start();
-        abonneDAO = (AbonneDAO) annuaire.lookup(PERSISTENCE
-                            + AbonneDAO.class.getSimpleName().toLowerCase());
-
-        System.out.println(PERSISTENCE + AbonneDAO.class.getSimpleName().toLowerCase()
-                            + " == " + this.annuaire + " == " + abonneDAO );
-
+        abonneDAO = (AbonneDAO) annuaire.lookup(PERSISTENCE + AbonneDAO.class.getSimpleName());
     }
 
     @Override
@@ -78,5 +73,10 @@ public class AbonneResource extends ResourceController {
             LOG.error(e.getMessage());
             return Response.create(Response.ERROR, "Abonnee NOT updated");
         }
+    }
+
+    @Override
+    public void update() {
+        abonneDAO = (AbonneDAO) annuaire.lookup(PERSISTENCE + AbonneDAO.class.getSimpleName());
     }
 }

@@ -4,12 +4,13 @@ import org.picocontainer.Startable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tiw1.emprunt.contexte.Annuaire;
+import tiw1.emprunt.contexte.Observer;
 import tiw1.emprunt.model.dto.Response;
 
 import java.io.IOException;
 import java.util.Map;
 
-public abstract class ResourceController implements Startable, Processable {
+public abstract class ResourceController implements Startable, Processable, Observer {
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
     private static final String ADD = "ADD";

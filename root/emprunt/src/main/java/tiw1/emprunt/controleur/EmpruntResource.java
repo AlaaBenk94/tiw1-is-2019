@@ -22,8 +22,7 @@ public class EmpruntResource extends ResourceController {
     @Override
     public void start() {
         super.start();
-        empruntDAO = (EmpruntDAO) this.annuaire.lookup(PERSISTENCE
-                                        + EmpruntDAO.class.getSimpleName().toLowerCase());
+        empruntDAO = (EmpruntDAO) this.annuaire.lookup(PERSISTENCE + EmpruntDAO.class.getSimpleName());
     }
 
     @Override
@@ -52,5 +51,10 @@ public class EmpruntResource extends ResourceController {
     @Override
     public Response update(Map<String, Object> params) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void update() {
+        empruntDAO = (EmpruntDAO) this.annuaire.lookup(PERSISTENCE + EmpruntDAO.class.getSimpleName());
     }
 }

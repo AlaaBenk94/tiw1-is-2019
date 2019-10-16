@@ -49,7 +49,13 @@ public class TrottinetteResource extends ResourceController {
     public void start() {
         super.start();
         this.trottinetteList = new HashMap<Long, Trottinette>();
-        this.trottinetteList.putAll((Map<Long,Trottinette>) annuaire.lookup(METIER
-                                        + Trottinette.class.getSimpleName().toLowerCase()));
+        this.trottinetteList.putAll((Map<Long,Trottinette>) annuaire.lookup(
+                                        METIER + Trottinette.class.getSimpleName()));
+    }
+
+    @Override
+    public void update() {
+        this.trottinetteList.putAll((Map<Long,Trottinette>) annuaire.lookup(
+                                        METIER + Trottinette.class.getSimpleName()));
     }
 }
