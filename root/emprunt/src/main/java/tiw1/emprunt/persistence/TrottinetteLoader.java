@@ -30,7 +30,6 @@ public class TrottinetteLoader {
         ObjectMapper mapper = new ObjectMapper();
         List<Trottinette> list = Arrays.asList(mapper.readValue(texte, Trottinette[].class));
         list.forEach((t) -> temp.put(t.getId(), t));
-
         // A la fin, pour être sûr que le test échoue avant :
         trottinettes = temp;
     }
@@ -50,14 +49,14 @@ public class TrottinetteLoader {
      */
     private static String getTrottinettesOverHttp() throws Exception {
         CloseableHttpClient httpclient = HttpClients.createDefault();
-        String responseBody = null;
+        String responseBody ;
         try {
             HttpGet httpget = new HttpGet(MAINTENANCE_URL);
 
             System.out.println("Executing request " + httpget.getRequestLine());
 
             // Create a custom response handler
-            ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+            ResponseHandler<String> responseHandler = new ResponseHandler<>() {
 
                 @Override
                 public String handleResponse(
