@@ -3,6 +3,8 @@ package tiw1.emprunt.controleur;
 import org.picocontainer.Startable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tiw1.emprunt.interceptor.InterceptorChain;
+import tiw1.emprunt.interceptor.LoggerInterceptor;
 import tiw1.emprunt.model.dto.Response;
 
 import java.io.IOException;
@@ -19,13 +21,17 @@ public class Controleur implements Startable {
     private  AbonneResource abonneResource;
     private EmpruntResource empruntResource;
     private TrottinetteResource trottinetteResource;
+    private InterceptorChain interceptor;
 
-    public Controleur( String name, AbonneResource abonneResource,
-                            EmpruntResource empruntResource, TrottinetteResource trottinetteResource ) {
+    public Controleur(String name, AbonneResource abonneResource,
+                      EmpruntResource empruntResource, TrottinetteResource trottinetteResource,
+                      InterceptorChain interceptor) {
         this.name = name;
         this.abonneResource = abonneResource;
         this.empruntResource = empruntResource;
         this.trottinetteResource = trottinetteResource;
+        // TODO : change this line
+        this.interceptor = interceptor.addInterceptor(new LoggerInterceptor());
     }
 
     @Override
@@ -53,11 +59,11 @@ public class Controleur implements Startable {
     public Response forwardRequest(String commande, String method, Map<String, Object> params) {
         try {
             if (commande.toUpperCase() == TROTINETTE)
-                return trottinetteResource.process(method, params);
+                return trottinetteResource.process(method, interceptor.input(method, params));
             if(commande.toUpperCase() == ABONNE)
-                return abonneResource.process(method,params);
+                return abonneResource.process(method, interceptor.input(method, params));
             if(commande.toUpperCase() == EMPRUNT)
-                return empruntResource.process(method,params);
+                return empruntResource.process(method, interceptor.input(method, params));
             return Response.create(Response.UNKNOWN_COMMAND, "Unknown resource name");
 
         }catch (IOException e) {

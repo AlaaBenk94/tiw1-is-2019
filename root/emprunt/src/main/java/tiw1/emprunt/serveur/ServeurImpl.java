@@ -54,15 +54,10 @@ public class ServeurImpl implements Serveur {
         loadConfig();
 
         // Container setup
-        LOG.info("======================== InitContainer START ========================");
         myContainer = initContainer();
-        LOG.info("======================== InitContainer DONE ========================");
-
 
         // initialize Annuaire
-        LOG.info("======================== InitAnnuaire START ========================");
         initAnnuaire();
-        LOG.info("======================== InitAnnuaire DONE ========================");
 
         // Getting instance
         contoleurMaster = myContainer.getComponent(Controleur.class);
@@ -113,7 +108,7 @@ public class ServeurImpl implements Serveur {
         for( Object singleComponent : compList ) {
 
             Properties  sdiRequired = CDI,
-                    cacheRequired = CACHE;
+                        cacheRequired = CACHE;
             String      fileRequired = null;
 
             String className = ((JSONObject) singleComponent).getString("class-name");
@@ -139,13 +134,12 @@ public class ServeurImpl implements Serveur {
 
             try {
 
-                System.out.println(className + " :: " + fileRequired + " :: " + sdiRequired + " :: " + cacheRequired);
-
                 if(fileRequired != null)
                     container.as(sdiRequired, cacheRequired).addComponent(Class.forName(className),
                             Class.forName(className), new ConstantParameter(fileRequired));
                 else
                     container.as(sdiRequired, cacheRequired).addComponent(Class.forName(className));
+
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
