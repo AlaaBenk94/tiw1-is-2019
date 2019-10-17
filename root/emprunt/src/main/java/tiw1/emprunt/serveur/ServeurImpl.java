@@ -9,6 +9,8 @@ import org.picocontainer.behaviors.Caching;
 import org.picocontainer.parameters.ConstantParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tiw1.annotation.annotations.NIVEAU;
+import tiw1.annotation.annotations.Todo;
 import tiw1.emprunt.contexte.Annuaire;
 import tiw1.emprunt.contexte.Observable;
 import tiw1.emprunt.controleur.AbonneResource;
@@ -186,7 +188,7 @@ public class ServeurImpl implements Serveur {
         ((Observable) annuaire).addObserver(myContainer.getComponent(TrottinetteResource.class));
     }
 
-
+    @Todo(value =NIVEAU.BUG,auteur = "AISSBEN",destinataire = "GITLAB", commentaire = "TestComment")
     private Map<Long, Trottinette> loadTrottinette() {
         try {
             TrottinetteLoader.load();

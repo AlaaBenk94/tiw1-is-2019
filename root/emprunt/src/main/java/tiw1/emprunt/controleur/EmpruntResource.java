@@ -21,6 +21,7 @@ public class EmpruntResource extends ResourceController {
         super(annuaire);
     }
 
+    //@Startable(Object componenet,String Key,Callback , );
     @Override
     public void start() {
         super.start();
