@@ -43,19 +43,19 @@ public class ServeurTest {
     @Test
     public void processRequest_ERROR_Test(){
         params.put("ABONNE", new Abonne(19L, "Toto", new Date(), new Date()));
-        assertTrue(((Serveur) context.lookup(SERVER)).processRequest("ABONNE", "ADD", params).isOK());
+        assertTrue((Boolean) ((Serveur) context.lookup(SERVER)).processRequest("ABONNE", "ADD", params));
     }
 
     @Test
     public void abonnementTest() {
         params.put("ABONNE", ab);
-        assertTrue(((Serveur) context.lookup(SERVER)).processRequest("ABONNE", "ADD", params).isOK());
+        assertTrue((Boolean) ((Serveur) context.lookup(SERVER)).processRequest("ABONNE", "ADD", params));
     }
 
     @Test
     public void desabonnementTest() {
         params.put("ABONNE", ab);
-        assertTrue(((Serveur) context.lookup(SERVER)).processRequest("ABONNE","REMOVE", params).isOK());
+        assertTrue((Boolean) ((Serveur) context.lookup(SERVER)).processRequest("ABONNE","REMOVE", params));
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ServeurTest {
         emprunt.setIdTrottinette(15L);
 
         params.put("EMPRUNT", emprunt);
-        assertTrue(((Serveur) context.lookup(SERVER)).processRequest("EMPRUNT","ADD", params).isOK());
+        assertTrue((Boolean) ((Serveur) context.lookup(SERVER)).processRequest("EMPRUNT","ADD", params));
     }
 
     @Test
@@ -77,15 +77,22 @@ public class ServeurTest {
         emprunt.setIdTrottinette(15L);
 
         params.put("EMPRUNT", emprunt);
-        assertTrue(((Serveur) context.lookup(SERVER)).processRequest("EMPRUNT", "ADD", params).isOK());
+        assertTrue((Boolean) ((Serveur) context.lookup(SERVER)).processRequest("EMPRUNT", "ADD", params));
 
         params.put("DATE", new Date());
-        assertNotEquals(0, ((List) ((Serveur) context.lookup(SERVER)).processRequest("EMPRUNT", "GET", params).getContent()).size());
+        assertNotEquals(0, ((List) ((Serveur) context.lookup(SERVER)).processRequest("EMPRUNT", "GET", params)).size());
     }
 
     @Test
     public void getDispoTrottinetteTest() {
         // TODO : Later
+    }
+
+    @Test
+    public void globalTest() {
+        params.put("ABONNE", ab);
+        System.out.println((String) ((Serveur) context.lookup(SERVER))
+                .processRequest("ABONNE", "ADD", params));
     }
 
 }

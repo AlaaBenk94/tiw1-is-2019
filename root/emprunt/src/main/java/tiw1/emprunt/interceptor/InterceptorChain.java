@@ -1,9 +1,14 @@
 package tiw1.emprunt.interceptor;
 
-import java.util.List;
+import tiw1.emprunt.controleur.Processable;
 
-public abstract class InterceptorChain implements Interceptor{
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+public abstract class InterceptorChain {
     protected List<Interceptor> interceptorsList;
+    protected Processable target;
 
     public InterceptorChain() {}
 
@@ -20,4 +25,23 @@ public abstract class InterceptorChain implements Interceptor{
         return this;
     }
 
+    public Object execute(String method, Map<String, Object> params) throws IOException {
+        Map<String, Object> alteredInput = params;
+        for(Interceptor i: interceptorsList) {
+            alteredInput = i.input(method, alteredInput);
+        }
+
+        Object alteredOutput = target.process(method, alteredInput);
+
+        for(Interceptor i: interceptorsList) {
+            alteredOutput = i.output(method, alteredInput, alteredOutput);
+        }
+
+        return alteredOutput;
+    }
+
+    public InterceptorChain setTarget(Processable target) {
+        this.target = target;
+        return this;
+    }
 }

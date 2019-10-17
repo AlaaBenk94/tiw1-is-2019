@@ -191,7 +191,7 @@ public class ServeurImpl implements Serveur {
     }
 
     @Override
-    public Response processRequest(String commande, String method, Map<String, Object> params) {
+    public Object processRequest(String commande, String method, Map<String, Object> params) {
         return contoleurMaster.forwardRequest(commande, method, params);
     }
 

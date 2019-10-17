@@ -13,7 +13,7 @@ public interface Serveur {
      * @param params les parametres de la methode
      * @return
      */
-    Response processRequest(String commande, String method, Map<String, Object> params);
+    Object processRequest(String commande, String method, Map<String, Object> params);
 
     Annuaire getAnnuaire();
 }

@@ -4,6 +4,7 @@ import org.picocontainer.Startable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tiw1.emprunt.interceptor.InterceptorChain;
+import tiw1.emprunt.interceptor.JSONConverterInterceptor;
 import tiw1.emprunt.interceptor.LoggerInterceptor;
 import tiw1.emprunt.model.dto.Response;
 
@@ -31,7 +32,9 @@ public class Controleur implements Startable {
         this.empruntResource = empruntResource;
         this.trottinetteResource = trottinetteResource;
         // TODO : change this line
-        this.interceptor = interceptor.addInterceptor(new LoggerInterceptor());
+        this.interceptor = interceptor
+                .addInterceptor(new LoggerInterceptor())
+                .addInterceptor(new JSONConverterInterceptor());
     }
 
     @Override
@@ -56,14 +59,22 @@ public class Controleur implements Startable {
      * @param params les parametres de la methode
      * @return un objet reponse qui encapsule le contenue
      */
-    public Response forwardRequest(String commande, String method, Map<String, Object> params) {
+    public Object forwardRequest(String commande, String method, Map<String, Object> params) {
         try {
-            if (commande.toUpperCase() == TROTINETTE)
-                return trottinetteResource.process(method, interceptor.input(method, params));
-            if(commande.toUpperCase() == ABONNE)
-                return abonneResource.process(method, interceptor.input(method, params));
-            if(commande.toUpperCase() == EMPRUNT)
-                return empruntResource.process(method, interceptor.input(method, params));
+            if (commande.toUpperCase() == TROTINETTE) {
+
+                return interceptor.setTarget(trottinetteResource)
+                        .execute(method, params);
+            }
+            if(commande.toUpperCase() == ABONNE) {
+                return interceptor.setTarget(abonneResource)
+                        .execute(method, params);
+            }
+            if(commande.toUpperCase() == EMPRUNT) {
+                return interceptor.setTarget(empruntResource)
+                        .execute(method, params);
+            }
+
             return Response.create(Response.UNKNOWN_COMMAND, "Unknown resource name");
 
         }catch (IOException e) {
