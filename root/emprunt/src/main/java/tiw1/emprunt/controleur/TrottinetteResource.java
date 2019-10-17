@@ -9,6 +9,7 @@ import java.util.Map;
 
 import static tiw1.emprunt.serveur.ServeurImpl.METIER;
 
+
 public class TrottinetteResource extends ResourceController {
 
     private Map<Long, Trottinette> trottinetteList;
@@ -22,10 +23,15 @@ public class TrottinetteResource extends ResourceController {
     @Override
     public Response get(Map<String, Object> params) {
         try {
+            if(params.size()==0)
+                return Response.create(Response.OK,"", trottinetteList);
             if (params.containsKey(ID))
-                return Response.create(Response.OK, trottinetteList.get(params.get(ID)).isDisponible() + "");
+                return Response.create(Response.OK,"", trottinetteList.get((String) params.get(ID)));
         }
         catch(NullPointerException e){
+            return Response.create(Response.ERROR, "Invalid ID");
+        }
+        catch(ClassCastException e){
             return Response.create(Response.ERROR, "Invalid ID");
         }
         return Response.create(Response.ERROR, "Unknow param");
@@ -50,7 +56,7 @@ public class TrottinetteResource extends ResourceController {
     @Override
     public void start() {
         super.start();
-        this.trottinetteList = new HashMap<Long, Trottinette>();
+        this.trottinetteList = new HashMap<>();
         this.trottinetteList.putAll((Map<Long,Trottinette>) annuaire.lookup(
                                         METIER + Trottinette.class.getSimpleName()));
     }

@@ -8,6 +8,7 @@ import tiw1.emprunt.contexte.AnnuaireImpl;
 import tiw1.emprunt.model.Abonne;
 import tiw1.emprunt.model.dto.EmpruntDTO;
 
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +19,7 @@ import static tiw1.emprunt.serveur.ServeurImpl.ROOT;
 
 public class ServeurTest {
 
-    public static Annuaire context = null;
+    private static Annuaire context = null;
     public static final String SERVER = ROOT + Serveur.class.getSimpleName();
 
     private Map<String, Object> params;
@@ -39,6 +40,7 @@ public class ServeurTest {
         System.out.println("testServeur - Not Null");
         assertNotNull(context);
     }
+
 
     @Test
     public void processRequest_ERROR_Test(){
