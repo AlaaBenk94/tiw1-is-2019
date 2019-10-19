@@ -31,11 +31,14 @@ public class EmpruntResource extends ResourceController {
     @Override
     public Response get(Map<String, Object> params) {
         if (params.containsKey(DATE))
-            return Response.create(Response.OK, "", empruntDAO.getByDate((Date) params.get(DATE)).get());
+            return Response.create(Response.OK, "",
+                    empruntDAO.getByDate((Date) params.get(DATE)).get());
         if (params.containsKey(ID))
-            return Response.create(Response.OK, "", empruntDAO.get((long) params.get(ID)).get());
+            return Response.create(Response.OK, "",
+                    new EmpruntDTO((Emprunt) empruntDAO.get((long) params.get(ID)).get()));
         if (params.size()==0)
-            return Response.create(Response.OK, "", empruntDAO.getAll());
+            return Response.create(Response.OK, "",
+                    empruntDAO.getAll());
         return Response.create(Response.ERROR,"Unknown param");
     }
 
@@ -48,7 +51,8 @@ public class EmpruntResource extends ResourceController {
     public Response add(Map<String, Object> params) {
         Emprunt emprunt = new Emprunt((EmpruntDTO) params.get(EMPRUNT));
         this.empruntDAO.save(emprunt);
-        return Response.create(Response.OK, "Emprunt created Successfully", emprunt);
+        return Response.create(Response.OK, "Emprunt created Successfully",
+                new EmpruntDTO(emprunt));
     }
 
     @Override

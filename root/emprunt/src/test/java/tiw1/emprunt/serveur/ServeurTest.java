@@ -95,6 +95,10 @@ public class ServeurTest {
         params.put("ABONNE", ab);
         System.out.println((String) ((Serveur) context.lookup(SERVER))
                 .processRequest("ABONNE", "ADD", params));
+
+        params.put("ID", ab.getId());
+        System.out.println((String) ((Serveur) context.lookup(SERVER))
+                .processRequest("ABONNE", "GET", params));
     }
 
 }

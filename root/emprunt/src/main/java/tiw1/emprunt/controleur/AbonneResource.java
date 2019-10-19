@@ -2,6 +2,7 @@ package tiw1.emprunt.controleur;
 
 import tiw1.emprunt.contexte.Annuaire;
 import tiw1.emprunt.model.Abonne;
+import tiw1.emprunt.model.dto.AbonneDTO;
 import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.persistence.AbonneDAO;
 
@@ -33,13 +34,14 @@ public class AbonneResource extends ResourceController {
 
             if(params.containsKey(AbonneResource.ID))
                 try {
-                    return Response.create(Response.OK, "", this.abonneDAO.get((long) params.get(AbonneResource.ID)));
+                    return Response.create(Response.OK, "",
+                            new AbonneDTO((Abonne) this.abonneDAO.get((long) params.get(AbonneResource.ID)).get()));
                 }
                 catch (ClassCastException e) {
                     return Response.create(Response.ERROR, "Invalid argument value");
                 }
-            if (params.size()==0)
-                return Response.create(Response.OK,"",this.abonneDAO.getAll());
+            if (params.size() == 0)
+                return Response.create(Response.OK,"", this.abonneDAO.getAll());
 
             return Response.create(Response.ERROR,"Unknown param");
     }
@@ -48,10 +50,10 @@ public class AbonneResource extends ResourceController {
     public Response remove(Map<String, Object> params) {
         try {
             this.abonneDAO.delete((Abonne) params.get(AbonneResource.ABONNE));
-            return Response.create(Response.OK, "Abonnee removed successfuly");
+            return Response.create(Response.OK, "Abonnee unsubscribed successfuly");
         } catch (IOException e) {
             LOG.error(e.getMessage());
-            return Response.create(Response.ERROR, "Abonnee has NOT been removed");
+            return Response.create(Response.ERROR, "Abonnee has NOT been unsubscribed");
         }
     }
 
