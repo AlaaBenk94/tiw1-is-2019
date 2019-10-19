@@ -9,6 +9,8 @@ import tiw1.emprunt.persistence.AbonneDAO;
 import java.io.IOException;
 import java.util.Map;
 
+import static tiw1.emprunt.model.dto.Constants.ERROR;
+import static tiw1.emprunt.model.dto.Constants.OK;
 import static tiw1.emprunt.serveur.ServeurImpl.PERSISTENCE;
 
 public class AbonneResource extends ResourceController {
@@ -34,26 +36,26 @@ public class AbonneResource extends ResourceController {
 
             if(params.containsKey(AbonneResource.ID))
                 try {
-                    return Response.create(Response.OK, "",
+                    return Response.create(OK, "",
                             new AbonneDTO((Abonne) this.abonneDAO.get((long) params.get(AbonneResource.ID)).get()));
                 }
                 catch (ClassCastException e) {
-                    return Response.create(Response.ERROR, "Invalid argument value");
+                    return Response.create(ERROR, "Invalid argument value");
                 }
             if (params.size() == 0)
-                return Response.create(Response.OK,"", this.abonneDAO.getAll());
+                return Response.create(OK,"", this.abonneDAO.getAll());
 
-            return Response.create(Response.ERROR,"Unknown param");
+            return Response.create(ERROR,"Unknown param");
     }
 
     @Override
     public Response remove(Map<String, Object> params) {
         try {
             this.abonneDAO.delete((Abonne) params.get(AbonneResource.ABONNE));
-            return Response.create(Response.OK, "Abonnee unsubscribed successfuly");
+            return Response.create(OK, "Abonnee unsubscribed successfuly");
         } catch (IOException e) {
             LOG.error(e.getMessage());
-            return Response.create(Response.ERROR, "Abonnee has NOT been unsubscribed");
+            return Response.create(ERROR, "Abonnee has NOT been unsubscribed");
         }
     }
 
@@ -61,10 +63,10 @@ public class AbonneResource extends ResourceController {
     public Response add(Map<String, Object> params) {
         try {
             this.abonneDAO.save((Abonne) params.get(AbonneResource.ABONNE));
-                return Response.create(Response.OK, "Abonnee added successfuly");
+                return Response.create(OK, "Abonnee added successfuly");
         } catch (IOException e) {
             LOG.error(e.getMessage());
-            return Response.create(Response.ERROR, "Abonnee NOT added");
+            return Response.create(ERROR, "Abonnee NOT added");
         }
     }
 
@@ -72,10 +74,10 @@ public class AbonneResource extends ResourceController {
     public Response update(Map<String, Object> params) {
         try {
             this.abonneDAO.update((Abonne) params.get(AbonneResource.ABONNE));
-            return Response.create(Response.OK, "Abonnee updated successfuly");
+            return Response.create(OK, "Abonnee updated successfuly");
         } catch (IOException e) {
             LOG.error(e.getMessage());
-            return Response.create(Response.ERROR, "Abonnee NOT updated");
+            return Response.create(ERROR, "Abonnee NOT updated");
         }
     }
 

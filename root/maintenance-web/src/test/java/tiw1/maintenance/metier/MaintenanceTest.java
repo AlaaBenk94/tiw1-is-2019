@@ -44,4 +44,13 @@ public class MaintenanceTest {
         Trottinette t3 = m.updateTrottinette(t2);
         assertNotEquals(t_disp, t3.isDisponible());
     }
+
+    @Test
+    public void creerTrottinettes() {
+        m.creerTrottinette();
+        m.creerTrottinette();
+        m.creerTrottinette();
+        m.creerTrottinette();
+        m.creerTrottinette();
+    }
 }

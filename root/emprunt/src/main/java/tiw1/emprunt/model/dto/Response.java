@@ -1,17 +1,12 @@
 package tiw1.emprunt.model.dto;
 
+import static tiw1.emprunt.model.dto.Constants.*;
+
 /**
  * La classe de reponse DTO retournee au client
  * similaire a Response de protocole HTTP mais plus simple
  */
 public class Response<T> {
-    // Response status
-    public static final int OK = 200;
-    public static final int ERROR = -200;
-
-    public static final int UNKNOWN_COMMAND = 1001;
-    public static final int UNKNOWN_METHOD = 2002;
-    public static final int UNKNOWN_PARAM = 3003;
 
     private int status;
     private String mssg;
@@ -21,26 +16,6 @@ public class Response<T> {
         this.status = status;
         this.mssg = mssg;
         this.content = content;
-    }
-
-    public boolean isOK() {
-        return (status == OK);
-    }
-
-    public boolean isERROR() {
-        return (status == ERROR);
-    }
-
-    public boolean isUNKONWN_METHOD() {
-        return (status == UNKNOWN_METHOD);
-    }
-
-    public boolean isUNKONWN_PARAM() {
-        return (status == UNKNOWN_PARAM);
-    }
-
-    public boolean isUNKONWN_COMMAND() {
-        return (status == UNKNOWN_COMMAND);
     }
 
     public int getStatus() {

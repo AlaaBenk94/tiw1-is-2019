@@ -10,6 +10,8 @@ import tiw1.emprunt.model.dto.Response;
 import java.io.IOException;
 import java.util.Map;
 
+import static tiw1.emprunt.model.dto.Constants.UNKNOWN_METHOD;
+
 public abstract class ResourceController implements Startable, Processable, Observer {
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
@@ -45,7 +47,7 @@ public abstract class ResourceController implements Startable, Processable, Obse
         if(method.toUpperCase().equals(ResourceController.UPDATE))
             return update(params);
 
-        return Response.create(Response.UNKNOWN_METHOD, method + " command is UNKNOWN");
+        return Response.create(UNKNOWN_METHOD, method + " command is UNKNOWN");
     }
 
     public abstract Response get(Map<String, Object> params);

@@ -12,6 +12,7 @@
       {"class-name": "tiw1.emprunt.controleur.Controleur"}
     ],
     "service-components": [
+      {"class-name": "tiw1.emprunt.pool.TrottinettePool"},
       {"class-name": "tiw1.emprunt.contexte.AnnuaireImpl"},
       {"class-name": "tiw1.emprunt.interceptor.InterceptorChainImpl"},
       {"class-name": "tiw1.emprunt.interceptor.LoggerInterceptor"},

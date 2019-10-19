@@ -11,6 +11,9 @@ import tiw1.emprunt.model.dto.Response;
 import java.io.IOException;
 import java.util.Map;
 
+import static tiw1.emprunt.model.dto.Constants.ERROR;
+import static tiw1.emprunt.model.dto.Constants.UNKNOWN_COMMAND;
+
 public class Controleur implements Startable {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
 
@@ -75,12 +78,12 @@ public class Controleur implements Startable {
                         .execute(method, params);
             }
 
-            return Response.create(Response.UNKNOWN_COMMAND, "Unknown resource name");
+            return Response.create(UNKNOWN_COMMAND, "Unknown resource name");
 
         }catch (IOException e) {
             e.printStackTrace();
         }
-        return Response.create(Response.ERROR, "There was an error when precessing the request");
+        return Response.create(ERROR, "There was an error when precessing the request");
     }
 
 }

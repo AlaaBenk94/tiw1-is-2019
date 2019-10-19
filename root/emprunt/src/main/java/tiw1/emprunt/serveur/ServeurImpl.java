@@ -22,6 +22,7 @@ import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.persistence.AbonneDAO;
 import tiw1.emprunt.persistence.EmpruntDAO;
 import tiw1.emprunt.persistence.TrottinetteLoader;
+import tiw1.emprunt.pool.TrottinettePool;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -162,8 +163,8 @@ public class ServeurImpl implements Serveur {
         annuaire.rebind(APPLICATION + TrottinetteResource.class.getSimpleName(),
                 myContainer.getComponent(TrottinetteResource.class));
 
-        annuaire.rebind(METIER + Trottinette.class.getSimpleName(),
-                loadTrottinette());
+        annuaire.rebind(METIER + TrottinettePool.class.getSimpleName(),
+                myContainer.getComponent(TrottinettePool.class));
 
         annuaire.rebind(PERSISTENCE + AbonneDAO.class.getSimpleName(),
                 myContainer.getComponent(AbonneDAO.class));
@@ -172,25 +173,21 @@ public class ServeurImpl implements Serveur {
         annuaire.rebind(APPLICATION + EntityManager.class.getSimpleName(),
                 myContainer.getComponent(EntityManager.class));
 
-
-        annuaire.rebind(EmpruntDAO.class.getSimpleName(), myContainer.getComponent(EmpruntDAO.class));
-        annuaire.rebind(Trottinette.class.getSimpleName(), loadTrottinette());
-
         // Adding Observers
         ((Observable) annuaire).addObserver(myContainer.getComponent(AbonneResource.class));
         ((Observable) annuaire).addObserver(myContainer.getComponent(EmpruntResource.class));
         ((Observable) annuaire).addObserver(myContainer.getComponent(TrottinetteResource.class));
     }
 
-    @Todo(value =NIVEAU.BUG,auteur = "AISSBEN",destinataire = "GITLAB", commentaire = "TestComment")
-    private Map<Long, Trottinette> loadTrottinette() {
-        try {
-            TrottinetteLoader.load();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return TrottinetteLoader.getTrottinettes();
-    }
+//    @Todo(value =NIVEAU.BUG, auteur = "AISSBEN", destinataire = "GITLAB", commentaire = "TestComment")
+//    private Map<Long, Trottinette> loadTrottinette() {
+//        try {
+//            TrottinetteLoader.load();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return TrottinetteLoader.getTrottinettes();
+//    }
 
     @Override
     public Object processRequest(String commande, String method, Map<String, Object> params) {
