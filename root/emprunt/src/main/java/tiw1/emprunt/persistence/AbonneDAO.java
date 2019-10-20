@@ -26,7 +26,7 @@ public class AbonneDAO implements DAO<Abonne> {
     private List<Abonne> abonnes = new ArrayList<>();
 
     public AbonneDAO() throws IOException {
-        path = Paths.get(ABONNES_JSON);
+        path = Paths.get(this.getClass().getClassLoader().getResource(ABONNES_JSON).getPath());
         read();
     }
 

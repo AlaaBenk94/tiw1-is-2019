@@ -122,6 +122,7 @@ public class ServeurImpl implements Serveur {
                     switch (name) {
                         case "file":
                             fileRequired = ((JSONObject) singleParam).getString("value");
+                            fileRequired = this.getClass().getClassLoader().getResource(fileRequired).getPath();
                             break;
                         case "sdi":
                             sdiRequired = ((JSONObject) singleParam).getBoolean("value") ? SDI : CDI;

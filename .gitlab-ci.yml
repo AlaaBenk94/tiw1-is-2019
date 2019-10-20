@@ -30,7 +30,10 @@ stages:
 package:
   stage: build
   script:
-    - cd root; mvn $MAVEN_CLI_OPTS package
+    - cd root/wiremock
+    - java -jar wiremock-standalone-2.25.1.jar & wiremock_pid=$!
+    - cd ..; mvn $MAVEN_CLI_OPTS package
+    - kill $wiremock_pid
 
 test-maintenance-api:
   stage: test

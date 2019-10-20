@@ -30,7 +30,7 @@
         "class-name": "tiw1.emprunt.persistence.AbonneDAO",
         "params": [{
           "name": "file",
-          "value": "/home/alaabenk/tiw1-is-2019/root/emprunt/abonnes.json"
+          "value": "abonnes.json"
         }]
       }, {
         "class-name": "tiw1.emprunt.persistence.EmpruntDAO",
