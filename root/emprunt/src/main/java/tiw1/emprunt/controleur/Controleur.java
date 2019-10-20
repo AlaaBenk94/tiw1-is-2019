@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import tiw1.emprunt.interceptor.InterceptorChain;
 import tiw1.emprunt.interceptor.JSONConverterInterceptor;
 import tiw1.emprunt.interceptor.LoggerInterceptor;
+import tiw1.emprunt.model.dto.Constants;
 import tiw1.emprunt.model.dto.Response;
 
 import java.io.IOException;
@@ -16,10 +17,6 @@ import static tiw1.emprunt.model.dto.Constants.UNKNOWN_COMMAND;
 
 public class Controleur implements Startable {
     private final Logger LOG = LoggerFactory.getLogger(this.getClass());
-
-    private static final String ABONNE = "ABONNE";
-    private static final String TROTINETTE = "TROTINETTE";
-    private static final String EMPRUNT = "EMPRUNT";
 
     private String name = "";
     private  AbonneResource abonneResource;
@@ -64,16 +61,16 @@ public class Controleur implements Startable {
      */
     public Object forwardRequest(String commande, String method, Map<String, Object> params) {
         try {
-            if (commande.toUpperCase() == TROTINETTE) {
+            if (commande.toUpperCase() == Constants.TROTINETTE) {
 
                 return interceptor.setTarget(trottinetteResource)
                         .execute(method, params);
             }
-            if(commande.toUpperCase() == ABONNE) {
+            if(commande.toUpperCase() == Constants.ABONNE) {
                 return interceptor.setTarget(abonneResource)
                         .execute(method, params);
             }
-            if(commande.toUpperCase() == EMPRUNT) {
+            if(commande.toUpperCase() == Constants.EMPRUNT) {
                 return interceptor.setTarget(empruntResource)
                         .execute(method, params);
             }

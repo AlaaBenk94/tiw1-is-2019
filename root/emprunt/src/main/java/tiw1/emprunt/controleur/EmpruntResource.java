@@ -2,6 +2,7 @@ package tiw1.emprunt.controleur;
 
 import tiw1.emprunt.contexte.Annuaire;
 import tiw1.emprunt.model.Emprunt;
+import tiw1.emprunt.model.dto.Constants;
 import tiw1.emprunt.model.dto.EmpruntDTO;
 import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.persistence.EmpruntDAO;
@@ -32,12 +33,12 @@ public class EmpruntResource extends ResourceController {
 
     @Override
     public Response get(Map<String, Object> params) {
-        if (params.containsKey(DATE))
+        if (params.containsKey(Constants.DATE))
             return Response.create(OK, "",
-                    empruntDAO.getByDate((Date) params.get(DATE)).get());
-        if (params.containsKey(ID))
+                    empruntDAO.getByDate((Date) params.get(Constants.DATE)).get());
+        if (params.containsKey(Constants.ID))
             return Response.create(OK, "",
-                    new EmpruntDTO((Emprunt) empruntDAO.get((long) params.get(ID)).get()));
+                    new EmpruntDTO((Emprunt) empruntDAO.get((long) params.get(Constants.ID)).get()));
         if (params.size()==0)
             return Response.create(OK, "",
                     empruntDAO.getAll());
@@ -51,7 +52,7 @@ public class EmpruntResource extends ResourceController {
 
     @Override
     public Response add(Map<String, Object> params) {
-        Emprunt emprunt = new Emprunt((EmpruntDTO) params.get(EMPRUNT));
+        Emprunt emprunt = new Emprunt((EmpruntDTO) params.get(Constants.EMPRUNT));
         this.empruntDAO.save(emprunt);
         return Response.create(OK, "Emprunt created Successfully",
                 new EmpruntDTO(emprunt));

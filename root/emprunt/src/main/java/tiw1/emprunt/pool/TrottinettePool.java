@@ -6,7 +6,9 @@ import tiw1.annotation.annotations.Todo;
 import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.persistence.TrottinetteLoader;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -49,6 +51,10 @@ public class TrottinettePool implements Startable {
                  return trottinette;
              }
         return null;
+    }
+
+    public List<Trottinette> getTrottinettesList() {
+        return new ArrayList<Trottinette>(trottinettes.values());
     }
 
     public Map<Long, Trottinette> getTrottinettes() {

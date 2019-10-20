@@ -9,4 +9,16 @@ public abstract class Constants {
     public static final int UNKNOWN_METHOD = 2002;
     public static final int UNKNOWN_PARAM = 3003;
 
+    public final static String ID="ID";
+    public final static String ABONNE ="ABONNE";
+    public final static String DISPO="DISPO";
+    public static final String EMPRUNT = "EMPRUNT";
+    public static final String DATE = "DATE";
+    public static final String TROTINETTE = "TROTINETTE";
+
+
+    public static final String ADD = "ADD";
+    public static final String REMOVE = "REMOVE";
+    public static final String GET = "GET";
+    public static final String UPDATE ="UPDATE";
 }

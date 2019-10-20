@@ -5,11 +5,9 @@ import tiw1.emprunt.model.Trottinette;
 import tiw1.emprunt.model.dto.Response;
 import tiw1.emprunt.pool.TrottinettePool;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import static tiw1.emprunt.model.dto.Constants.ERROR;
-import static tiw1.emprunt.model.dto.Constants.OK;
+import static tiw1.emprunt.model.dto.Constants.*;
 import static tiw1.emprunt.serveur.ServeurImpl.METIER;
 
 
@@ -27,18 +25,24 @@ public class TrottinetteResource extends ResourceController {
     public Response get(Map<String, Object> params) {
         try {
             if(params.size()==0)
-                return Response.create(OK,"", trottinettePool.getTrottinettes());
+                return Response.create(OK,"", trottinettePool.getTrottinettesList());
             if (params.containsKey(ID))
-                return Response.create(OK,"", trottinettePool.getTrottinette((Long) params.get(ID)));
-        }
+                if(params.containsKey(DISPO))
+                    return Response.create(OK, "",
+                            ((Trottinette) trottinettePool.getTrottinettes().get(38L)).isDisponible());
+                else
+                    return Response.create(OK,"", trottinettePool.getTrottinette((Long) params.get(ID)));
+            }
         catch(NullPointerException e){
+            e.printStackTrace();
             return Response.create(ERROR, "Invalid ID");
         }
         catch(ClassCastException e){
+            e.printStackTrace();
             return Response.create(ERROR, "Invalid ID");
         }
-        return Response.create(ERROR, "Unknow param");
 
+        return Response.create(ERROR, "Unknow param");
     }
 
     @Override

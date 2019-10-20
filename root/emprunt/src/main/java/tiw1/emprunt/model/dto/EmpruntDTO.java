@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class EmpruntDTO {
 
+    private Long id;
     private Date date;
     private Long idAbonne;
     private Long idTrottinette;
@@ -13,9 +14,18 @@ public class EmpruntDTO {
     public EmpruntDTO() {}
 
     public EmpruntDTO(Emprunt emprunt) {
+        this.id = emprunt.getId();
         this.date = emprunt.getDate();
         this.idAbonne = emprunt.getIdAbonne();
         this.idTrottinette = emprunt.getIdTrottinette();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getIdAbonne() {

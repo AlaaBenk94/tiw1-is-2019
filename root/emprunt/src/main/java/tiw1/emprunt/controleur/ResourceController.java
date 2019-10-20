@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tiw1.emprunt.contexte.Annuaire;
 import tiw1.emprunt.contexte.Observer;
+import tiw1.emprunt.model.dto.Constants;
 import tiw1.emprunt.model.dto.Response;
 
 import java.io.IOException;
@@ -14,15 +15,6 @@ import static tiw1.emprunt.model.dto.Constants.UNKNOWN_METHOD;
 
 public abstract class ResourceController implements Startable, Processable, Observer {
     protected final Logger LOG = LoggerFactory.getLogger(this.getClass());
-
-    private static final String ADD = "ADD";
-    private static final String REMOVE = "REMOVE";
-    private static final String GET = "GET";
-    private static final String UPDATE ="UPDATE";
-
-    protected static final String ID = "ID";
-    protected static final String DATE = "DATE";
-    protected static final String EMPRUNT = "EMPRUNT";
 
     protected Annuaire annuaire;
 
@@ -38,13 +30,13 @@ public abstract class ResourceController implements Startable, Processable, Obse
 
     @Override
     public Response process(String method, Map<String, Object> params) throws IOException {
-        if(method.toUpperCase().equals(ResourceController.GET))
+        if(method.toUpperCase().equals(Constants.GET))
             return get(params);
-        if(method.toUpperCase().equals(ResourceController.ADD))
+        if(method.toUpperCase().equals(Constants.ADD))
             return add(params);
-        if(method.toUpperCase().equals(ResourceController.REMOVE))
+        if(method.toUpperCase().equals(Constants.REMOVE))
             return remove(params);
-        if(method.toUpperCase().equals(ResourceController.UPDATE))
+        if(method.toUpperCase().equals(Constants.UPDATE))
             return update(params);
 
         return Response.create(UNKNOWN_METHOD, method + " command is UNKNOWN");
