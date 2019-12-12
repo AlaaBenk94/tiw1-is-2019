@@ -127,10 +127,4 @@
             <!-- DB dependencies -->
         </dependencies>
     </dependencyManagement>
-
-    <modules>
-        <module>maintenance-web</module>
-        <module>emprunt</module>
-        <module>annotations</module>
-    </modules>
 </project>
