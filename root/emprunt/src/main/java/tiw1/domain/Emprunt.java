@@ -4,11 +4,14 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ *
+ */
 @Entity
 @NamedQueries({
-        @NamedQuery(name="empruntById", query = "select e from Emprunt e where e.id = :id"),
-        @NamedQuery(name="allEmprunts", query = "select e from Emprunt e"),
-        @NamedQuery(name="empruntByDate", query="select e from Emprunt e where e.date = :date")
+        @NamedQuery(name = "empruntById", query = "select e from Emprunt e where e.id = :id"),
+        @NamedQuery(name = "allEmprunts", query = "select e from Emprunt e"),
+        @NamedQuery(name = "empruntByDate", query = "select e from Emprunt e where e.date = :date")
 
 })
 public class Emprunt {
@@ -23,12 +26,6 @@ public class Emprunt {
 
     public Emprunt() {
     }
-
-//    public Emprunt(EmpruntDTO dto){
-//        this.date = dto.getDate();
-//        this.idAbonne = dto.getIdAbonne();
-//        this.idTrottinette = dto.getIdTrottinette();
-//    }
 
     public Emprunt(Long id, Date date, Long idAbonne, Long idTrottinette) {
         this.id = id;

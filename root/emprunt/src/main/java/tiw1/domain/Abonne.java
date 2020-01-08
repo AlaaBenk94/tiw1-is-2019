@@ -6,6 +6,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ *
+ */
 @Entity
 public class Abonne {
     @Id

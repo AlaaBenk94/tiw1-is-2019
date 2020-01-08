@@ -2,13 +2,10 @@ package tiw1.domain;
 
 import java.util.Date;
 
-// @Entity
 public class Intervention {
-//    @Id
-//    @GeneratedValue
+
     private Long id;
 
-//    @Temporal(TemporalType.DATE)
     private Date date;
 
     private String description;

@@ -1,5 +1,6 @@
 package tiw1.domain;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class Trottinette {
     }
 
     public List<Intervention> getInterventions() {
-        return interventions;
+        return interventions != null ? interventions : Collections.emptyList();
     }
 
     public void setInterventions(List<Intervention> interventions) {
