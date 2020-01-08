@@ -1,4 +1,21 @@
 maintenance:
   url: http://localhost:8080/
 
+spring:
+  datasource:
+    #    url: jdbc:h2:mem:testdb
+    url: jdbc:h2:file:/home/alaabenk/Documents/tiw1-is-2019/root/emprunt/src/main/resources/static/database.db
+    driver-class-name: org.h2.Driver
+    data-username: alaa
+    data-password: benk
+    platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+#  security:
+#    user:
+#      name: admin
+#      password: admin
 
+server:
+  port: 8081
