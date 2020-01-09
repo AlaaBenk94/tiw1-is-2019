@@ -4,10 +4,16 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import javassist.NotFoundException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import tiw1.dto.EmpruntDto;
 import tiw1.service.EmpruntService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/emprunts")
@@ -28,12 +34,7 @@ public class EmpruntController {
     @GetMapping(path = "/{id}")
     public EmpruntDto getEmprunt(
             @ApiParam(value = "id of emprunt you want to get", required = true) @PathVariable(name = "id") Long id) {
-        try {
-            return empruntService.getEmprunt(id);
-        } catch (NotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
+        return empruntService.getEmprunt(id);
     }
 
     @ApiOperation(value = "save an Emprunt", response = EmpruntDto.class, httpMethod = "POST")
@@ -47,13 +48,13 @@ public class EmpruntController {
         return empruntService.saveEmprunt(empruntDto);
     }
 
-    @ApiOperation(value = "retreive emprunts list", response = String.class, httpMethod = "GET")
+    @ApiOperation(value = "retreive emprunts list", response = List.class, httpMethod = "GET")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved emprunts list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")})
     @RequestMapping
-    public String getEmprunts() {
-        return "please, add an id path variable.";
+    public List<EmpruntDto> getEmprunts() {
+        return empruntService.getEmprunts();
     }
 }
