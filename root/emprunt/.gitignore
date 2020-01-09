@@ -29,3 +29,5 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/static/database.trace.db
+/src/main/resources/static/database.mv.db
