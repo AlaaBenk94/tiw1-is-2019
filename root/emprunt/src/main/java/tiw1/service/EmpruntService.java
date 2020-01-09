@@ -1,6 +1,5 @@
 package tiw1.service;
 
-import javassist.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -8,6 +7,9 @@ import tiw1.domain.Emprunt;
 import tiw1.dto.EmpruntDto;
 import tiw1.exception.ResourceNotFoundException;
 import tiw1.repository.EmpruntRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EmpruntService {
@@ -22,9 +24,9 @@ public class EmpruntService {
     /**
      * @param id
      * @return
-     * @throws NotFoundException
+     * @throws ResourceNotFoundException
      */
-    public EmpruntDto getEmprunt(Long id) throws NotFoundException {
+    public EmpruntDto getEmprunt(Long id) throws ResourceNotFoundException {
         Emprunt emprunt = empruntRepository.findById(id)
                 .orElseGet(() -> {
                     LOGGER.debug("emprunt with id {} not found", id);
@@ -57,5 +59,19 @@ public class EmpruntService {
                 .withIdTrottinette(savedEmprunt.getIdTrottinette())
                 .withIdAbonne(savedEmprunt.getIdAbonne())
                 .build();
+    }
+
+    public List<EmpruntDto> getEmprunts() {
+        List<EmpruntDto> empruntDtoList = new ArrayList<>();
+        empruntRepository.findAll().forEach(emprunt -> {
+            EmpruntDto empruntDto = EmpruntDto.builder()
+                    .withId(emprunt.getId())
+                    .withDate(emprunt.getDate())
+                    .withIdAbonne(emprunt.getIdAbonne())
+                    .withIdTrottinette(emprunt.getIdTrottinette())
+                    .build();
+            empruntDtoList.add(empruntDto);
+        });
+        return empruntDtoList;
     }
 }
