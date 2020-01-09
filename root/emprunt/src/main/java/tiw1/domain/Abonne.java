@@ -1,9 +1,10 @@
 package tiw1.domain;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
 /**
@@ -26,11 +27,11 @@ public class Abonne {
     public Abonne() {
     }
 
-    @JsonCreator
-    public Abonne(@JsonProperty("id") Long id, @JsonProperty("name") String name, @JsonProperty("dateDebut") Date dateDebut, @JsonProperty("dateFin") Date dateFin) {
+    public Abonne(Long id, String name, Date dateDebut, Date dateFin) {
         this.id = id;
         this.dateDebut = dateDebut;
         this.name = name;
+        this.dateFin = dateFin;
     }
 
     public Long getId() {
