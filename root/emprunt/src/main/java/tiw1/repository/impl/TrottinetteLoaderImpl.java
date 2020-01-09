@@ -2,6 +2,8 @@ package tiw1.repository.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -13,13 +15,12 @@ import tiw1.config.MaintenanceServerProperties;
 import tiw1.domain.Trottinette;
 import tiw1.repository.TrottinetteLoader;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
-public class TrottinetteLoaderImpl implements TrottinetteLoader {
+public class TrottinetteLoaderImpl implements TrottinetteLoader, InitializingBean {
     private final Logger LOGGER = LoggerFactory.getLogger(TrottinetteLoaderImpl.class);
 
     private static Map<Long, Trottinette> trottinettes;
@@ -52,7 +53,6 @@ public class TrottinetteLoaderImpl implements TrottinetteLoader {
         return null;
     }
 
-    @PostConstruct
     public void loadTrottinettes() {
         try {
             String URL = UriComponentsBuilder
@@ -75,5 +75,10 @@ public class TrottinetteLoaderImpl implements TrottinetteLoader {
         } catch (RestClientException e) {
             LOGGER.error("Error when with RestClient when calling {}", maintenanceServerProperties.getUrl());
         }
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        loadTrottinettes();
     }
 }
