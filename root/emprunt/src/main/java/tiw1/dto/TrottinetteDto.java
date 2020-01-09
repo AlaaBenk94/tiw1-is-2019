@@ -67,7 +67,7 @@ public class TrottinetteDto {
     public static class Builder {
         TrottinetteDto trottinetteDto = new TrottinetteDto();
 
-        public Builder withId(long id) {
+        public Builder withId(Long id) {
             trottinetteDto.id = id;
             return this;
         }
