@@ -1,6 +1,12 @@
 package tiw1.domain;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 import java.util.Objects;
 
@@ -23,6 +29,8 @@ public class Emprunt {
     private Date date;
 
     private Long idAbonne, idTrottinette;
+
+    private String owner;
 
     public Emprunt() {
     }
@@ -66,16 +74,28 @@ public class Emprunt {
         this.idTrottinette = idTrottinette;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Emprunt emprunt = (Emprunt) o;
-        return Objects.equals(id, emprunt.id);
+        return Objects.equals(id, emprunt.id) &&
+                Objects.equals(date, emprunt.date) &&
+                Objects.equals(idAbonne, emprunt.idAbonne) &&
+                Objects.equals(idTrottinette, emprunt.idTrottinette) &&
+                Objects.equals(owner, emprunt.owner);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(id, date, idAbonne, idTrottinette, owner);
     }
 }
