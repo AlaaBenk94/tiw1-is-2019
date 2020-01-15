@@ -21,6 +21,9 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
+    public static final String USER_ROLE = "user";
+    public static final String ADMIN_ROLE = "admin";
+
     @Autowired
     public void configureGlobal(
             AuthenticationManagerBuilder auth) throws Exception {
@@ -48,9 +51,11 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http.authorizeRequests()
-                .antMatchers("/**")
-                .hasRole("user")
-                .anyRequest()
-                .permitAll();
+                .antMatchers("/emprunts", "/emprunts/", "/abonnes", "/abonnes/").hasAnyRole(ADMIN_ROLE)
+                .antMatchers("/emprunts/**", "/abonnes/**").hasAnyRole(ADMIN_ROLE, USER_ROLE)
+                .antMatchers("/**").hasRole(ADMIN_ROLE)
+                .anyRequest().permitAll()
+                .and()
+                .csrf().disable(); // for testing
     }
 }

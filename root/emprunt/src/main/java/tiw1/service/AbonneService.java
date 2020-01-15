@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import tiw1.domain.Abonne;
 import tiw1.dto.AbonneDto;
 import tiw1.exception.ResourceNotFoundException;
+import tiw1.exception.UnauthorizedAccessException;
 import tiw1.repository.AbonneRepository;
 
 import java.util.ArrayList;
@@ -22,15 +23,21 @@ public class AbonneService {
     }
 
     /**
-     * @param id
-     * @return
+     * get abonne by id
+     *
+     * @param id      the id of abonne
+     * @param isAdmin whether the user is admin or not
+     * @param owner   the user name
+     * @return an {@link AbonneDto}
+     * @throws ResourceNotFoundException
      */
-    public AbonneDto getAbonneById(Long id) throws ResourceNotFoundException {
-        Abonne abonne = abonneRepository.findById(id)
-                .orElseGet(() -> {
-                    LOGGER.debug("can't find abonne with id {}", id);
-                    throw new ResourceNotFoundException("can'i find abonne with id " + id);
-                });
+    public AbonneDto getAbonneById(Long id, Boolean isAdmin, String owner) throws ResourceNotFoundException, UnauthorizedAccessException {
+        Abonne abonne = getAbonneFromRepository(id);
+
+        if (!isAdmin && !abonne.getOwner().equals(owner)) {
+            LOGGER.debug("the user {} does not have access to abonne with id {}", owner, id);
+            throw new UnauthorizedAccessException("user " + owner + " does not have acces to abonne with id " + id);
+        }
 
         return AbonneDto.builder()
                 .withId(abonne.getId())
@@ -41,22 +48,17 @@ public class AbonneService {
     }
 
     /**
-     * @param name
-     * @return
+     * get abonne from repository
+     *
+     * @param id id of abonne
+     * @return {@link Abonne}
      */
-    public AbonneDto getAbonneByName(String name) throws ResourceNotFoundException {
-        Abonne abonne = abonneRepository.findAbonneByName(name)
+    private Abonne getAbonneFromRepository(Long id) {
+        return abonneRepository.findById(id)
                 .orElseGet(() -> {
-                    LOGGER.debug("can't find abonne with name {}", name);
-                    throw new ResourceNotFoundException("can'i find abonne with name " + name);
+                    LOGGER.debug("can't find abonne with id {}", id);
+                    throw new ResourceNotFoundException("can'i find abonne with id " + id);
                 });
-
-        return AbonneDto.builder()
-                .withId(abonne.getId())
-                .withName(abonne.getName())
-                .withDateDebut(abonne.getDateDebut())
-                .withDateFin(abonne.getDateFin())
-                .build();
     }
 
     /**
@@ -65,18 +67,45 @@ public class AbonneService {
      * @param abonneDto abonne to save
      * @return the saved abonne
      */
-    public AbonneDto saveAbonne(AbonneDto abonneDto) {
+    public AbonneDto subscribe(AbonneDto abonneDto, String owner) {
         Abonne abonne = new Abonne(
                 abonneDto.getId(),
                 abonneDto.getName(),
                 abonneDto.getDateDebut(),
                 abonneDto.getDateFin());
+        abonne.setOwner(owner);
         Abonne savedAbonne = abonneRepository.save(abonne);
         return AbonneDto.builder()
                 .withId(savedAbonne.getId())
                 .withName(savedAbonne.getName())
                 .withDateDebut(savedAbonne.getDateDebut())
                 .withDateFin(savedAbonne.getDateFin())
+                .build();
+    }
+
+    /**
+     * unsubscribe an abonne by setting attribute dateFin de {@link Abonne} to Now.
+     *
+     * @param id
+     * @param isAdmin
+     * @param owner
+     * @return
+     */
+    public AbonneDto unsubscribe(Long id, Boolean isAdmin, String owner) throws ResourceNotFoundException, UnauthorizedAccessException {
+        Abonne abonne = getAbonneFromRepository(id);
+
+        if (!isAdmin && !abonne.getOwner().equals(owner)) {
+            LOGGER.debug("the user {} does not have access to abonne with id {}", owner, id);
+            throw new UnauthorizedAccessException("user " + owner + " does not have acces to abonne with id " + id);
+        }
+
+        abonneRepository.delete(abonne);
+
+        return AbonneDto.builder()
+                .withId(abonne.getId())
+                .withName(abonne.getName())
+                .withDateDebut(abonne.getDateDebut())
+                .withDateFin(abonne.getDateFin())
                 .build();
     }
 

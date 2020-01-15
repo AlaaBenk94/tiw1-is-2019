@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,8 @@ import tiw1.dto.EmpruntDto;
 import tiw1.service.EmpruntService;
 
 import java.util.List;
+
+import static tiw1.web.util.AuthenticationUtils.isAdmin;
 
 @RestController
 @RequestMapping(path = "/emprunts")
@@ -34,7 +38,8 @@ public class EmpruntController {
     @GetMapping(path = "/{id}")
     public EmpruntDto getEmprunt(
             @ApiParam(value = "id of emprunt you want to get", required = true) @PathVariable(name = "id") Long id) {
-        return empruntService.getEmprunt(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return empruntService.getEmprunt(id, isAdmin(authentication), authentication.getName());
     }
 
     @ApiOperation(value = "save an Emprunt", response = EmpruntDto.class, httpMethod = "POST")
@@ -45,7 +50,8 @@ public class EmpruntController {
     @PostMapping(path = "/save")
     public EmpruntDto saveEmprunt(
             @ApiParam(value = "emprunt object that you want to save", required = true) @RequestBody EmpruntDto empruntDto) {
-        return empruntService.saveEmprunt(empruntDto);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return empruntService.saveEmprunt(empruntDto, authentication.getName());
     }
 
     @ApiOperation(value = "retreive emprunts list", response = List.class, httpMethod = "GET")

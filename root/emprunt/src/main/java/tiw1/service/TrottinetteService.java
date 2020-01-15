@@ -38,6 +38,17 @@ public class TrottinetteService {
                 .build();
     }
 
+    /**
+     * @param id
+     * @return
+     */
+    public Boolean checkTrottinette(Long id) {
+        return trottinetteLoader.getTrottinettes().containsKey(id);
+    }
+
+    /**
+     * @return
+     */
     public List<TrottinetteDto> getTrottinettes() {
         return trottinetteLoader.getTrottinettes().values().stream()
                 .map(trottinette ->
@@ -49,6 +60,12 @@ public class TrottinetteService {
                 ).collect(Collectors.toList());
     }
 
+    /**
+     * build a list of {@link InterventionDto} from a list of {@link Intervention}
+     *
+     * @param interventions a list of {@link Intervention}
+     * @return a list of {@link InterventionDto}
+     */
     private List<InterventionDto> buildInterventions(List<Intervention> interventions) {
         return interventions.stream()
                 .map(intervention ->

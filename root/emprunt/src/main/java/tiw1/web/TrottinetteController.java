@@ -35,6 +35,18 @@ public class TrottinetteController {
         return trottinetteService.getTrottinette(id);
     }
 
+    @ApiOperation(value = "retreive a single trottinette by id", response = TrottinetteDto.class, httpMethod = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved trottinette"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The trottinette you were trying to get is not found")})
+    @GetMapping(path = "/check/{id}")
+    public Boolean getAvailableTrottinetteById(
+            @ApiParam(value = "The id of the trottinette you want to get", required = true) @PathVariable(name = "id") Long id) {
+        return trottinetteService.checkTrottinette(id);
+    }
+
     @ApiOperation(value = "retreive trottinettes list", response = List.class, httpMethod = "GET")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully retrieved trottinettes list"),
