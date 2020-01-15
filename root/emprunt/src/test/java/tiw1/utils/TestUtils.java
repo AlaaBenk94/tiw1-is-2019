@@ -1,4 +1,4 @@
-package tiw1.util;
+package tiw1.utils;
 
 import tiw1.domain.Abonne;
 import tiw1.domain.Emprunt;
@@ -25,6 +25,13 @@ public class TestUtils {
         assertEquals(expectedAbonne.getDateFin(), actualAbonneDto.getDateFin());
     }
 
+//    public static void assertAbonneResult(Abonne expectedAbonne, Abonne actualAbonne) {
+//        assertEquals(expectedAbonne.getId(), actualAbonne.getId());
+//        assertEquals(expectedAbonne.getName(), actualAbonne.getName());
+//        assertEquals(expectedAbonne.getDateDebut(), actualAbonne.getDateDebut());
+//        assertEquals(expectedAbonne.getDateFin(), actualAbonne.getDateFin());
+//    }
+
     public static void assertEqualsTrottinetteResult(Trottinette expectedTrottinette, TrottinetteDto actualTrottinette) {
         assertEquals(expectedTrottinette.getId(), actualTrottinette.getId());
         assertEquals(expectedTrottinette.isDisponible(), actualTrottinette.isDisponible());
@@ -36,4 +43,11 @@ public class TestUtils {
         assertEquals(expectedEmprunt.getIdAbonne(), actualEmprunt.getIdAbonne());
         assertEquals(expectedEmprunt.getIdTrottinette(), actualEmprunt.getIdTrottinette());
     }
+
+//    public static void assertEqualsEmpruntResult(Emprunt expectedEmprunt, Emprunt actualEmprunt) {
+//        assertEquals(expectedEmprunt.getId(), actualEmprunt.getId());
+//        assertEquals(expectedEmprunt.getDate(), actualEmprunt.getDate());
+//        assertEquals(expectedEmprunt.getIdAbonne(), actualEmprunt.getIdAbonne());
+//        assertEquals(expectedEmprunt.getIdTrottinette(), actualEmprunt.getIdTrottinette());
+//    }
 }
