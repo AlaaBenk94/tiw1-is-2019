@@ -32,11 +32,14 @@ public class Emprunt {
 
     private String owner;
 
+    private String activationNumber;
+
+    private Boolean activated;
+
     public Emprunt() {
     }
 
-    public Emprunt(Long id, Date date, Long idAbonne, Long idTrottinette) {
-        this.id = id;
+    public Emprunt(Date date, Long idAbonne, Long idTrottinette) {
         this.date = date;
         this.idAbonne = idAbonne;
         this.idTrottinette = idTrottinette;
@@ -80,6 +83,22 @@ public class Emprunt {
 
     public void setOwner(String owner) {
         this.owner = owner;
+    }
+
+    public String getActivationNumber() {
+        return activationNumber;
+    }
+
+    public void setActivationNumber(String activationNumber) {
+        this.activationNumber = activationNumber;
+    }
+
+    public Boolean isActivated() {
+        return activated;
+    }
+
+    public void setActivated(Boolean activated) {
+        this.activated = activated;
     }
 
     @Override

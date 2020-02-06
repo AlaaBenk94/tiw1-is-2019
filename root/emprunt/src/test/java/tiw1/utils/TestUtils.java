@@ -38,7 +38,6 @@ public class TestUtils {
     }
 
     public static void assertEqualsEmpruntResult(Emprunt expectedEmprunt, EmpruntDto actualEmprunt) {
-        assertEquals(expectedEmprunt.getId(), actualEmprunt.getId());
         assertEquals(expectedEmprunt.getDate(), actualEmprunt.getDate());
         assertEquals(expectedEmprunt.getIdAbonne(), actualEmprunt.getIdAbonne());
         assertEquals(expectedEmprunt.getIdTrottinette(), actualEmprunt.getIdTrottinette());

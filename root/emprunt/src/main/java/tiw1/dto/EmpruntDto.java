@@ -24,6 +24,12 @@ public class EmpruntDto {
     @ApiModelProperty(notes = "Id of trottinette")
     private Long idTrottinette;
 
+    @ApiModelProperty(notes = "auto generated activation number")
+    private String activationNumber;
+
+    @ApiModelProperty(notes = "whether the emprunt is activated or not ")
+    private Boolean activated;
+
     public Long getId() {
         return id;
     }
@@ -38,6 +44,14 @@ public class EmpruntDto {
 
     public Long getIdTrottinette() {
         return idTrottinette;
+    }
+
+    public String getActivationNumber() {
+        return activationNumber;
+    }
+
+    public Boolean getActivated() {
+        return activated;
     }
 
     @Override
@@ -80,6 +94,16 @@ public class EmpruntDto {
 
         public Builder withIdTrottinette(Long idTrottinette) {
             empruntDto.idTrottinette = idTrottinette;
+            return this;
+        }
+
+        public Builder withActivationNumber(String activationNumber) {
+            empruntDto.activationNumber = activationNumber;
+            return this;
+        }
+
+        public Builder withActivated(Boolean activated) {
+            empruntDto.activated = activated;
             return this;
         }
 

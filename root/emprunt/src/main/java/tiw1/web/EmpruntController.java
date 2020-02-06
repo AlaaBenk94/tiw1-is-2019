@@ -47,7 +47,7 @@ public class EmpruntController {
             @ApiResponse(code = 200, message = "Successfully saved emprunt object"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")})
-    @PostMapping(path = "/save")
+    @PostMapping
     public EmpruntDto saveEmprunt(
             @ApiParam(value = "emprunt object that you want to save", required = true) @RequestBody EmpruntDto empruntDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -59,7 +59,7 @@ public class EmpruntController {
             @ApiResponse(code = 200, message = "Successfully retrieved emprunts list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")})
-    @RequestMapping
+    @GetMapping
     public List<EmpruntDto> getEmprunts() {
         return empruntService.getEmprunts();
     }

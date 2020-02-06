@@ -44,10 +44,11 @@ public class EmpruntService {
         }
 
         return EmpruntDto.builder()
-                .withId(emprunt.getId())
                 .withIdAbonne(emprunt.getIdAbonne())
                 .withIdTrottinette(emprunt.getIdTrottinette())
                 .withDate(emprunt.getDate())
+                .withActivated(emprunt.isActivated())
+                .withActivationNumber(emprunt.getActivationNumber())
                 .build();
     }
 
@@ -60,20 +61,22 @@ public class EmpruntService {
      */
     public EmpruntDto saveEmprunt(EmpruntDto empruntDto, String owner) {
         Emprunt emprunt = new Emprunt(
-                empruntDto.getId(),
                 empruntDto.getDate(),
                 empruntDto.getIdAbonne(),
                 empruntDto.getIdTrottinette());
+        emprunt.setActivated(false);
+        emprunt.setActivationNumber(emprunt.hashCode() + "");
         emprunt.setOwner(owner);
         Emprunt savedEmprunt = empruntRepository.save(emprunt);
         return EmpruntDto.builder()
-                .withId(savedEmprunt.getId())
                 .withDate(savedEmprunt.getDate())
                 .withIdTrottinette(savedEmprunt.getIdTrottinette())
                 .withIdAbonne(savedEmprunt.getIdAbonne())
+                .withActivated(emprunt.isActivated())
+                .withActivationNumber(emprunt.getActivationNumber())
                 .build();
     }
-
+    
     /**
      * get all available emprunts
      *
@@ -83,10 +86,11 @@ public class EmpruntService {
         List<EmpruntDto> empruntDtoList = new ArrayList<>();
         empruntRepository.findAll().forEach(emprunt -> {
             EmpruntDto empruntDto = EmpruntDto.builder()
-                    .withId(emprunt.getId())
                     .withDate(emprunt.getDate())
                     .withIdAbonne(emprunt.getIdAbonne())
                     .withIdTrottinette(emprunt.getIdTrottinette())
+                    .withActivated(emprunt.isActivated())
+                    .withActivationNumber(emprunt.getActivationNumber())
                     .build();
             empruntDtoList.add(empruntDto);
         });

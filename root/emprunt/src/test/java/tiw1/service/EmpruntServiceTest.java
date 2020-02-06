@@ -46,7 +46,7 @@ class EmpruntServiceTest {
     @Test
     @DisplayName("Nominal Case for getEmprunt")
     void getEmpruntNominalCase() {
-        Emprunt expectedEmprunt = new Emprunt(EMPRUNT_ID, new Date(), ABONNE_ID, TROTTINETTE_ID);
+        Emprunt expectedEmprunt = new Emprunt(new Date(), ABONNE_ID, TROTTINETTE_ID);
         doReturn(Optional.of(expectedEmprunt))
                 .when(empruntRepository).findById(EMPRUNT_ID);
 
@@ -71,7 +71,7 @@ class EmpruntServiceTest {
     @Test
     void saveEmprunt() {
         ArgumentCaptor<Emprunt> acEmprunt = ArgumentCaptor.forClass(Emprunt.class);
-        Emprunt expectedEmprunt = new Emprunt(EMPRUNT_ID, new Date(), ABONNE_ID, TROTTINETTE_ID);
+        Emprunt expectedEmprunt = new Emprunt(new Date(), ABONNE_ID, TROTTINETTE_ID);
         EmpruntDto inputEmpruntDto = EmpruntDto.builder()
                 .withId(expectedEmprunt.getId())
                 .withDate(expectedEmprunt.getDate())

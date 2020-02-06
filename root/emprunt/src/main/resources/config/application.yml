@@ -13,6 +13,8 @@ spring:
       enabled: true
   main:
     allow-bean-definition-overriding: true
+  jackson:
+    default-property-inclusion: non_null
 
 server:
   port: 8081
