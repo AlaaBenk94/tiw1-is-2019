@@ -48,19 +48,19 @@ public class AbonneController {
             @ApiResponse(code = 200, message = "Successfully saved abonne"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")})
-    @PostMapping(path = "/subscribe")
+    @PostMapping
     public AbonneDto subscribe(
             @ApiParam(value = "abonne object that you want to save", required = true) @RequestBody AbonneDto abonneDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return abonneService.subscribe(abonneDto, authentication.getName());
     }
 
-    @ApiOperation(value = "delete Abonne", response = AbonneDto.class, httpMethod = "POST")
+    @ApiOperation(value = "delete Abonne", response = AbonneDto.class, httpMethod = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Successfully deleted abonne"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")})
-    @DeleteMapping(path = "/unsubscribe")
+    @DeleteMapping
     public AbonneDto unsubscribe(
             @ApiParam(value = "abonne object that you want to remove", required = true) @RequestBody AbonneDto abonneDto) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -72,7 +72,7 @@ public class AbonneController {
             @ApiResponse(code = 200, message = "Successfully retrieved abonnes list"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden")})
-    @RequestMapping
+    @GetMapping
     public List<AbonneDto> getAbonnes() {
         return abonneService.getAbonneList();
     }
