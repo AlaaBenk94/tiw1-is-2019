@@ -10,7 +10,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import tiw1.domain.Trottinette;
 import tiw1.dto.TrottinetteDto;
 import tiw1.exception.ResourceNotFoundException;
-import tiw1.repository.TrottinetteLoader;
 import tiw1.utils.TestUtils;
 
 import java.util.Collections;
@@ -23,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(MockitoExtension.class)
 class TrottinetteServiceTest {
