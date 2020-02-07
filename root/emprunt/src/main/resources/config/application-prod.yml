@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres_demo
+    username: user
+    password: pass
+    platform: org.hibernate.dialect.PostgreSQLDialect
+  main:
+    allow-bean-definition-overriding: true
+  jpa:
+    hibernate:
+    ddl-auto: update
+
+keycloak:
+  auth-server-url: ${KEYCLOAK_URL}/auth
+  realm: realm-tiw1-tp3
+  resource: tp3-client
+  public-client: true
+  principal-attribute: preferred_username
+
+maintenance:
+  url: ${MAINTENANCE_URL}
