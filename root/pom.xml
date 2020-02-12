@@ -130,8 +130,6 @@
 
     <modules>
         <module>maintenance-web</module>
-        <module>emprunt</module>
-        <module>annotations</module>
         <module>banque</module>
     </modules>
 </project>
