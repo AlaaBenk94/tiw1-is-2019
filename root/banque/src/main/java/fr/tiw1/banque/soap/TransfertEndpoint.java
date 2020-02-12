@@ -22,7 +22,7 @@ public class TransfertEndpoint {
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "transfertRequest")
     @ResponsePayload
     public TransfertResponse transfert(@RequestPayload TransfertRequest transfert) {
-        boolean ok = compteService.transfert(transfert.getFrom(), transfert.getTo(), transfert.getAutorisation(), transfert.getMontant());
+        boolean ok = compteService.transfert(transfert.getFrom(), transfert.getTo(), transfert.getAutorisation(), transfert.getMontant(), transfert.getActivationNumber());
         TransfertResponse response = banqueObjectFactory.createTransfertResponse();
         response.setTransfertOk(ok);
         return response;

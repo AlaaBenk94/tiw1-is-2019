@@ -1,5 +1,6 @@
 package fr.tiw1.banque.services;
 
+import fr.tiw1.banque.client.RabbitmqProducer;
 import fr.tiw1.banque.dao.AutorisationRepository;
 import fr.tiw1.banque.dao.CompteRepository;
 import fr.tiw1.banque.modeles.Autorisation;
@@ -18,11 +19,13 @@ public class CompteService {
     private static final Logger LOG = LoggerFactory.getLogger(CompteService.class);
     private CompteRepository compteRepository;
     private AutorisationRepository autorisationRepository;
+    private RabbitmqProducer rabbitmqProducer;
 
     @Autowired
-    public CompteService(CompteRepository compteRepository, AutorisationRepository autorisationRepository) {
+    public CompteService(CompteRepository compteRepository, AutorisationRepository autorisationRepository, RabbitmqProducer rabbitmqProducer) {
         this.compteRepository = compteRepository;
         this.autorisationRepository = autorisationRepository;
+        this.rabbitmqProducer = rabbitmqProducer;
     }
 
     public Collection<Compte> allComptes() {
@@ -46,26 +49,31 @@ public class CompteService {
     }
 
     @Transactional
-    public boolean transfert(long from, long to, long autorisationId, double montant) {
+    public boolean transfert(long from, long to, long autorisationId, double montant, String activationNumber) {
         Optional<Compte> compteFrom = compteRepository.findById(from);
         Optional<Compte> compteTo = compteRepository.findById(to);
         Optional<Autorisation> autorisation = autorisationRepository.findById(autorisationId);
         if (compteFrom.isEmpty()) {
-            LOG.warn("Did not found from: {}",from);
+            LOG.warn("Did not found from: {}", from);
         } else if (compteTo.isEmpty()) {
-            LOG.warn("Did not found to: {}",to);
+            LOG.warn("Did not found to: {}", to);
         } else if (autorisation.isEmpty()) {
-            LOG.warn("Did not found autorisation: {}",autorisationId);
-        } else if (! compteFrom.get().getAutorisations().contains(autorisation.get())) {
-            LOG.warn("Autorisation {} not for Compte {}",autorisationId,compteFrom);
-        } else if (autorisation.get().isUsed()){
+            LOG.warn("Did not found autorisation: {}", autorisationId);
+        } else if (!compteFrom.get().getAutorisations().contains(autorisation.get())) {
+            LOG.warn("Autorisation {} not for Compte {}", autorisationId, compteFrom);
+        } else if (autorisation.get().isUsed()) {
             LOG.warn("Autorisation {} already used", autorisationId);
+        } else if (autorisation.get().getMontant() != montant) {
+            LOG.warn("Transfert amount {} and Autorisation amount {} are not equal", montant, autorisation.get().getMontant());
         } else {
             autorisation.get().setUsed(true);
             compteFrom.get().setValeur(compteFrom.get().getValeur() - montant);
             compteTo.get().setValeur(compteTo.get().getValeur() + montant);
+            // send the activation number to th Queue
+            rabbitmqProducer.send(activationNumber);
             return true;
         }
+
         return false;
     }
 
