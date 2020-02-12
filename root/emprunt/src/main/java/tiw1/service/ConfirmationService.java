@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.stereotype.Service;
 import tiw1.domain.Emprunt;
-import tiw1.dto.TrottinetteDto;
 import tiw1.exception.ResourceNotFoundException;
 import tiw1.repository.EmpruntRepository;
 
@@ -37,13 +36,6 @@ public class ConfirmationService {
 
         Emprunt emprunt = empruntRepository.findEmpruntByActivationNumber(confirmationNumber);
         if (emprunt != null && !emprunt.isActivated()) {
-            // Edit trotinette disponibility to false
-            TrottinetteDto trottinette = trottinetteService.getTrottinette(emprunt.getIdTrottinette());
-            trottinetteService.updateTrottinette(TrottinetteDto.builder()
-                    .withId(trottinette.getId())
-                    .withIntervention(trottinette.getInterventions())
-                    .withDisponible(false)
-                    .build());
             // Edit emprunt status and save it
             emprunt.setActivated(true);
             empruntRepository.save(emprunt);
