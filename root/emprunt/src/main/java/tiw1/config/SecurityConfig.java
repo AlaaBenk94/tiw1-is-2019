@@ -54,6 +54,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
                 .frameOptions()
                 .sameOrigin();
         http.authorizeRequests()
+                .antMatchers("/v2/api-docs").anonymous()
                 .antMatchers("/trottinettes/**").authenticated()
                 .antMatchers("/emprunts", "/abonnes").hasRole(ADMIN_ROLE)
                 .antMatchers("/**").hasAnyRole(ADMIN_ROLE, USER_ROLE)
