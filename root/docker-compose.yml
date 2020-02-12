@@ -48,17 +48,6 @@ services:
     networks:
       - emprunt_net
 
-  # to remove 
-  db_web:
-    image: postgres
-    container_name: db_web_container
-    environment:
-      POSTGRES_USER: web_user
-      POSTGRES_PASSWORD: web_password
-      POSTGRES_DB: web_database 
-    ports:
-      - 5434:5432
-  
   keycloak:
     image: quay.io/keycloak/keycloak
     container_name: keycloak_container
