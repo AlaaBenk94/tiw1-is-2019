@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http:/univ-lyon1.fr/tiw1-is/banque/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:transfertRequest>
+         <ser:from>1</ser:from>
+         <ser:to>2</ser:to>
+         <ser:autorisation>2</ser:autorisation>
+         <ser:montant>5.0</ser:montant>
+      </ser:transfertRequest>
+   </soapenv:Body>
+</soapenv:Envelope>

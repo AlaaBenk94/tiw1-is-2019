@@ -1,0 +1,134 @@
+version: '3'
+
+networks:
+  banque_net:
+  transaction_net:
+  emprunt_net:
+  reservation_net:
+
+services:
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    container_name: rabbitmq_container
+    environment:
+      RABBITMQ_ERLANG_COOKIE: "SWQOKODSQALRPCLNMEQG"
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    labels:
+      NAME: "rabbitmq"
+    networks:
+      - transaction_net
+  
+  db_banque:
+    image: postgres
+    container_name: db_banque_container
+    environment:
+      POSTGRES_USER: banque_user
+      POSTGRES_PASSWORD: banque_password
+      POSTGRES_DB: banque_database 
+    ports:
+      - 5432:5432
+    networks:
+      - transaction_net
+      - banque_net
+
+  db_emprunt:
+    image: postgres
+    container_name: db_emprunt_container
+    environment:
+      POSTGRES_USER: emprunt_user
+      POSTGRES_PASSWORD: emprunt_password
+      POSTGRES_DB: emprunt_database 
+    ports:
+      - 5433:5432
+    networks:
+      - emprunt_net
+
+  # to remove 
+  db_web:
+    image: postgres
+    container_name: db_web_container
+    environment:
+      POSTGRES_USER: web_user
+      POSTGRES_PASSWORD: web_password
+      POSTGRES_DB: web_database 
+    ports:
+      - 5434:5432
+  
+  keycloak:
+    image: quay.io/keycloak/keycloak
+    container_name: keycloak_container
+    volumes:
+      - "./scripts/keycloak_init_script.sh:/config/keycloak_init_script.sh"
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: Pa55w0rd
+    ports:
+      - 8080:8080
+    networks:
+      - emprunt_net
+
+  main-web:
+    build:
+      context: ./maintenance-web
+    image: maintenance-web:latest
+    container_name: web_container
+    ports:
+      - 8081:8080
+    networks:
+      - reservation_net
+
+  banque:
+    build:
+      context: ./banque
+    image: banque:latest
+    container_name: banque_container
+    environment:
+      RABBITMQ_URL: rabbitmq
+      DB_USER: banque_user
+      DB_PASSWORD: banque_password
+      DB_NAME: banque_database
+      DB_URL: db_banque
+    ports:
+      - 8082:8080
+    depends_on:
+      - rabbitmq
+      - db_banque
+    networks:
+      - transaction_net
+      - banque_net
+
+  emprunt:
+    build:
+      context: ./emprunt
+    image: emprunt:latest
+    container_name: emprunt_container
+    volumes:
+      - "./scripts/client.sh:/script/client.sh"
+    environment:
+      MAINTENANCE_URL: http://main-web:8080/maintenance-web/
+      RABBITMQ_URL: rabbitmq
+      KEYCLOAK_URL: http://keycloak:8080/auth
+      KEYCLOAK_REALM: realm-tiw1-tp3
+      KEYCLOAK_CLIENT: tp3-client
+      DB_USER: emprunt_user
+      DB_PASSWORD: emprunt_password
+      DB_NAME: emprunt_database
+      DB_URL: db_emprunt
+      CLEANING_RATE: 600000 # 10 minutes in millis
+      CLEANING_RANGE: 600 # 10 minutes in secondes
+    ports:
+      - 8083:8080
+    depends_on:
+      - rabbitmq
+      - keycloak
+      - main-web
+      - db_emprunt
+    networks:
+      - transaction_net
+      - reservation_net
+      - emprunt_net

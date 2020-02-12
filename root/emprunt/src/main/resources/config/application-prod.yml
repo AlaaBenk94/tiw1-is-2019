@@ -1,21 +1,41 @@
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/postgres_demo
-    username: user
-    password: pass
-    platform: org.hibernate.dialect.PostgreSQLDialect
-  main:
-    allow-bean-definition-overriding: true
   jpa:
     hibernate:
-    ddl-auto: update
+      ddl-auto: update
+    database: postgresql
+    show-sql: true
+    generate-ddl: true
+  datasource:
+    url: jdbc:postgresql://${DB_URL}:5432/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    platform: postgres
+    driver-class-name: org.postgresql.Driver
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  rabbitmq:
+    host: ${RABBITMQ_URL}
+    port: 5672
+    username: rabbitmq
+    password: rabbitmq
 
 keycloak:
-  auth-server-url: ${KEYCLOAK_URL}/auth
-  realm: realm-tiw1-tp3
-  resource: tp3-client
+  auth-server-url: ${KEYCLOAK_URL}
+  realm: ${KEYCLOAK_REALM}
+  resource: ${KEYCLOAK_CLIENT}
   public-client: true
   principal-attribute: preferred_username
+  bearer-only: true
 
 maintenance:
   url: ${MAINTENANCE_URL}
+
+rabbit:
+  queue-name: confirmationQueue
+
+cleaning:
+  rate: ${CLEANING_RATE}
+  range: ${CLEANING_RANGE}

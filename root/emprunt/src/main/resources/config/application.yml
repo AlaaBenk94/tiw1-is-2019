@@ -1,27 +1,5 @@
-maintenance:
-  url: http://localhost:8080/
-
 spring:
-  datasource:
-    url: jdbc:h2:file:/home/alaabenk/Documents/tiw1-is-2019/root/emprunt/src/main/resources/static/database
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-    platform: org.hibernate.dialect.H2Dialect
-  h2:
-    console:
-      enabled: true
   main:
     allow-bean-definition-overriding: true
   jackson:
     default-property-inclusion: non_null
-
-server:
-  port: 8081
-
-keycloak:
-  auth-server-url: http://localhost:8090/auth
-  realm: realm-tiw1-tp3
-  resource: tp3-client
-  public-client: true
-  principal-attribute: preferred_username
