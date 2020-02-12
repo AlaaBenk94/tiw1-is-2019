@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="e8b6facb-2cb2-49f3-8529-e5d709700841" activeEnvironment="Default" name="tiw1_is_banque" resourceRoot="" soapui-version="5.5.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="6dcf6608-c825-4a7e-bbfa-c1d773cf2857" wsaVersion="NONE" name="banquePortTypeSoap11" type="wsdl" bindingName="{http:/univ-lyon1.fr/tiw1-is/banque/service}banquePortTypeSoap11" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/ws/banque.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/ws/banque.wsdl"><con:part><con:url>http://localhost:8080/ws/banque.wsdl</con:url><con:content><![CDATA[<wsdl:definitions targetNamespace="http:/univ-lyon1.fr/tiw1-is/banque/service" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http:/univ-lyon1.fr/tiw1-is/banque/service" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http:/univ-lyon1.fr/tiw1-is/banque/service">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http:/univ-lyon1.fr/tiw1-is/banque/service" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="transfertRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="from" type="xs:long"/>
+            <xs:element name="to" type="xs:long"/>
+            <xs:element name="autorisation" type="xs:long"/>
+            <xs:element name="montant" type="xs:double"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="transfertResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="transfertOk" type="xs:boolean"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="transfertResponse">
+    <wsdl:part element="tns:transfertResponse" name="transfertResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="transfertRequest">
+    <wsdl:part element="tns:transfertRequest" name="transfertRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="banquePortType">
+    <wsdl:operation name="transfert">
+      <wsdl:input message="tns:transfertRequest" name="transfertRequest"></wsdl:input>
+      <wsdl:output message="tns:transfertResponse" name="transfertResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="banquePortTypeSoap11" type="tns:banquePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="transfert">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="transfertRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="transfertResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="banquePortTypeService">
+    <wsdl:port binding="tns:banquePortTypeSoap11" name="banquePortTypeSoap11">
+      <soap:address location="http://localhost:8080/ws/banque"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/ws/banque</con:endpoint></con:endpoints><con:operation id="e38839a0-44b2-4430-9ecf-712b4f4290ab" isOneWay="false" action="" name="transfert" bindingOperationName="transfert" type="Request-Response" outputName="transfertResponse" inputName="transfertRequest" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="9bf4da34-e9e7-4a4c-a86a-41d73511d4d0" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8082/ws/banque</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http:/univ-lyon1.fr/tiw1-is/banque/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:transfertRequest>
+         <ser:from>1</ser:from>
+         <ser:to>2</ser:to>
+         <ser:autorisation>3</ser:autorisation>
+         <ser:montant>5.0</ser:montant>
+         <ser:activationNumber>23823952</ser:activationNumber>
+      </ser:transfertRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http:/univ-lyon1.fr/tiw1-is/banque/service/banquePortType/transfertRequest"/><con:wsrmConfig version="1.2"/></con:call><con:call id="4d13a7e1-fab4-4d5b-8145-4d088833836c" name="Request 2"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8081/ws/confirmation</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http:/univ-lyon1.fr/tiw1-is/confirmation/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:confirmationRequest>
+         <ser:activationNumber>1215612331</ser:activationNumber>
+      </ser:confirmationRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:username/><con:password/><con:selectedAuthProfile>No Authorization</con:selectedAuthProfile><con:preemptive>false</con:preemptive><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http:/univ-lyon1.fr/tiw1-is/banque/service/banquePortType/transfertRequest"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite id="df40d6e4-074f-44a7-9fa9-18bd760be25b" name="banquePortTypeSoap11 TestSuite"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase id="785ed044-756e-46c1-a0b5-c6cc95c1d701" failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="transfert TestCase" searchProperties="true"><con:settings/><con:testStep type="request" id="2f72b14d-65af-41aa-8bcd-3ce93555e0a8" name="transfert"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>banquePortTypeSoap11</con:interface><con:operation>transfert</con:operation><con:request name="transfert" id="9919a266-ecdf-46d0-af75-54e1cc70721d"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ws/banque</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http:/univ-lyon1.fr/tiw1-is/banque/service">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:transfertRequest>
+         <ser:from>2</ser:from>
+         <ser:to>1</ser:to>
+         <ser:autorisation></ser:autorisation>
+         <ser:montant>?</ser:montant>
+      </ser:transfertRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig action="http:/univ-lyon1.fr/tiw1-is/banque/service/banquePortType/transfertRequest" mustUnderstand="NONE" version="200508"/><con:wsrmConfig version="1.2"/></con:request></con:config></con:testStep><con:properties/></con:testCase><con:properties/></con:testSuite><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
