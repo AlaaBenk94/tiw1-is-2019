@@ -69,25 +69,36 @@ public class EmpruntService {
      * @return
      */
     public EmpruntDto saveEmprunt(EmpruntDto empruntDto, String owner) {
-        // verify if trottinette is available
+        // verify if trottinette is available and block it if it is
         TrottinetteDto trottinetteDto = trottinetteService.getTrottinette(empruntDto.getIdTrottinette());
 
-        Emprunt emprunt = new Emprunt(
-                Timestamp.from(Instant.now()),
-                empruntDto.getIdAbonne(),
-                empruntDto.getIdTrottinette());
-        emprunt.setActivated(false);
-        emprunt.setActivationNumber(emprunt.hashCode() + "");
-        emprunt.setOwner(owner);
-        Emprunt savedEmprunt = empruntRepository.save(emprunt);
-        return EmpruntDto.builder()
-                .withDate(savedEmprunt.getDate())
-                .withCost(EMPRUNT_COST)
-                .withIdTrottinette(savedEmprunt.getIdTrottinette())
-                .withIdAbonne(savedEmprunt.getIdAbonne())
-                .withActivated(emprunt.isActivated())
-                .withActivationNumber(emprunt.getActivationNumber())
-                .build();
+        if (!trottinetteDto.isDisponible()) {
+            LOGGER.warn("Trottinette with Id {} is not AVAILABLE", trottinetteDto.getId());
+            throw new ResourceNotFoundException("Trottinette with Id " + trottinetteDto.getId() + " is not available");
+        } else {
+            trottinetteService.updateTrottinette(TrottinetteDto.builder()
+                    .withId(trottinetteDto.getId())
+                    .withIntervention(trottinetteDto.getInterventions())
+                    .withDisponible(false)
+                    .build());
+
+            Emprunt emprunt = new Emprunt(
+                    Timestamp.from(Instant.now()),
+                    empruntDto.getIdAbonne(),
+                    empruntDto.getIdTrottinette());
+            emprunt.setActivated(false);
+            emprunt.setActivationNumber(emprunt.hashCode() + "");
+            emprunt.setOwner(owner);
+            Emprunt savedEmprunt = empruntRepository.save(emprunt);
+            return EmpruntDto.builder()
+                    .withDate(savedEmprunt.getDate())
+                    .withCost(EMPRUNT_COST)
+                    .withIdTrottinette(savedEmprunt.getIdTrottinette())
+                    .withIdAbonne(savedEmprunt.getIdAbonne())
+                    .withActivated(emprunt.isActivated())
+                    .withActivationNumber(emprunt.getActivationNumber())
+                    .build();
+        }
     }
 
     /**

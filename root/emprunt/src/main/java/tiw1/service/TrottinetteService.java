@@ -40,8 +40,7 @@ public class TrottinetteService {
      * @param id id of trottinette to retrieve
      * @return a {@link TrottinetteDto}
      */
-    public TrottinetteDto getTrottinette(Long id) {
-
+    public TrottinetteDto getTrottinette(Long id) throws ResourceNotFoundException {
         String URL = UriComponentsBuilder
                 .fromHttpUrl(maintenanceServerProperties.getUrl())
                 .path("trottinette/{id}")
@@ -49,11 +48,17 @@ public class TrottinetteService {
                 .toString();
         LOGGER.info("Get trottinette from {}.... ", URL);
 
-        ResponseEntity<Trottinette> responseEntity = restTemplate.exchange(
-                URL,
-                HttpMethod.GET,
-                null,
-                Trottinette.class);
+        ResponseEntity<Trottinette> responseEntity;
+        try {
+            responseEntity = restTemplate.exchange(
+                    URL,
+                    HttpMethod.GET,
+                    null,
+                    Trottinette.class);
+        } catch (Exception e) {
+            LOGGER.error("There was an error when fetching trottinette with id {}", id);
+            throw new ResourceNotFoundException("Can't find trottinette with id " + id);
+        }
 
         if (!responseEntity.hasBody()) {
             LOGGER.debug("trottinette with id {} not found", id);

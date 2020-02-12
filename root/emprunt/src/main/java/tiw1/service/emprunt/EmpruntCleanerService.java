@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import tiw1.dto.TrottinetteDto;
+import tiw1.exception.ResourceNotFoundException;
 import tiw1.repository.EmpruntRepository;
 import tiw1.service.TrottinetteService;
 
@@ -41,12 +42,16 @@ public class EmpruntCleanerService {
                 .forEach(emprunt -> {
                     LOGGER.info("DELETED EMPRUNT({}, {}, {}, {})", emprunt.getId(), emprunt.getActivated(), emprunt.getDate(), emprunt.getActivationNumber());
                     // reactivating trottinettes
-                    TrottinetteDto trottinette = trottinetteService.getTrottinette(emprunt.getIdTrottinette());
-                    trottinetteService.updateTrottinette(TrottinetteDto.builder()
-                            .withId(trottinette.getId())
-                            .withIntervention(trottinette.getInterventions())
-                            .withDisponible(true)
-                            .build());
+                    try {
+                        TrottinetteDto trottinette = trottinetteService.getTrottinette(emprunt.getIdTrottinette());
+                        trottinetteService.updateTrottinette(TrottinetteDto.builder()
+                                .withId(trottinette.getId())
+                                .withIntervention(trottinette.getInterventions())
+                                .withDisponible(true)
+                                .build());
+                    } catch (ResourceNotFoundException e) {
+                        LOGGER.error("can't fetch trottinette with id {}", emprunt.getIdTrottinette());
+                    }
                 });
 
     }
