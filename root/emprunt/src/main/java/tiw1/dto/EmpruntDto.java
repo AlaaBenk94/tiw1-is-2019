@@ -3,6 +3,7 @@ package tiw1.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,12 +17,15 @@ public class EmpruntDto {
     private Long id;
 
     @ApiModelProperty(notes = "Date of emprunt")
-    private Date date;
+    private Timestamp date;
 
-    @ApiModelProperty(notes = "Id of abonne")
+    @ApiModelProperty(notes = "Cost of emprunt")
+    private Double cost;
+
+    @ApiModelProperty(notes = "Id of abonne", required = true)
     private Long idAbonne;
 
-    @ApiModelProperty(notes = "Id of trottinette")
+    @ApiModelProperty(notes = "Id of trottinette", required = true)
     private Long idTrottinette;
 
     @ApiModelProperty(notes = "auto generated activation number")
@@ -54,6 +58,10 @@ public class EmpruntDto {
         return activated;
     }
 
+    public Double getCost() {
+        return cost;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,8 +90,13 @@ public class EmpruntDto {
             return this;
         }
 
-        public Builder withDate(Date date) {
+        public Builder withDate(Timestamp date) {
             empruntDto.date = date;
+            return this;
+        }
+
+        public Builder withCost(Double cost) {
+            empruntDto.cost = cost;
             return this;
         }
 

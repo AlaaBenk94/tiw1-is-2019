@@ -5,9 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -25,8 +23,7 @@ public class Emprunt {
     @GeneratedValue
     private Long id;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    private Timestamp date;
 
     private Long idAbonne, idTrottinette;
 
@@ -39,7 +36,7 @@ public class Emprunt {
     public Emprunt() {
     }
 
-    public Emprunt(Date date, Long idAbonne, Long idTrottinette) {
+    public Emprunt(Timestamp date, Long idAbonne, Long idTrottinette) {
         this.date = date;
         this.idAbonne = idAbonne;
         this.idTrottinette = idTrottinette;
@@ -53,12 +50,16 @@ public class Emprunt {
         this.id = id;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    public Boolean getActivated() {
+        return activated;
     }
 
     public Long getIdAbonne() {
