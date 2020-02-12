@@ -41,3 +41,29 @@ test-maintenance-api:
     - for i in $(seq 10); do grep -q "Started Jetty Server" maintenance.jetty.log && break; [ $i = 10 ] && echo "Jetty failed to start" && cat maintenance.jetty.log && exit 1; echo "Jetty not ready, waiting 5s"; sleep 5; done
     - mvn $MAVEN_CLI_OPTS jmeter:jmeter jmeter:results || (kill $mvn_jetty_pid; exit 1)
     - kill $mvn_jetty_pid
+
+docker-image-build:
+  stage: build
+  image: docker:latest
+  variables:
+    ALL_PROXY: ""
+    all_proxy: ""
+    IMAGE_TAG_EMPRUNT: forge.univ-lyon1.fr:4567/tiw-benkarrad---aissoui/tiw1-is-2019/emprunt:latest  #voir ci-dessous
+    IMAGE_TAG_BANQUE: forge.univ-lyon1.fr:4567/tiw-benkarrad---aissoui/tiw1-is-2019/banque:latest
+    IMAGE_TAG_MAIN_WEB: forge.univ-lyon1.fr:4567/tiw-benkarrad---aissoui/tiw1-is-2019/maintenance-web:latest
+  services:
+    - docker:dind
+  tags:
+    - docker_ci_build
+  script:
+    - echo "loggin to docker registry..."
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - echo "building images..."
+    - docker build --build-arg http_proxy="http://proxy.univ-lyon1.fr:3128" -t $IMAGE_TAG_EMPRUNT ./root/emprunt/ 
+    - docker build --build-arg http_proxy="http://proxy.univ-lyon1.fr:3128" -t $IMAGE_TAG_BANQUE ./root/banque/ 
+    - docker build --build-arg http_proxy="http://proxy.univ-lyon1.fr:3128" -t $IMAGE_TAG_MAIN_WEB ./root/maintenance-web/ 
+    - echo "pushing images..."
+    - docker push $IMAGE_TAG_EMPRUNT
+    - docker push $IMAGE_TAG_BANQUE
+    - docker push $IMAGE_TAG_MAIN_WEB
+
