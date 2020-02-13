@@ -5,6 +5,12 @@ Université Claude Bernard Lyon 1 – M2 TIW – Intergiciels et Services
 L'ensemble des TP de cette UE sera illustré en se plaçant dans le cadre d'une entreprise de location de trottinettes électriques.
 Selon le TP, on abordera différentes facettes du système d'information (simplifié) d'une telle entreprise.
 
+## Sommaire
+- [Freatures](#Features)
+- [Architechture](#Architechture)
+- [Usage](#Usage)
+
+
 ## Collaborateurs 
 - AISSAOUI Abdelwalid `p1925992`
 - BENKARRAD Alaa Eddine `p1925869`
@@ -33,9 +39,13 @@ Cette Api est la base de notre tp, elle comporte les features suivantes :
 - Rendre une trottinette à nouveau disponible si son emprunt n'a été activé (Paiement non effectué) au bout d'une durée limité
 - Création d'un service de confirmation d'un emprunt 
 
-## Architechture globale de l'application
+## Architechture 
+### Schéma globale
 Ci dessous l'architecture globale de l'application : 
 ![Architecture gde l'application](./architecture.jpeg)
+
+### Diagramme de séquence
+![Diagramme de séquence](./SequenceDiagram.png)
 
 ## Usage
 ### Prérequis
